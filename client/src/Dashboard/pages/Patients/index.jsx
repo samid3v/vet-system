@@ -1,9 +1,13 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
+import PatientProvider from './Provider/PatientProvider'
 
 const Patients = () => {
+  
   return (
-    <div><Outlet/></div>
+    <PatientProvider >
+        <Outlet/>
+    </PatientProvider>
   )
 }
 
