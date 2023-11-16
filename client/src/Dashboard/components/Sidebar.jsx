@@ -7,8 +7,10 @@ import { MdOutlineLocalHospital } from "react-icons/md"
 import { HiOutlineDocumentReport } from "react-icons/hi"
 import { FaUsers } from "react-icons/fa";
 import { IoHomeOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+     const navigate = useNavigate()
   return (
      <div className='w-[80px] hidden relative md:flex flex-col justify-center items-center shadow-lg'>
           <div className='bg-neutral absolute text-gray-300 min-h-[320px] w-[45px] top-2 py-3 rounded-t-[20px] rounded-b-[20px] '>
@@ -20,7 +22,7 @@ const Sidebar = () => {
                          <IoHomeOutline className='text-xl'/>
                     </div>
                     
-                    <div className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
+                    <div onClick={()=>navigate("/dasboard/patients")} className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
                          <MdPets className='text-xl'/>
                     </div>
 

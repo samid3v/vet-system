@@ -3,21 +3,24 @@ import './App.css'
 import Dash from './pages/Dashboard'
 import Patients from './pages/Patients'
 import AllPatients from './pages/Patients/All'
-import Layout from './Layout'
+import AppProvider from './providers/appProvider'
+import Dashboard from './pages'
 
 function App() {
 
   return (
-    <Layout>
-      <BrowserRouter basename='/dashboard'>
+    <AppProvider>
+      <BrowserRouter>
         <Routes>
-          <Route index element={<Dash/>}/>
-          <Route path='/patients' element={<Patients/>}>
-            <Route index element={<AllPatients/>}/>
+          <Route path='dashboard' element={<Dashboard/>}>
+            <Route index element={<Dash/>}/>
+            <Route path='patients' element={<Patients/>}>
+              <Route index element={<AllPatients/>}/>
+            </Route>
           </Route>
         </Routes>    
       </BrowserRouter>
-    </Layout>
+    </AppProvider>
   )
 }
 
