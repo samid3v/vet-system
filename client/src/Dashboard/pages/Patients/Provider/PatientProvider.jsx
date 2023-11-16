@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import PatientContext from '../context/PatientContext'
 import axios from "axios"
 import patientUrl from '../../../urls/patients';
+import api from '../../../helpers/axiosInstance';
 
 const PatientProvider = ({children}) => {
      const [patients, setPatients] = useState([]);
@@ -13,7 +14,7 @@ const PatientProvider = ({children}) => {
 
   const getAllPatients = async () =>{
      
-      await axios.get(patientUrl.get_all.url).then((response) => {
+      await api.get(patientUrl.get_all.url).then((response) => {
         if (response.status !== 200) {
           throw new Error('Failed to fetch patients');
         }
