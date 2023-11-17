@@ -12,7 +12,7 @@ const Modal = () => {
       {isModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full flex  justify-center">
           <div className="absolute bg-gray-800 opacity-75 inset-0"></div>
-          <div className="z-10">
+          <div className="z-20 w-1/2 mt-20">
             {modalMessage}
             
           </div>

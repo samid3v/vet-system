@@ -12,8 +12,8 @@ import { useNavigate } from "react-router-dom";
 const Sidebar = () => {
      const navigate = useNavigate()
   return (
-     <div className='w-[80px] hidden relative md:flex flex-col justify-center items-center shadow-lg'>
-          <div className='bg-neutral absolute text-gray-300 min-h-[320px] w-[45px] top-2 py-3 rounded-t-[20px] rounded-b-[20px] '>
+     <div className='w-[80px] hidden  md:flex flex-col justify-center items-center shadow-lg'>
+          <div className='bg-neutral text-gray-300 min-h-[320px] w-[45px] mt-2 py-3 rounded-t-[20px] rounded-b-[20px] '>
                <div className='flex justify-center items-center mb-4'>
                     <span>Pet</span>
                </div>
