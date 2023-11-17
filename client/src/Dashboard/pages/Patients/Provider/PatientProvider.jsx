@@ -3,12 +3,16 @@ import PatientContext from '../context/PatientContext'
 import axios from "axios"
 import patientUrl from '../../../urls/patients';
 import api from '../../../helpers/axiosInstance';
+import customersUrl from '../../../urls/customers';
+import Modal from '../../../components/Modal';
 
 const PatientProvider = ({children}) => {
      const [patients, setPatients] = useState([]);
-
+     const [customers, setCustomers] = useState([]);
+     
   useEffect(()=>{
      getAllPatients()
+     getAllCustomers()
   },[])
   
 
@@ -31,12 +35,35 @@ const PatientProvider = ({children}) => {
     //  console.log(res)
       
   }
+
+  const getAllCustomers = async () =>{
+     
+    await api.get(customersUrl.get_all.url).then((response) => {
+      if (response.status !== 200) {
+        throw new Error('Failed to fetch patients');
+      }
+      return response.data;
+    })
+    .then((data) => {
+      console.log(data)
+      setCustomers(data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+  //  console.log(res)
+    
+}
   return (
     <PatientContext.Provider value={{
      patients,
      setPatients,
-     getAllPatients
+     getAllPatients,
+     customers,
     }}>
+      <Modal/>
+
           {children}
     </PatientContext.Provider>
   )

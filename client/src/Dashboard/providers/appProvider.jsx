@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import appContext from '../context/appContext'
-import Modal from '../components/Modal';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AppProvider = ({children}) => {
      
@@ -14,7 +15,7 @@ const AppProvider = ({children}) => {
      modalMessage,
      setModalMessage
     }}>
-      <Modal/>
+      <ToastContainer />
      {children}
     </appContext.Provider>
   )
