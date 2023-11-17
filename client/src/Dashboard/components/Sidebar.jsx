@@ -18,11 +18,11 @@ const Sidebar = () => {
                     <span>Pet</span>
                </div>
                <div className='flex flex-col justify-center items-center gap-4'>
-                    <div className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
+                    <div onClick={()=>navigate("/dashboard")} className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
                          <IoHomeOutline className='text-xl'/>
                     </div>
                     
-                    <div onClick={()=>navigate("/dasboard/patients")} className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
+                    <div onClick={()=>navigate("./patients")} className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
                          <MdPets className='text-xl'/>
                     </div>
 

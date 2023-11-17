@@ -11,7 +11,7 @@ const PatientsTable = () => {
   const openModal = () => {
      setModalOpen(true)
      setModalMessage(<AddPatient/>)
-     console.log(modalMessage)
+    //  console.log(modalMessage)
 }
 
   return (
@@ -20,9 +20,9 @@ const PatientsTable = () => {
         <input type="text" className='py-1 px-2 rounded-lg' name="search" id="search" placeholder='search...' />
         <button onClick={openModal} type="button" className='rounded-lg text-neutral bg-primary px-3 py-1'>Add Patient</button>
       </div>
-      <table className="table ">
+      <table className="w-full ">
     <thead>
-      <tr>
+      <tr className='border-gray-700'>
         <th>No</th>
         <th>Name</th>
         <th>Age</th>
@@ -34,7 +34,7 @@ const PatientsTable = () => {
 
     {patients.map((patient,index)=>(
 
-    <tr>
+    <tr className='border-neutral'>
       <th>{index+1}</th>
       <td>{patient.name}</td>
       <td>{patient.age}</td>

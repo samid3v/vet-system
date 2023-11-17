@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import appContext from '../context/appContext'
+import Modal from '../components/Modal';
 
 const AppProvider = ({children}) => {
      
@@ -13,6 +14,7 @@ const AppProvider = ({children}) => {
      modalMessage,
      setModalMessage
     }}>
+      <Modal/>
      {children}
     </appContext.Provider>
   )
