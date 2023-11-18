@@ -7,13 +7,20 @@ const AppProvider = ({children}) => {
      
      const [isModalOpen, setModalOpen] = useState(false);
      const [modalMessage, setModalMessage] = useState(null);
+     const [confirmDelete, setConfirmDelete] = useState(false)
+     const [showDeleteModal, setShowDeleteModal] = useState(true)
+
 
   return (
     <appContext.Provider value={{
      isModalOpen,
      setModalOpen,
      modalMessage,
-     setModalMessage
+     setModalMessage,
+     setConfirmDelete,
+     confirmDelete,
+     showDeleteModal,
+     setShowDeleteModal
     }}>
       <ToastContainer />
      {children}

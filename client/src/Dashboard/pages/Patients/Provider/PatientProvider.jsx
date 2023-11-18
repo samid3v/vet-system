@@ -5,6 +5,7 @@ import patientUrl from '../../../urls/patients';
 import api from '../../../helpers/axiosInstance';
 import customersUrl from '../../../urls/customers';
 import Modal from '../../../components/Modal';
+import DeleteModal from '../../../components/DeleteModal';
 
 const PatientProvider = ({children}) => {
      const [patients, setPatients] = useState([]);
@@ -63,6 +64,7 @@ const PatientProvider = ({children}) => {
      customers,
     }}>
       <Modal/>
+      <DeleteModal/>
 
           {children}
     </PatientContext.Provider>
