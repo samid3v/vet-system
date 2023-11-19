@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import api from '../../../../helpers/axiosInstance';
 import patientUrl from '../../../../urls/patients';
 
-const AddPatient = () => {
+const AddPatient = ({handleClose}) => {
 
   const { setModalOpen  } = useApp()
   const { customers, getAllPatients } = usePatients()
@@ -42,7 +42,7 @@ const AddPatient = () => {
 
       if (response.status === 201) {
         getAllPatients();
-        setModalOpen(false);
+        handleClose();
         setFormData({
           name: '',
           breed: '',
@@ -152,7 +152,7 @@ const AddPatient = () => {
           </div>
         </div>
         <div className='flex justify-between items-center my-3'>
-          <button onClick={()=> setModalOpen(false)} className='bg-gray-300 w-[80px] py-2 px-3 rounded-lg'>Close</button>
+          <button onClick={handleClose} className='bg-gray-300 w-[80px] py-2 px-3 rounded-lg'>Close</button>
           <button type='submit' className='bg-primary py-2 px-3 rounded-lg'>Add Patient</button>
         </div>
       </form>

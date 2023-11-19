@@ -27,7 +27,11 @@ const PatientProvider = ({children}) => {
       })
       .then((data) => {
         console.log(data)
-        setPatients(data);
+        const dataWithIds = data.map((item, index) => ({
+          ...item,
+          id: index + 1, // Incremental numerical ID starting from 1
+        }));
+        setPatients(dataWithIds);
       })
       .catch((error) => {
         console.error(error);
@@ -63,8 +67,8 @@ const PatientProvider = ({children}) => {
      getAllPatients,
      customers,
     }}>
-      <Modal/>
-      <DeleteModal/>
+      {/* <Modal/> */}
+      {/* <DeleteModal/> */}
 
           {children}
     </PatientContext.Provider>
