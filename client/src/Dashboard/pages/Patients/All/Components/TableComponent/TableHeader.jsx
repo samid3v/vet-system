@@ -1,18 +1,19 @@
+import { TableCell, TableHead, TableRow } from '@mui/material'
 import React from 'react'
 
-const TableHeader = () => {
+const THeader = () => {
   return (
-    <thead>
-     <tr className='border-none z-0'>
-       <th>No</th>
-       <th>Name</th>
-       <th>Age</th>
-       <th>Breed</th>
-       <th>Species</th>
-       <th>Actions</th>
-     </tr>
-   </thead>
+   <TableHead>
+   <TableRow>
+     {/* <TableCell align="right">No</TableCell> */}
+     <TableCell align="left">Name</TableCell>
+     <TableCell align="left">Age</TableCell>
+     <TableCell align="left">Breed</TableCell>
+     <TableCell align="left">Species</TableCell>
+     {/* <TableCell align="right">Actions</TableCell> */}
+   </TableRow>
+ </TableHead>
   )
 }
 
-export default TableHeader
+export default THeader

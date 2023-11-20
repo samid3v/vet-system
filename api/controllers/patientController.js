@@ -4,42 +4,64 @@ import Patient from '../server/models/patientModel.js';
 import mongoose from 'mongoose';
 
 export const getAllPatients = asyncHandler(async(req, res) => {
-  const patient = await Patient.find();
-  
-  res.status(200).json(patient);
+  const page = parseInt(req.query.page) || 1; // default to page 1 if not provided
+  const pageSize = parseInt(req.query.pageSize) || 10; // default to 10 items per page if not provided
+
+  const skip = (page - 1) * pageSize;
+
+  const totalPatients = await Patient.countDocuments();
+  const patients = await Patient.find().skip(skip).limit(pageSize);
+
+  const hasNextPage = page * pageSize < totalPatients;
+  const hasPreviousPage = page > 1;
+
+  res.status(200).json({
+    page,
+    pageSize,
+    totalPatients,
+    hasNextPage,
+    hasPreviousPage,
+    data: patients,
+  });
  
 })
 
 export const addPatients = asyncHandler(async(req, res) => {
     const {name, species,breed,age, weight,owner} = req.body
+   
+    if (!name || !owner) {
+      const error = new Error("Validation failed. Check required fields.");
+      error.statusCode = 400;
+      throw error;
+    }
+  
+    // Check if patient with the same name already exists
     const exist = await Patient.findOne({ name });
     if (exist) {
       const error = new Error("Patient Name Already Taken");
       error.statusCode = 400;
       throw error;
     }
-    if (name && owner) {
-        const ownerId = new mongoose.Types.ObjectId(owner)
-        const user = await User.findOne({ _id:ownerId });
-        if (user) {
-            const newPatient = new Patient({ name, species,breed,age, weight,owner});
-            const output= await newPatient.save();
-            if (output) {
-                res.status(201).json({message:"Patient Added Successfully"})
-            }else{
-                const error = new Error("something wrong happenned, try again");
-                error.statusCode = 400;
-                throw error;
-            }
-        }else{
-            const error = new Error("user doesnt exist");
-            error.statusCode = 400;
-            throw error;
-        }
-    }else{
-        const error = new Error("check required fields");
-        error.statusCode = 400;
-        throw error;
+  
+    // Validate owner existence
+    const ownerId = new mongoose.Types.ObjectId(owner);
+    const user = await User.findOne({ _id: ownerId });
+    if (!user) {
+      const error = new Error("User doesn't exist");
+      error.statusCode = 400;
+      throw error;
+    }
+  
+    // Create and save new patient
+    const newPatient = new Patient({ name, species, breed, age, weight, owner });
+    const output = await newPatient.save();
+  
+    if (output) {
+      res.status(201).json({ message: "Patient Added Successfully" });
+    } else {
+      const error = new Error("Something went wrong, please try again.");
+      error.statusCode = 500; // Internal Server Error
+      throw error;
     }
 
 })

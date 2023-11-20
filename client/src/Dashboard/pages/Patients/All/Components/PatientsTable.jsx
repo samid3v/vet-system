@@ -22,9 +22,8 @@ const PatientsTable = () => {
 }
 
   return (
-    <div className='w-full'>
-     <div className='flex justify-between items-center gap-2 my-4'>
-        <input type="text" className='py-2 w-full px-2 border-[1px] border-neutral outline-none rounded-lg' name="search" id="search" placeholder='search...' />
+    <div className=''>
+     <div className='flex justify-end items-center gap-2  my-3'>
         <button onClick={handleOpen} type="button" className='rounded-lg text-neutral w-32 bg-primary px-3 py-2'>Add Patient</button>
       </div>
       <LargeDevice />

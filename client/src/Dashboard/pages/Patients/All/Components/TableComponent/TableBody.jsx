@@ -1,21 +1,21 @@
 import React from 'react'
 import { usePatients } from '../../../Hooks/usePatients'
-import TableRow from './TableRow'
+import TRow from './TableRow'
+import { TableBody } from '@mui/material'
 
-const TableBody = () => {
+const TBody = () => {
 
   const {patients} = usePatients()
 
   return (
-     <tbody >
-
-    {patients.map((patient,index)=>(
-
-    <TableRow patient={patient} index={index} />
-    ))}
+    
+    <TableBody>
+    {patients.map((patient,index) => (
       
-    </tbody>
+      <TRow patient={patient} index={index} />
+    ))}
+  </TableBody>
   )
 }
 
-export default TableBody
+export default TBody

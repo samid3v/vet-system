@@ -32,6 +32,10 @@ const AddPatient = ({handleClose}) => {
     e.preventDefault()
     console.log(formData)
     
+    if (!formData.name || !formData.owner) {
+      toast.error('Name and owner are required fields.');
+      return;
+    }
 
     try {
       const response = await api.post(patientUrl.add_patient.url, formData,{
@@ -57,7 +61,7 @@ const AddPatient = ({handleClose}) => {
         console.error('Failed to add patient');
       }
     } catch (error) {
-      console.error('Error adding patient:', error);
+      toast.error(error.response.data.error);
     }
   };
 

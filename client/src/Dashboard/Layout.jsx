@@ -1,20 +1,23 @@
-import React from 'react'
-import Sidebar from './components/Sidebar'
-import Topbar from './components/Topbar'
+import React from 'react';
+import Sidebar from './components/Sidebar';
+import Topbar from './components/Topbar';
 
-const Layout = ({children}) => {
+const Layout = ({ children }) => {
   return (
-    <div className='flex'>
-     <div><Sidebar/></div>
-     <div className='w-full mr-4'>
-     <div>
-      <Topbar/>
-     </div>
-
-          {children}
-     </div>
+    <div className='flex h-screen overflow-hidden'>
+      {/* Fixed Sidebar */}
+        <Sidebar />
+      {/* Flex container for the rest of the content */}
+      <div className='flex flex-col flex-1 overflow-hidden mr-4'>
+        {/* Fixed Topbar */}
+        <Topbar />
+        {/* Scrollable content section */}
+        <div className='flex-1 overflow-y-auto'>
+          <div className='my-2'>{children}</div>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
