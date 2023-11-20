@@ -10,7 +10,7 @@ export const getAllPatients = asyncHandler(async(req, res) => {
   const skip = (page - 1) * pageSize;
 
   const totalPatients = await Patient.countDocuments();
-  const patients = await Patient.find().skip(skip).limit(pageSize);
+  const patients = await Patient.find().sort({ createdAt: -1 }).skip(skip).limit(pageSize);
 
   const hasNextPage = page * pageSize < totalPatients;
   const hasPreviousPage = page > 1;
