@@ -112,7 +112,7 @@ export const getPatientById = asyncHandler(async (req, res) => {
   });
 
   export const deletePatient = asyncHandler(async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.query;
 
     if (id) {
         const deletePatient = await Patient.findByIdAndDelete(id);

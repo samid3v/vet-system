@@ -3,16 +3,17 @@ import React from 'react'
 
 const THeader = () => {
   return (
-   <TableHead>
-   <TableRow>
-     {/* <TableCell align="right">No</TableCell> */}
-     <TableCell align="left">Name</TableCell>
-     <TableCell align="left">Age</TableCell>
-     <TableCell align="left">Breed</TableCell>
-     <TableCell align="left">Species</TableCell>
-     {/* <TableCell align="right">Actions</TableCell> */}
-   </TableRow>
- </TableHead>
+    <thead>
+    <tr>
+      <th className="p-3 border-b text-left">No</th>
+      <th className="p-3 border-b text-left">Name</th>
+      <th className="p-3 border-b text-left">Age</th>
+      <th className="p-3 border-b text-left">Breed</th>
+      <th className="p-3 border-b text-left">Species</th>
+      <th className="p-3 border-b text-center">Actions</th>
+      {/* Add more headers as needed */}
+    </tr>
+  </thead>
   )
 }
 

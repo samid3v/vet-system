@@ -4,16 +4,12 @@ import Topbar from './components/Topbar';
 
 const Layout = ({ children }) => {
   return (
-    <div className='flex h-screen overflow-hidden'>
-      {/* Fixed Sidebar */}
+    <div className='flex h-screen w-screen overflow-hidden'>
         <Sidebar />
-      {/* Flex container for the rest of the content */}
-      <div className='flex flex-col flex-1 overflow-hidden mr-4'>
-        {/* Fixed Topbar */}
+      <div className='flex flex-col flex-1 gap-3 mr-4 mt-3 overflow-hidden'>
         <Topbar />
-        {/* Scrollable content section */}
-        <div className='flex-1 overflow-y-auto'>
-          <div className='my-2'>{children}</div>
+        <div className='flex-1 overflow-y-auto hide-scrollbar'>
+          <div>{children}</div>
         </div>
       </div>
     </div>

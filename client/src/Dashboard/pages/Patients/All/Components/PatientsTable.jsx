@@ -1,13 +1,10 @@
 import React, { useState } from 'react'
-import { usePatients } from '../../Hooks/usePatients'
 import { useApp } from '../../../../hooks/useApp';
 import AddPatient from './AddPatient';
 import LargeDevice from './TableComponent/LargeDevice';
-import DeleteModal from '../../../../components/DeleteModal';
 import BasicModal from '../../../../components/Modal';
 
 const PatientsTable = () => {
-  const {patients} = usePatients()
 
   const {setModalOpen, setModalMessage, isModalOpen, modalMessage} = useApp();
 
@@ -23,7 +20,7 @@ const PatientsTable = () => {
 
   return (
     <div className=''>
-     <div className='flex justify-end items-center gap-2  my-3'>
+     <div className='flex justify-end items-center gap-2 p-6  '>
         <button onClick={handleOpen} type="button" className='rounded-lg text-neutral w-32 bg-primary px-3 py-2'>Add Patient</button>
       </div>
       <LargeDevice />

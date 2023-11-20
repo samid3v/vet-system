@@ -8,13 +8,12 @@ const TBody = () => {
   const {patients} = usePatients()
 
   return (
-    
-    <TableBody>
-    {patients.map((patient,index) => (
+    <tbody>
+    {patients.map((patient, index) => (
       
       <TRow patient={patient} index={index} />
     ))}
-  </TableBody>
+  </tbody>
   )
 }
 

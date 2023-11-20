@@ -6,6 +6,9 @@ const patientUrl = {
      add_patient:{
           url:`/patients/add`
      },
+     delete_patient:{
+          url:`/patients/delete-patient`
+     },
 }
 
 export default patientUrl

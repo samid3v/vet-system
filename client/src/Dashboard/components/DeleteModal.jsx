@@ -7,7 +7,7 @@ import Modal from '@mui/material/Modal';
 import { Grid } from '@mui/material';
 
 
-const DeleteModal = ({open, handleClose}) => {
+const DeleteModal = ({open, handleClose, deleteFunc}) => {
 
      
   const { showDeleteModal, setShowDeleteModal,setConfirmDelete } = useApp();
@@ -22,6 +22,7 @@ const DeleteModal = ({open, handleClose}) => {
     bgcolor: 'background.paper',
     borderRadius: '10px',
     boxShadow: 24,
+    border:'none',
     p: 4,
   };
   const btn = {
@@ -42,7 +43,7 @@ const DeleteModal = ({open, handleClose}) => {
           </Typography>
           <div className='mt-6 flex justify-between items-center'>
           <Button variant='contained' sx={{bgcolor:"#191e1b"}} onClick={handleClose}>Close</Button>
-          <Button sx={btn} variant='contained'>Confirm</Button>
+          <Button onClick={deleteFunc} sx={btn} variant='contained'>Confirm</Button>
           </div>
         </Box>
 </Modal>
