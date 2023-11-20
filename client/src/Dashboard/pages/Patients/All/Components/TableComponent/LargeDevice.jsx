@@ -7,9 +7,11 @@ import TBody from './TableBody';
 
 const LargeDevice = () => {
 
-  const {patients} = usePatients()
+  const {patients, totalPages, currentPage, setCurrentPage} = usePatients()
 
-
+  const handlePageChange = (event, newPage) => {
+    setCurrentPage(newPage);
+  };
 
   return (
 
@@ -21,7 +23,13 @@ const LargeDevice = () => {
       </table>
       <div className='flex justify-center items-center my-3 '>
 
-      <Pagination count={4} variant="outlined" color="primary" />
+      <Pagination 
+        count={totalPages} 
+        variant="outlined" 
+        color="primary" 
+        onChange={handlePageChange}
+        page={currentPage}
+      />
       </div>
     </div>
 

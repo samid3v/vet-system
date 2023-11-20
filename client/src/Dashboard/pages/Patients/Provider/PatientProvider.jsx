@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import PatientContext from '../context/PatientContext'
-import axios from "axios"
 import patientUrl from '../../../urls/patients';
 import api from '../../../helpers/axiosInstance';
 import customersUrl from '../../../urls/customers';
-import Modal from '../../../components/Modal';
-import DeleteModal from '../../../components/DeleteModal';
 
 const PatientProvider = ({children}) => {
      const [patients, setPatients] = useState([]);
      const [customers, setCustomers] = useState([]);
+     const [currentPage, setCurrentPage] = useState(1)
+     const [totalPages, setTotalPages] = useState(0)
      
   useEffect(()=>{
-     getAllPatients(1,10)
+     getAllPatients(currentPage,10)
      getAllCustomers()
   },[])
+
+  useEffect(()=>{
+    getAllPatients(currentPage,10)
+ },[currentPage])
   
 
   const getAllPatients = async (page, pageSize) => {
@@ -24,7 +27,7 @@ const PatientProvider = ({children}) => {
       });
   
       if (response.status === 200) {
-        const { data, hasNextPage, hasPreviousPage } = response.data;
+        const { data, hasNextPage, hasPreviousPage, totalPages } = response.data;
   
         const dataWithIds = data.map((item, index) => ({
           ...item,
@@ -32,10 +35,7 @@ const PatientProvider = ({children}) => {
         }));
   
         setPatients(dataWithIds);
-  
-        console.log('Fetched patients:', dataWithIds);
-        console.log('Has next page:', hasNextPage);
-        console.log('Has previous page:', hasPreviousPage);
+        setTotalPages(totalPages)
       } else {
         console.error('Failed to fetch patients');
       }
@@ -93,6 +93,11 @@ const PatientProvider = ({children}) => {
      setPatients,
      getAllPatients,
      customers,
+     totalPages, 
+     setTotalPages,
+     currentPage, 
+     setCurrentPage
+     
     }}>
       {/* <Modal/> */}
       {/* <DeleteModal/> */}

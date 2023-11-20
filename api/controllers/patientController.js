@@ -3,14 +3,19 @@ import User from '../server/models/userModel.js';
 import Patient from '../server/models/patientModel.js';
 import mongoose from 'mongoose';
 
-export const getAllPatients = asyncHandler(async(req, res) => {
+export const getAllPatients = asyncHandler(async (req, res) => {
   const page = parseInt(req.query.page) || 1; // default to page 1 if not provided
   const pageSize = parseInt(req.query.pageSize) || 10; // default to 10 items per page if not provided
 
   const skip = (page - 1) * pageSize;
 
   const totalPatients = await Patient.countDocuments();
-  const patients = await Patient.find().sort({ createdAt: -1 }).skip(skip).limit(pageSize);
+  const totalPages = Math.ceil(totalPatients / pageSize); // Calculate total pages
+
+  const patients = await Patient.find()
+    .sort({ createdAt: -1 }) // Sort by createdAt in descending order for latest first
+    .skip(skip)
+    .limit(pageSize);
 
   const hasNextPage = page * pageSize < totalPatients;
   const hasPreviousPage = page > 1;
@@ -19,12 +24,13 @@ export const getAllPatients = asyncHandler(async(req, res) => {
     page,
     pageSize,
     totalPatients,
+    totalPages, 
     hasNextPage,
     hasPreviousPage,
     data: patients,
   });
- 
-})
+});
+
 
 export const addPatients = asyncHandler(async(req, res) => {
     const {name, species,breed,age, weight,owner} = req.body
