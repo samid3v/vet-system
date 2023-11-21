@@ -73,7 +73,7 @@ export const addPatients = asyncHandler(async(req, res) => {
 })
 
 export const getPatientById = asyncHandler(async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.query;
   
     if (id) {
       const patient = await Patient.findById(id).populate('owner', '-password');
