@@ -11,6 +11,7 @@ const TRow = ({patient, index}) => {
         <td className="p-3 border-b">{patient.age}</td>
         <td className="p-3 border-b">{patient.breed}</td>
         <td className="p-3 border-b">{patient.species}</td>
+        <td className="p-3 border-b">{patient.owner.name}</td>
         <td className="p-3 border-b"><Actions doc={patient}/></td>
       </tr>
   )

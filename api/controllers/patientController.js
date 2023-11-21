@@ -12,7 +12,7 @@ export const getAllPatients = asyncHandler(async (req, res) => {
   const totalPatients = await Patient.countDocuments();
   const totalPages = Math.ceil(totalPatients / pageSize); // Calculate total pages
 
-  const patients = await Patient.find()
+  const patients = await Patient.find().populate('owner', '-password')
     .sort({ createdAt: -1 }) // Sort by createdAt in descending order for latest first
     .skip(skip)
     .limit(pageSize);
