@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from '../../../../components/Modal';
 import { useApp } from '../../../../hooks/useApp';
 import { usePatients } from '../../Hooks/usePatients';
@@ -9,7 +9,14 @@ import patientUrl from '../../../../urls/patients';
 const AddPatient = ({handleClose}) => {
 
   const { setModalOpen  } = useApp()
-  const { customers, getAllPatients } = usePatients()
+  const { getAllPatients, getAllCustomers, customers } = usePatients()
+
+  useEffect(()=>{
+
+    getAllCustomers()
+
+ },[])
+
   const [formData, setFormData] = useState({
     name: '',
     breed: '',
@@ -147,8 +154,8 @@ const AddPatient = ({handleClose}) => {
               >
                   <option value="select">Select Owner</option>
                   {
-                    customers.map((customer)=>(
-                      <option value={`${customer._id}`}>{customer.name}</option>
+                    customers.map((customer, index)=>(
+                      <option key={index} value={`${customer._id}`}>{customer.name}</option>
 
                     ))
                   }

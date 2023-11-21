@@ -6,6 +6,9 @@ const patientUrl = {
      add_patient:{
           url:`/patients/add`
      },
+     get_single_patient:{
+          url: '/patients/get-patient-by-id'
+     },
      delete_patient:{
           url:`/patients/delete-patient`
      },
