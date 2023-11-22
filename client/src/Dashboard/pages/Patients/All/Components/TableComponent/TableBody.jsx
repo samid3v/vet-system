@@ -7,14 +7,6 @@ const TBody = () => {
 
   const {patients} = usePatients()
 
-  if (!patients || Object.keys(patients).length === 0) {
-    return ( 
-    <div className='flex w-full justify-center items-center'>
-      <h3 className='text-xl text-center'>Loading Data...</h3>
-    </div>
-    );
-  }
-
   return (
     <tbody>
     {patients.map((patient, index) => (

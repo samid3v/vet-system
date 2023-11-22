@@ -4,6 +4,7 @@ import patientUrl from '../../../urls/patients';
 import api from '../../../helpers/axiosInstance';
 import customersUrl from '../../../urls/customers';
 import { toast } from 'react-toastify';
+import { useApp } from '../../../hooks/useApp';
 
 const PatientProvider = ({children}) => {
      const [patients, setPatients] = useState([]);
@@ -12,6 +13,8 @@ const PatientProvider = ({children}) => {
      const [totalPages, setTotalPages] = useState(0)
      const [currentPatient, setCurrentPatient] = useState([])
   const [customers, setCustomers] = useState([]);
+  const { setShowLoader } = useApp();
+
 
      
   
@@ -35,6 +38,7 @@ const PatientProvider = ({children}) => {
 
   const getAllPatients = async (page, pageSize) => {
     try {
+      setShowLoader(true)
       const response = await api.get(patientUrl.get_all.url, {
         params: { page, pageSize },
       });
@@ -55,17 +59,7 @@ const PatientProvider = ({children}) => {
     } catch (error) {
       console.error('Error fetching patients:', error.message);
   
-      if (error.response && error.response.data) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.error('Server error message:', error.response.data.message);
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.error('No response received from the server');
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.error('Error setting up the request');
-      }
+      
     }
   };
 

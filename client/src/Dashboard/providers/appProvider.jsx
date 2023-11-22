@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const AppProvider = ({children}) => {
      
-     const [isModalOpen, setModalOpen] = useState(false);
+     const [showLoader, setShowLoader] = useState(false);
      const [modalMessage, setModalMessage] = useState(null);
      const [confirmDelete, setConfirmDelete] = useState(false)
      const [showDeleteModal, setShowDeleteModal] = useState(true)
@@ -13,8 +13,8 @@ const AppProvider = ({children}) => {
 
   return (
     <appContext.Provider value={{
-     isModalOpen,
-     setModalOpen,
+      showLoader, 
+      setShowLoader,
      modalMessage,
      setModalMessage,
      setConfirmDelete,
