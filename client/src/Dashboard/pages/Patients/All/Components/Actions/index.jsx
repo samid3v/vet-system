@@ -10,19 +10,37 @@ import { usePatients } from '../../../Hooks/usePatients';
 import { useApp } from '../../../../../hooks/useApp';
 import ViewPatient from '../ViewPatient';
 import BasicModal from '../../../../../components/Modal';
+import EditPatient from '../EditPatient';
 
 
 const Actions = ({doc}) => {
 
   const [openDelete, setOpenDelete] = useState(false)
-  const {getAllPatients, setCurrentId} = usePatients()
+  const {getAllPatients, setCurrentId, setCurrentPatient} = usePatients()
 
   const [open, setOpen] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   const handleOpen = () => {
     setOpen(true)
     setCurrentId(doc._id)
   };
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false)
+    setCurrentPatient([])
+    setCurrentId(0)
+  };
+
+  const handleCloseEditModa = () => {
+    setOpenEditModal(false)
+    setCurrentPatient([])
+    setCurrentId(0)
+   }
+
+  const handleOpenEdit = () => {
+    setOpenEditModal(true)
+    setCurrentId(doc._id)
+
+  };
 
   const deleteDoc = async () =>{
     try {
@@ -47,10 +65,11 @@ const Actions = ({doc}) => {
   return (
     <div className='flex justify-center items-center gap-3'>
      <FaEye onClick={handleOpen} className='text-secondary' />
-     <FaRegEdit className='text-primary' />
+     <FaRegEdit onClick={handleOpenEdit} className='text-primary' />
      <BsTrash onClick={()=>setOpenDelete(true)} className='text-error' />
      <DeleteModal open={openDelete} handleClose={()=>setOpenDelete(false)} deleteFunc={deleteDoc} />
      <BasicModal open={open} element={<ViewPatient handleClose={handleClose}/>}/>
+     <BasicModal open={openEditModal} element={<EditPatient handleClose={handleCloseEditModa}/>}/>
     
     </div>
   )

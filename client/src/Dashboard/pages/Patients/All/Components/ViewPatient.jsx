@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useApp } from '../../../../hooks/useApp';
 import { usePatients } from '../../Hooks/usePatients';
 import { GiCancel } from "react-icons/gi";
+import Loader from '../../../../components/Loader';
 
 const ViewPatient = ({handleClose}) => {
 
@@ -10,15 +11,7 @@ const ViewPatient = ({handleClose}) => {
 
   if (!currentPatient || currentPatient.length === 0) {
      return (
-          <div className='flex justify-center items-center'>
-          <div className='bg-white w-[50%] p-3 overflow-x-hidden relative rounded-md shadow-xl'>
-           <GiCancel onClick={handleClose} className='absolute right-4 text-xl  hover:text-red-600' />
-           <h3 className='text-xl font-semibold my-3'>View Patient</h3>
-           <div className='py-3 flex justify-center items-center'>
-               <h3>Loading Patient ....</h3>
-           </div>
-         </div>
-         </div>
+          <Loader/>
      );
    }
 

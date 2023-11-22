@@ -93,7 +93,7 @@ export const getPatientById = asyncHandler(async (req, res) => {
   });
 
   export const editPatient = asyncHandler(async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.query;
   
     const updateData = req.body; // Request body should contain the updated patient data
 

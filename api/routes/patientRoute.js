@@ -6,7 +6,7 @@ const patientRouter = express.Router()
 patientRouter.get("/all", getAllPatients)
 patientRouter.post("/add", addPatients)
 patientRouter.get("/get-patient-by-id", getPatientById)
-patientRouter.put("/edit-patient/:id", editPatient)
+patientRouter.put("/edit-patient", editPatient)
 patientRouter.delete("/delete-patient", deletePatient)
 
 

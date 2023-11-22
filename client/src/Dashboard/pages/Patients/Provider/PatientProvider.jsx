@@ -71,24 +71,22 @@ const PatientProvider = ({children}) => {
 
   const getSinglePatient = async () => {
     try {
-      const response = await api.get(patientUrl.get_single_patient.url, {
-        params: { id:currentId },
-      });
+      if (currentId !== 0) {
+        const response = await api.get(patientUrl.get_single_patient.url, {
+          params: { id: currentId },
+        });
   
-      if (response.status === 200) {
-  
-  
-        setCurrentPatient(response.data);
-        // console.log(currentPatient)
-
-      } else {
-        toast.error('Failed to fetch patients');
+        if (response.status === 200) {
+          setCurrentPatient(response.data);
+        } else {
+          toast.error('Failed to fetch patient');
+        }
       }
     } catch (error) {
       toast.error(error.message);
-  
-      }
+    }
   };
+  
   
   
 

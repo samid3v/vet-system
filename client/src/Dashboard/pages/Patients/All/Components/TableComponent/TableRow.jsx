@@ -1,8 +1,11 @@
 import React from 'react'
 import Actions from '../Actions'
-import { TableCell, TableRow } from '@mui/material'
+import { Skeleton } from '@mui/material'
+import { usePatients } from '../../../Hooks/usePatients'
 
 const TRow = ({patient, index}) => {
+
+
   return (
     
     <tr key={index} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
