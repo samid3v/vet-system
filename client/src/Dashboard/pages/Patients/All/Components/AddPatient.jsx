@@ -8,7 +8,7 @@ import patientUrl from '../../../../urls/patients';
 
 const AddPatient = ({handleClose}) => {
 
-  const { setModalOpen  } = useApp()
+  const { setShowLoader,setModalOpen } = useApp();
   const { getAllPatients, getAllCustomers, customers } = usePatients()
 
   useEffect(()=>{
@@ -45,6 +45,8 @@ const AddPatient = ({handleClose}) => {
     }
 
     try {
+      setShowLoader(true);
+      
       const response = await api.post(patientUrl.add_patient.url, formData,{
         headers: {
           'Content-Type': 'application/json',
@@ -69,6 +71,8 @@ const AddPatient = ({handleClose}) => {
       }
     } catch (error) {
       toast.error(error.response.data.error);
+    } finally {
+      setShowLoader(false);
     }
   };
 

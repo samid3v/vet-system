@@ -117,6 +117,35 @@ export const getPatientById = asyncHandler(async (req, res) => {
     
   });
 
+  export const searchPatient = asyncHandler(async (req, res) => {
+    const { value } = req.query;
+  
+    
+  if (!value) {
+    const error = new Error('Missing Search Value');
+    error.statusCode = 404;
+    throw error;
+  }
+
+  try {
+    const query = {
+      $or: [
+        { name: new RegExp(value, 'i') },
+        { breed: new RegExp(value, 'i') },
+        { species: new RegExp(value, 'i') },
+        { 'owner.name': new RegExp(value, 'i') },
+      ],
+    };
+
+    const results = await Patient.find(query);
+
+    res.json(results);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+    
+  });
+
   export const deletePatient = asyncHandler(async (req, res) => {
     const { id } = req.query;
 

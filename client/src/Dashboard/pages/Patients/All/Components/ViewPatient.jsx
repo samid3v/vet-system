@@ -11,7 +11,7 @@ const ViewPatient = ({handleClose}) => {
 
   if (!currentPatient || currentPatient.length === 0) {
      return (
-          <Loader/>
+          <div></div>
      );
    }
 

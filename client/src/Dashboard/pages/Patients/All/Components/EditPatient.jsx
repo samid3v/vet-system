@@ -41,17 +41,11 @@ const EditPatient = ({handleClose}) => {
 
         
 
-     if (!currentPatient || currentPatient.length === 0) {
-        return (
-              <Loader/>
-        );
-      }
-   
-     
-
-    
-   
-     
+  if (!currentPatient || currentPatient.length === 0) {
+    return (
+         <div></div>
+    );
+  }   
    
      const handleInputChange = (e) => {
        const { name, value } = e.target;

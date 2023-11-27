@@ -5,6 +5,8 @@ import api from '../../../helpers/axiosInstance';
 import customersUrl from '../../../urls/customers';
 import { toast } from 'react-toastify';
 import { useApp } from '../../../hooks/useApp';
+import Fuse from 'fuse.js'
+
 
 const PatientProvider = ({children}) => {
      const [patients, setPatients] = useState([]);
@@ -13,6 +15,7 @@ const PatientProvider = ({children}) => {
      const [totalPages, setTotalPages] = useState(0)
      const [currentPatient, setCurrentPatient] = useState([])
   const [customers, setCustomers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const { setShowLoader } = useApp();
 
 
@@ -20,8 +23,9 @@ const PatientProvider = ({children}) => {
   
 
      useEffect(()=>{
-      getAllPatients(currentPage,10)
-      // getAllCustomers()
+      if (searchTerm.trim() === '' && searchTerm.length<3) {
+        getAllPatients(currentPage,10)
+      }
 
    },[])
 
@@ -34,6 +38,12 @@ const PatientProvider = ({children}) => {
       getSinglePatient()
      }
    },[currentId])
+
+   useEffect(()=>{
+    if (searchTerm.length>2) {
+      getAllPatients()
+    }
+   },[searchTerm])
   
 
   const getAllPatients = async (page, pageSize) => {
@@ -52,19 +62,24 @@ const PatientProvider = ({children}) => {
         }));
   
         setPatients(dataWithIds);
+        console.log(dataWithIds)
         setTotalPages(totalPages)
+        updateSearchResults(dataWithIds)
       } else {
         console.error('Failed to fetch patients');
       }
     } catch (error) {
       console.error('Error fetching patients:', error.message);
-  
-      
+       
+    } finally {
+      setShowLoader(false);
     }
   };
 
   const getSinglePatient = async () => {
     try {
+      setShowLoader(true)
+
       if (currentId !== 0) {
         const response = await api.get(patientUrl.get_single_patient.url, {
           params: { id: currentId },
@@ -78,10 +93,28 @@ const PatientProvider = ({children}) => {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setShowLoader(false);
     }
   };
   
-  
+  const updateSearchResults = (data) => {
+    // console.log(searchTerm)
+    const fuse = new Fuse(data, {
+      keys: ['name' ],
+      includeMatches: true,
+      includeScore:true,
+    });
+
+    if (searchTerm.trim() === '' && searchTerm.length<3) {
+      setPatients(data);
+    } else {
+      const results = fuse.search(searchTerm);
+      console.log(searchTerm)
+      console.log(results)
+      setPatients(results.map((result) => result.item));
+    }
+  };
   
 
   const getAllCustomers = async () =>{
@@ -99,6 +132,8 @@ const PatientProvider = ({children}) => {
     .catch((error) => {
       console.log(error)
     });
+
+    
  
 }
   return (
@@ -115,7 +150,9 @@ const PatientProvider = ({children}) => {
      currentId, 
      setCurrentId,
      getAllCustomers,
-     customers
+     customers,
+     searchTerm, 
+     setSearchTerm
      
     }}>
       {/* <Modal/> */}

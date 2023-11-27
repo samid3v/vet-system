@@ -64,9 +64,9 @@ const Actions = ({doc}) => {
 
   return (
     <div className='flex justify-center items-center gap-3'>
-     <FaEye onClick={handleOpen} className='text-secondary' />
-     <FaRegEdit onClick={handleOpenEdit} className='text-primary' />
-     <BsTrash onClick={()=>setOpenDelete(true)} className='text-error' />
+     <FaEye onClick={handleOpen} className='text-secondary font-semibold text-lg cursor-pointer' />
+     <FaRegEdit onClick={handleOpenEdit} className='text-primary font-semibold text-lg cursor-pointer' />
+     <BsTrash onClick={()=>setOpenDelete(true)} className='text-error font-semibold text-lg cursor-pointer' />
      <DeleteModal open={openDelete} handleClose={()=>setOpenDelete(false)} deleteFunc={deleteDoc} />
      <BasicModal open={open} element={<ViewPatient handleClose={handleClose}/>}/>
      <BasicModal open={openEditModal} element={<EditPatient handleClose={handleCloseEditModa}/>}/>
