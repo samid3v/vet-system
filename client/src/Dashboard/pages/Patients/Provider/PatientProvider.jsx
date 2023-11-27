@@ -23,11 +23,17 @@ const PatientProvider = ({children}) => {
   
 
      useEffect(()=>{
-      if (searchTerm.trim() === '' && searchTerm.length<3) {
         getAllPatients(currentPage,10)
-      }
 
    },[])
+
+   useEffect(()=>{
+    if (searchTerm.length<3) {
+      
+      getAllPatients(currentPage,10)
+    }
+
+},[searchTerm])
 
    useEffect(()=>{
     getAllPatients(currentPage,10)
@@ -40,9 +46,14 @@ const PatientProvider = ({children}) => {
    },[currentId])
 
    useEffect(()=>{
-    if (searchTerm.length>2) {
-      getAllPatients()
-    }
+    const delayDebounceFn = setTimeout(() => {
+      if (searchTerm.length>2) {
+        updateSearchResults()
+      }
+    }, 1500)
+
+    return () => clearTimeout(delayDebounceFn)
+    
    },[searchTerm])
   
 
@@ -64,7 +75,6 @@ const PatientProvider = ({children}) => {
         setPatients(dataWithIds);
         console.log(dataWithIds)
         setTotalPages(totalPages)
-        updateSearchResults(dataWithIds)
       } else {
         console.error('Failed to fetch patients');
       }
@@ -98,22 +108,31 @@ const PatientProvider = ({children}) => {
     }
   };
   
-  const updateSearchResults = (data) => {
-    // console.log(searchTerm)
-    const fuse = new Fuse(data, {
-      keys: ['name' ],
-      includeMatches: true,
-      includeScore:true,
-    });
+  const updateSearchResults = async () => {
+    
+    try {
+      setShowLoader(true);
 
-    if (searchTerm.trim() === '' && searchTerm.length<3) {
-      setPatients(data);
-    } else {
-      const results = fuse.search(searchTerm);
-      console.log(searchTerm)
-      console.log(results)
-      setPatients(results.map((result) => result.item));
+      const response = await api.get(patientUrl.search_patient.url, {
+        params: { value:searchTerm },
+      });
+      // console.log(searchTerm)
+      if (response.status === 200) {
+        setPatients(response.data);
+      } else {
+        toast.error('Failed to fetch patient');
+      }
+      
+    }  catch (error) {
+      toast.error(error.message);
+    } finally {
+      setShowLoader(false);
+      setTotalPages(0)
+
     }
+    
+
+    
   };
   
 
@@ -152,7 +171,8 @@ const PatientProvider = ({children}) => {
      getAllCustomers,
      customers,
      searchTerm, 
-     setSearchTerm
+     setSearchTerm,
+     updateSearchResults
      
     }}>
       {/* <Modal/> */}

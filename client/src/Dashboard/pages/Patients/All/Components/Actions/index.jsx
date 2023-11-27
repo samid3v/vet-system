@@ -16,7 +16,7 @@ import EditPatient from '../EditPatient';
 const Actions = ({doc}) => {
 
   const [openDelete, setOpenDelete] = useState(false)
-  const {getAllPatients, setCurrentId, setCurrentPatient} = usePatients()
+  const {getAllPatients, setCurrentId, setCurrentPatient, searchTerm, currentPage, updateSearchResults} = usePatients()
 
   const [open, setOpen] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -50,8 +50,14 @@ const Actions = ({doc}) => {
   
       if (response.status === 201) {
         setOpenDelete(false)
+        if (searchTerm.length>2) {
+          updateSearchResults()
+  
+        }else{
+          getAllPatients(currentPage, 10)
+  
+        }
         toast.success('Patient Record Deleted Successfully')
-        getAllPatients(1, 10)
       } else {
         toast.error('Failed to fetch patients');
       }

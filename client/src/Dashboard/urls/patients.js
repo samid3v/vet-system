@@ -12,6 +12,9 @@ const patientUrl = {
      get_single_patient:{
           url: '/patients/get-patient-by-id'
      },
+     search_patient:{
+          url: '/patients/search-patient'
+     },
      delete_patient:{
           url:`/patients/delete-patient`
      },
