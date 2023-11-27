@@ -7,6 +7,10 @@ const TBody = () => {
 
   const {patients} = usePatients()
 
+  if (patients.length==0) {
+    return <td colSpan={7} className='text-center text-xl'>No Data</td>
+  }
+
   return (
     <tbody>
     {patients.map((patient, index) => (
