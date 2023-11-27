@@ -127,17 +127,24 @@ export const getPatientById = asyncHandler(async (req, res) => {
     throw error;
   }
 
-  try {
-    const query = {
-      $or: [
-        { name: new RegExp(value, 'i') },
-        { breed: new RegExp(value, 'i') },
-        { species: new RegExp(value, 'i') },
-        { 'owner.name': new RegExp(value, 'i') },
-      ],
-    };
+  const query = {};
 
-    const results = await Patient.find(query);
+
+  try {
+    const owners = await User.find({ name: new RegExp(value, 'i') });
+    
+    const ownerIds = owners.map(owner => owner._id);
+
+    if (value) {
+      query.$or = [
+        { name: { $regex: new RegExp(value, 'i') } },
+        { breed: { $regex: new RegExp(value, 'i') } },
+        { species: { $regex: new RegExp(value, 'i') } },
+        { owner: { $in: ownerIds } },
+      ];
+    }
+
+    const results = await Patient.find(query).populate('owner', '-password');
 
     res.json(results);
   } catch (error) {

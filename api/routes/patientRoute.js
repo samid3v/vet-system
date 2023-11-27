@@ -7,10 +7,7 @@ patientRouter.get("/all", getAllPatients)
 patientRouter.post("/add", addPatients)
 patientRouter.get("/get-patient-by-id", getPatientById)
 patientRouter.put("/edit-patient", editPatient)
-patientRouter.put("/search-patient", searchPatient)
+patientRouter.get("/search-patient", searchPatient)
 patientRouter.delete("/delete-patient", deletePatient)
-
-
-
 
 export default patientRouter
