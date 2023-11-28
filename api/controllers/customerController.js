@@ -4,7 +4,16 @@ import User from "../server/models/userModel.js";
 import Patient from "../server/models/patientModel.js";
 
 export const getCustomers = asyncHandler(async (req, res) => {
-  const customers = await User.find({ role: "customer" }).select("-password");
+  const page = parseInt(req.query.page) || 1; // default to page 1 if not provided
+  const pageSize = parseInt(req.query.pageSize) || 10; // default to 10 items per page if not provided
+
+  const skip = (page - 1) * pageSize;
+
+  const totalPatients = await Patient.countDocuments();
+  const totalPages = Math.ceil(totalPatients / pageSize); 
+  const customers = await User.find({ role: "customer" }).select("-password").sort({ createdAt: -1 }) // Sort by createdAt in descending order for latest first
+  .skip(skip)
+  .limit(pageSize);;
 
   if (customers) {
     res.status(200).json(customers);

@@ -40,7 +40,7 @@ const Sidebar = () => {
                     <div className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
                          <HiOutlineDocumentReport className='text-xl'/>
                     </div>
-                    <div className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
+                    <div onClick={()=>navigate("./owners")} className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
                          <FaUsers className='text-xl'/>
                     </div>
                </div>
