@@ -31,7 +31,7 @@ function validateEmail(email) {
 }
 
 export const AddCustomer = asyncHandler(async (req, res) => {
-  const { name, email, phone } = req.body;
+  const { name, email, phone, county, sub_county, ward } = req.body;
 
   if (phone.length !== 10) {
     const error = new Error("invalid phone number");
@@ -73,7 +73,9 @@ export const AddCustomer = asyncHandler(async (req, res) => {
       name,
       email,
       phone,
-      username: phone,
+      county, 
+      sub_county, 
+      ward,
       role: "customer",
     });
     const output = await newUser.save();

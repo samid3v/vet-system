@@ -23,14 +23,9 @@ const UserSchema = new mongoose.Schema({
       enum: ['customer', 'employee', 'admin'],
       required: true,
     },
-    username:{
-      type: String,
-      required: function () {
-        return this.role !== 'customer';
-      },
-      unique:true
-  },
-    
+    county:String,
+    sub_county:String,
+    ward:String,
     isAdmin: {
       type: Boolean,
       default: false,
