@@ -8,15 +8,16 @@ import patientUrl from '../../../../../urls/patients';
 import { toast } from 'react-toastify';
 import { useOwners } from '../../../Hooks';
 import { useApp } from '../../../../../hooks/useApp';
-import ViewPatient from '../ViewPatient';
+import ViewCustomer from '../viewCustomer';
 import BasicModal from '../../../../../components/Modal';
 import EditPatient from '../EditPatient';
+import customersUrl from '../../../../../urls/customers';
 
 
 const Actions = ({doc}) => {
 
   const [openDelete, setOpenDelete] = useState(false)
-  const {getAllPatients, setCurrentId, setCurrentPatient, searchTerm, currentPage, updateSearchResults} = useOwners()
+  const {getAllCustomers, setCurrentId, setCurrentPatient, searchTerm, currentPage, updateSearchResults} = useOwners()
 
   const [open, setOpen] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -26,13 +27,13 @@ const Actions = ({doc}) => {
   };
   const handleClose = () => {
     setOpen(false)
-    setCurrentPatient([])
+    setCurrentCustomer([])
     setCurrentId(0)
   };
 
   const handleCloseEditModa = () => {
     setOpenEditModal(false)
-    setCurrentPatient([])
+    setCurrentCustomer([])
     setCurrentId(0)
    }
 
@@ -44,7 +45,7 @@ const Actions = ({doc}) => {
 
   const deleteDoc = async () =>{
     try {
-      const response = await api.delete(patientUrl.delete_patient.url, {
+      const response = await api.delete(customersUrl.delete_customer.url, {
         params: {id:doc._id },
       });
   
@@ -54,12 +55,12 @@ const Actions = ({doc}) => {
           updateSearchResults()
   
         }else{
-          getAllPatients(currentPage, 10)
+          getAllCustomers(currentPage, 10)
   
         }
-        toast.success('Patient Record Deleted Successfully')
+        toast.success('Customer Record Deleted Successfully')
       } else {
-        toast.error('Failed to fetch patients');
+        toast.error('Failed to fetch Customer');
       }
     } catch (error) {
       toast.error(error.response);
@@ -74,7 +75,7 @@ const Actions = ({doc}) => {
      <FaRegEdit onClick={handleOpenEdit} className='text-primary font-semibold text-lg cursor-pointer' />
      <BsTrash onClick={()=>setOpenDelete(true)} className='text-error font-semibold text-lg cursor-pointer' />
      <DeleteModal open={openDelete} handleClose={()=>setOpenDelete(false)} deleteFunc={deleteDoc} />
-     <BasicModal open={open} element={<ViewPatient handleClose={handleClose}/>}/>
+     <BasicModal open={open} element={<ViewCustomer handleClose={handleClose}/>}/>
      <BasicModal open={openEditModal} element={<EditPatient handleClose={handleCloseEditModa}/>}/>
     
     </div>

@@ -1,21 +1,20 @@
 import React from 'react'
 import { useOwners } from '../../../Hooks'
 import TRow from './TableRow'
-import { Skeleton } from '@mui/material'
 
 const TBody = () => {
 
-  const {patients} = useOwners()
+  const {customers } = useOwners()
 
-  if (patients.length==0) {
+  if (customers.length==0) {
     return <td colSpan={7} className='text-center text-xl'>No Data</td>
   }
 
   return (
     <tbody>
-    {patients.map((patient, index) => (
+    {customers.map((owner, index) => (
       
-      <TRow  key={patient._id} patient={patient} index={index} />
+      <TRow  key={customers._id} owner={owner} index={index} />
     ))}
   </tbody>
   )

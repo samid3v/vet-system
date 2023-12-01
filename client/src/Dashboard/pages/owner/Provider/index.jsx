@@ -12,35 +12,32 @@ const OwnerProvider = ({children}) => {
      const [currentPage, setCurrentPage] = useState(1)
      const [currentId, setCurrentId] = useState(0)
      const [totalPages, setTotalPages] = useState(0)
-     const [currentPatient, setCurrentPatient] = useState([])
-  const [customers, setCustomers] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const { setShowLoader } = useApp();
-
-
-     
-  
+     const [currentCustomer, setCurrentCustomer] = useState([])
+      const [customers, setCustomers] = useState([]);
+      const [searchTerm, setSearchTerm] = useState('');
+      const { setShowLoader } = useApp();
+ 
 
      useEffect(()=>{
-        getAllPatients(currentPage,10)
+      getAllCustomers(currentPage,10)
 
    },[])
 
    useEffect(()=>{
     if (searchTerm.length<3) {
       
-      getAllPatients(currentPage,10)
+      getAllCustomers(currentPage,10)
     }
 
 },[searchTerm])
 
    useEffect(()=>{
-    getAllPatients(currentPage,10)
+    getAllCustomers(currentPage,10)
  },[currentPage])
 
    useEffect(()=>{
      if (currentId!==0) {
-      getSinglePatient()
+      getSingleCustomer()
      }
    },[currentId])
 
@@ -64,7 +61,7 @@ const OwnerProvider = ({children}) => {
       });
   
       if (response.status === 200) {
-        const { data, hasNextPage, hasPreviousPage, totalPages } = response.data;
+        const { data, totalPages } = response.data;
   
         const dataWithIds = data.map((item, index) => ({
           ...item,
@@ -85,17 +82,18 @@ const OwnerProvider = ({children}) => {
     }
   };
 
-  const getSinglePatient = async () => {
+  const getSingleCustomer = async () => {
     try {
       setShowLoader(true)
 
       if (currentId !== 0) {
-        const response = await api.get(patientUrl.get_single_patient.url, {
+        const response = await api.get(customersUrl.get_single_customer.url, {
           params: { id: currentId },
         });
   
         if (response.status === 200) {
-          setCurrentPatient(response.data);
+          console.log(response)
+          setCurrentCustomer(response.data);
         } else {
           toast.error('Failed to fetch patient');
         }
@@ -135,21 +133,26 @@ const OwnerProvider = ({children}) => {
   };
   
 
-  const getAllCustomers = async () =>{
+  const getAllCustomers = async (page, pageSize) =>{
+     try{
+    const response = await api.get(customersUrl.get_all.url, {
+      params: { page, pageSize }
+    })
+    if (response.status === 200) {
+      const { data, totalPages } = response.data;
+
      
-    await api.get(customersUrl.get_all.url).then((response) => {
-      if (response.status !== 200) {
-        throw new Error('Failed to fetch patients');
-      }
-      return response.data;
-    })
-    .then((data) => {
-      console.log(data)
+
       setCustomers(data);
-    })
-    .catch((error) => {
-      console.log(error)
-    });
+      console.log(response.data)
+      setTotalPages(totalPages)
+    } else {
+      console.error('Failed to fetch patients');
+    }
+    
+    }catch(error){
+        console.log(error)
+    };
 
     
  
@@ -163,8 +166,8 @@ const OwnerProvider = ({children}) => {
      setTotalPages,
      currentPage, 
      setCurrentPage,
-     currentPatient, 
-     setCurrentPatient,
+     currentCustomer, 
+     setCurrentCustomer,
      currentId, 
      setCurrentId,
      getAllCustomers,

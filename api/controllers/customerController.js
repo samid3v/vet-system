@@ -13,10 +13,16 @@ export const getCustomers = asyncHandler(async (req, res) => {
   const totalPages = Math.ceil(totalPatients / pageSize); 
   const customers = await User.find({ role: "customer" }).select("-password").sort({ createdAt: -1 }) // Sort by createdAt in descending order for latest first
   .skip(skip)
-  .limit(pageSize);;
+  .limit(pageSize);
 
   if (customers) {
-    res.status(200).json(customers);
+    res.status(200).json({
+      page,
+      pageSize,
+      totalPatients,
+      totalPages,
+      data:customers
+    });
   } else {
     const error = new Error("No Customers Found");
     error.statusCode = 404;
