@@ -110,14 +110,14 @@ const OwnerProvider = ({children}) => {
     try {
       setShowLoader(true);
 
-      const response = await api.get(patientUrl.search_patient.url, {
+      const response = await api.get(customersUrl.search_customer.url, {
         params: { value:searchTerm },
       });
       // console.log(searchTerm)
       if (response.status === 200) {
-        setPatients(response.data);
+        setCustomers(response.data);
       } else {
-        toast.error('Failed to fetch patient');
+        toast.error('Failed to fetch customer');
       }
       
     }  catch (error) {

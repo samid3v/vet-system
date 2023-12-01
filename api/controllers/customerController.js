@@ -131,6 +131,8 @@ export const getCustomerById = asyncHandler(async (req, res) => {
   }
 });
 
+
+
 export const editCustomer = asyncHandler(async (req, res) => {
   const { id } = req.query;
 
@@ -172,5 +174,35 @@ export const deleteCustomer = asyncHandler(async (req, res) => {
     const error = new Error("Invalid Request");
     error.statusCode = 400;
     throw error;
+  }
+});
+
+export const searchCustomer = asyncHandler(async (req, res) => {
+  const { value } = req.query;
+
+  if (!value) {
+    const error = new Error('Missing Search Value');
+    error.statusCode = 404;
+    throw error;
+  }
+
+  try {
+    const query = {
+      $or: [
+        { name: { $regex: new RegExp(value, 'i') } },
+        { email: { $regex: new RegExp(value, 'i') } },
+        { phone: { $regex: new RegExp(value, 'i') } },
+        { county: { $regex: new RegExp(value, 'i') } },
+        { sub_county: { $regex: new RegExp(value, 'i') } },
+        { ward: { $regex: new RegExp(value, 'i') } },
+      ],
+      role: 'customer', // Add the role condition here
+    };
+
+    const results = await User.find(query);
+    res.json(results);
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
