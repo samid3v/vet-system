@@ -17,7 +17,7 @@ import customersUrl from '../../../../../urls/customers';
 const Actions = ({doc}) => {
 
   const [openDelete, setOpenDelete] = useState(false)
-  const {getAllCustomers, setCurrentId, setCurrentPatient, searchTerm, currentPage, updateSearchResults} = useOwners()
+  const {getAllCustomers, setCurrentId, setCurrentCustomer, searchTerm, currentPage, updateSearchResults} = useOwners()
 
   const [open, setOpen] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);

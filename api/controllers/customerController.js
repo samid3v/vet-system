@@ -121,7 +121,7 @@ export const getCustomerById = asyncHandler(async (req, res) => {
       res.status(200).json(customerWithPatients);
     } else {
       const error = new Error("Customer  not found");
-      error.statusCode = 404; // Correct the status code to 404 for "Not Found"
+      error.statusCode = 404;
       throw error;
     }
   } else {
