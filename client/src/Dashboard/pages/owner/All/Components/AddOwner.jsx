@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import api from '../../../../helpers/axiosInstance';
 import patientUrl from '../../../../urls/patients';
 
-const AddPatient = ({handleClose}) => {
+const AddOwner = ({handleClose}) => {
 
   const { setShowLoader,setModalOpen } = useApp();
   const { getAllPatients, getAllCustomers, customers } = useOwners()
@@ -175,4 +175,4 @@ const AddPatient = ({handleClose}) => {
   );
 };
 
-export default AddPatient;
+export default AddOwner;
