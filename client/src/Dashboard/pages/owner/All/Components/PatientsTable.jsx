@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useApp } from '../../../../hooks/useApp';
-import AddPatient from './AddPatient';
 import LargeDevice from './TableComponent/LargeDevice';
 import BasicModal from '../../../../components/Modal';
 import { useOwners } from '../../Hooks';
