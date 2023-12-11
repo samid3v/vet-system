@@ -73,12 +73,15 @@ export const AddCustomer = asyncHandler(async (req, res) => {
     }
     
   
+   const newphone = phone.replace(/^0/, '254');
+
+    
 
     // Create a new user with the hashed password
     const newUser = new User({
       name,
       email,
-      phone,
+      phone:newphone                            ,
       county, 
       sub_county, 
       ward,
@@ -136,14 +139,48 @@ export const getCustomerById = asyncHandler(async (req, res) => {
 export const editCustomer = asyncHandler(async (req, res) => {
   const { id } = req.query;
 
-  const updateData = req.body;
+  const {name, email, phone, county, sub_county, ward} = req.body;
 
-  if (!updateData.name || !updateData.phone) {
+  if (!name || !phone) {
     const error = new Error("Check Required Fields");
     error.statusCode = 400;
     throw error;
   }
 
+  if (phone.length !== 10) {
+    const error = new Error("invalid phone number");
+    error.statusCode = 400;
+    throw error;
+  }
+
+    if (!validateEmail(email)) {
+      const error = new Error("invalid email");
+      error.statusCode = 400;
+      throw error;
+    }
+
+  if (name == "" || phone == "" ||  email == "") {
+    const error = new Error("check your inputs");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const existingPhone = await User.findOne({ phone });
+  const existingMail = await User.findOne({ email });
+
+  if (existingPhone) {
+    const error = new Error("Phone already exists");
+    error.statusCode = 400;
+    throw error;
+  }
+
+    if (existingMail) {
+      const error = new Error("Email already exists");
+      error.statusCode = 400;
+      throw error;
+    }
+    
+ 
   const updatedPatient = await User.findByIdAndUpdate(id, updateData, {
     new: true,
   });

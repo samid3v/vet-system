@@ -18,7 +18,7 @@ const OwnerProvider = ({children}) => {
       const { setShowLoader } = useApp();
  
 
-     useEffect(()=>{
+useEffect(()=>{
       getAllCustomers(currentPage,10)
 
    },[])
@@ -104,6 +104,10 @@ const OwnerProvider = ({children}) => {
       setShowLoader(false);
     }
   };
+
+  const refreshOwners = () => {
+    getAllCustomers(currentPage,10)
+  }
   
   const updateSearchResults = async () => {
     
@@ -160,8 +164,6 @@ const OwnerProvider = ({children}) => {
   return (
     <OwnersContext.Provider value={{
      patients,
-     setPatients,
-     getAllPatients,
      totalPages, 
      setTotalPages,
      currentPage, 
@@ -174,7 +176,8 @@ const OwnerProvider = ({children}) => {
      customers,
      searchTerm, 
      setSearchTerm,
-     updateSearchResults
+     updateSearchResults,
+     refreshOwners
      
     }}>
       {/* <Modal/> */}

@@ -4,27 +4,61 @@ import { useApp } from '../../../../hooks/useApp';
 import { useOwners } from '../../Hooks';
 import { toast } from 'react-toastify';
 import api from '../../../../helpers/axiosInstance';
-import patientUrl from '../../../../urls/patients';
+import LocationData from '../../../../urls/data/LocationData';
+import customersUrl from '../../../../urls/customers';
 
 const AddOwner = ({handleClose}) => {
 
   const { setShowLoader,setModalOpen } = useApp();
-  const { getAllPatients, getAllCustomers, customers } = useOwners()
-
-  useEffect(()=>{
-
-    getAllCustomers()
-
- },[])
-
+  const { refreshOwners, getAllCustomers, customers } = useOwners()
   const [formData, setFormData] = useState({
     name: '',
-    breed: '',
-    age: '',
-    species: '',
-    weight: '',
-    owner: '',
+    email: '',
+    phone: '',
+    county: '',
+    sub_county: '',
+    ward: '',
   });
+  const [subCounty, setSubCounty] = useState([])
+  const [wards, setWards] = useState([])
+
+ 
+ useEffect(()=>{
+  if (formData.sub_county!=='select') {
+    
+    const selectedSubCountyData = subCounty.find((county) => county.constituency_name ===formData.sub_county );
+    setWards(selectedSubCountyData?.wards || []);
+    // setSubCounty(null);
+    // setSubCounty(LocationData.filter((data)=>data.counties.county_name.includes(formData.county)))
+    console.log(wards)
+  }else{
+
+    setWards([])
+  }
+
+},[formData.sub_county])
+
+useEffect(()=>{
+
+  if (formData.county!=='select') {
+    
+    const selectedCountyData = LocationData.counties.find((county) => county.county_name ===formData.county );
+    setSubCounty([]);
+    
+    setSubCounty(selectedCountyData?.constituencies || []);
+    
+  }else{
+
+    setSubCounty([])
+  }
+
+  setWards([])
+
+},[formData.county])
+
+
+
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -35,36 +69,47 @@ const AddOwner = ({handleClose}) => {
   };
 
   const handleAddPatient = async (e) => {
-
+        
     e.preventDefault()
-    console.log(formData)
     
-    if (!formData.name || !formData.owner) {
-      toast.error('Name and owner are required fields.');
+    if (!formData.name || !formData.email || !formData.phone) {
+      toast.error('Check required fields.');
+      return;
+    }
+
+    if (formData.phone.length!==10) {
+      toast.error('Invalid Phone Number');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(formData.email)) {
+      toast.error('Invalid Email');
       return;
     }
 
     try {
       setShowLoader(true);
       
-      const response = await api.post(patientUrl.add_patient.url, formData,{
+      const response = await api.post(customersUrl.add_customer.url, formData,{
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
       if (response.status === 201) {
-        getAllPatients();
+        refreshOwners();
         handleClose();
         setFormData({
           name: '',
-          breed: '',
-          age: '',
-          species: '',
-          weight: '',
-          owner: '',
+          email: '',
+          phone: '',
+          county: '',
+          sub_county: '',
+          ward: '',
         })
-      toast.success('Patient added successfully!');
+      toast.success('Customers added successfully!');
 
       } else {
         console.error('Failed to add patient');
@@ -74,11 +119,12 @@ const AddOwner = ({handleClose}) => {
     } finally {
       setShowLoader(false);
     }
+    
   };
 
   return (
     <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
-      <h3 className='text-xl font-semibold'>Add Patient</h3>
+      <h3 className='text-xl font-semibold'>Add Owner</h3>
       <form onSubmit={ handleAddPatient }>
         <div className='flex justify-between items-center gap-2 my-2 '>
           <div className="w-full">
@@ -94,72 +140,89 @@ const AddOwner = ({handleClose}) => {
               />
           </div>
           <div className="w-full">
-            <label htmlFor="species">Breed</label>
+            <label htmlFor="species">Email</label>
               <input
                 className='w-full rounded-lg border py-2 px-2 border-black outline-none focus:border-[1px] p-0'
-                placeholder='breed...'
-                type="text"
-                name="breed"
-                id="breed"
-                value={formData.breed}
+                placeholder='email...'
+                type="email"
+                name="email"
+                id="email"
+                value={formData.email}
                 onChange={handleInputChange}
               />
           </div>
         </div>
         <div className='flex justify-between items-center gap-2 my-2 '>
           <div className="w-full">
-            <label htmlFor="name">Age</label>
+            <label htmlFor="name">Phone</label>
               <input
                 className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
-                placeholder='age...'
+                placeholder='phone...'
                 type="number"
-                name="age"
-                id="age"
-                value={formData.age}
+                name="phone"
+                id="phone"
+                value={formData.phone}
                 onChange={handleInputChange}
               />
           </div>
-          <div className="w-full">
-            <label htmlFor="species">Species</label>
-              <input
-                className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
-                placeholder='species...'
-                type="text"
-                name="species"
-                id="species"
-                value={formData.species}
-                onChange={handleInputChange}
-              />
-          </div>
+          
         </div>
         <div className='flex justify-between items-center gap-2 my-2 '>
+          
           <div className="w-full">
-            <label htmlFor="name">Weight</label>
-              <input
-                className='w-full rounded-lg border-[1px] py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
-                placeholder='weight...'
-                type="number"
-                name="weight"
-                id="weight"
-                value={formData.weight}
-                onChange={handleInputChange}
-              />
-          </div>
-          <div className="w-full">
-            <label htmlFor="species">Owner</label>
+            <label htmlFor="species">County</label>
               <select
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
-                placeholder='owner...'
+                placeholder='county...'
                 type="text"
-                name="owner"
-                id="owner"
-                value={formData.owner}
+                name="county"
+                id="county"
+                value={formData.county}
                 onChange={handleInputChange}
               >
-                  <option value="select">Select Owner</option>
+                  <option value="select">Select County</option>
                   {
-                    customers.map((customer, index)=>(
-                      <option key={index} value={`${customer._id}`}>{customer.name}</option>
+                    LocationData.counties.map((location, index)=>(
+                      <option key={index} value={`${location.county_name}`}>{location.county_name}</option>
+
+                    ))
+                  }
+              </select>
+          </div>
+          <div className="w-full">
+            <label htmlFor="species">Sub-County</label>
+              <select
+                className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
+                placeholder='county...'
+                type="text"
+                name="sub_county"
+                id="sub_county"
+                value={formData.subcounty}
+                onChange={handleInputChange}
+              >
+                  <option value="select">Select Sub-County</option>
+                  { subCounty && (subCounty.map((subc, index)=>(
+                      <option key={index} value={`${subc.constituency_name}`}>{subc.constituency_name}</option>
+
+                    )))
+                  }
+              </select>
+          </div>
+          <div className="w-full">
+            <label htmlFor="species">Ward</label>
+              <select
+                className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
+                placeholder='wards...'
+                type="text"
+                name="ward"
+                id="ward"
+                value={formData.ward}
+                onChange={handleInputChange}
+              >
+                  <option value="select">Select Ward</option>
+                  {
+                    wards.map((ward, index)=>(
+                      <option key={index} value={`${ward}`}>{ward}</option>
 
                     ))
                   }
@@ -168,7 +231,7 @@ const AddOwner = ({handleClose}) => {
         </div>
         <div className='flex justify-between items-center my-3'>
           <button onClick={handleClose} className='bg-gray-300 w-[80px] py-2 px-3 rounded-lg'>Close</button>
-          <button type='submit' className='bg-primary py-2 px-3 rounded-lg'>Add Patient</button>
+          <button type='submit' className='bg-primary py-2 px-3 rounded-lg'>Add Owner</button>
         </div>
       </form>
     </div>
