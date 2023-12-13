@@ -7,6 +7,8 @@ import AppProvider from './providers/appProvider'
 import Dashboard from './pages'
 import Owners from './pages/owner'
 import AllOwners from './pages/owner/All'
+import AllBoarders from './pages/Boarding/All'
+import Boarding from './pages/Boarding'
 
 function App() {
 
@@ -21,6 +23,9 @@ function App() {
             </Route>
             <Route path='owners' element={<Owners/>}>
               <Route index element={<AllOwners/>}/>
+            </Route>
+            <Route path='boarding' element={<Boarding/>} >
+              <Route index element={<AllBoarders/>}/>
             </Route>
           </Route>
         </Routes>    
