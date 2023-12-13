@@ -30,7 +30,7 @@ const Sidebar = () => {
                          <MdOutlineLocalHospital className='text-xl'/>
                     </div>
                     
-                    <div className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
+                    <div onClick={()=>navigate("./boarding")} className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
                          <GiCage className='text-xl'/>
                     </div>
 

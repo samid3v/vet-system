@@ -1,6 +1,5 @@
 import React from 'react'
 import Actions from '../Actions'
-import { useOwners } from '../../../Hooks'
 
 const TRow = ({owner, index}) => {
 

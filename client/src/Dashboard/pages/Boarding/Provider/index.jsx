@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import patientUrl from '../../../urls/patients';
 import api from '../../../helpers/axiosInstance';
 import customersUrl from '../../../urls/customers';
 import { toast } from 'react-toastify';
 import { useApp } from '../../../hooks/useApp';
-import OwnersContext from '../context';
 import BoardingContext from '../context';
 
 

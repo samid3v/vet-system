@@ -6,7 +6,7 @@ import DeleteModal from '../../../../../components/DeleteModal';
 import api from '../../../../../helpers/axiosInstance';
 import patientUrl from '../../../../../urls/patients';
 import { toast } from 'react-toastify';
-import { useOwners } from '../../../Hooks';
+import { useBoarding } from '../../../Hooks';
 import { useApp } from '../../../../../hooks/useApp';
 import ViewCustomer from '../viewCustomer';
 import BasicModal from '../../../../../components/Modal';
@@ -17,7 +17,7 @@ import EditOwner from '../EditOwner';
 const Actions = ({doc}) => {
 
   const [openDelete, setOpenDelete] = useState(false)
-  const {getAllCustomers, setCurrentId, setCurrentCustomer, searchTerm, currentPage, updateSearchResults} = useOwners()
+  const {getAllCustomers, setCurrentId, setCurrentCustomer, searchTerm, currentPage, updateSearchResults} = useBoarding()
 
   const [open, setOpen] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);

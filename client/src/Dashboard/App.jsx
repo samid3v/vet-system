@@ -17,15 +17,15 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='dashboard' element={<Dashboard/>}>
-            <Route index element={<Dash/>}/>
+            <Route index element={<Dash/>} />
             <Route path='patients' element={<Patients/>}>
-              <Route index element={<AllPatients/>}/>
+              <Route index element={<AllPatients/>} />
             </Route>
             <Route path='owners' element={<Owners/>}>
-              <Route index element={<AllOwners/>}/>
+              <Route index element={<AllOwners/>} />
             </Route>
             <Route path='boarding' element={<Boarding/>} >
-              <Route index element={<AllBoarders/>}/>
+              <Route index element={<AllBoarders/>} />
             </Route>
           </Route>
         </Routes>    

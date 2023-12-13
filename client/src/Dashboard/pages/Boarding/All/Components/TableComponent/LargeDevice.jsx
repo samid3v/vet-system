@@ -1,5 +1,5 @@
 import React from 'react'
-import { useOwners } from '../../../Hooks'
+import { useBoarding } from '../../../Hooks'
 import Pagination from '@mui/material/Pagination';
 
 import THeader from './TableHeader';
@@ -7,7 +7,7 @@ import TBody from './TableBody';
 
 const LargeDevice = () => {
 
-  const {patients, totalPages, currentPage, setCurrentPage} = useOwners()
+  const {patients, totalPages, currentPage, setCurrentPage} = useBoarding()
 
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
