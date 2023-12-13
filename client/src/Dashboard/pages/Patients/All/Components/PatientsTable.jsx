@@ -5,7 +5,7 @@ import LargeDevice from './TableComponent/LargeDevice';
 import BasicModal from '../../../../components/Modal';
 import { usePatients } from '../../Hooks/usePatients';
 
-const PatientsTable = () => {
+const OwnersTable = () => {
 
   const {setModalOpen, setModalMessage, isModalOpen, modalMessage} = useApp();
   const {searchTerm, setSearchTerm} = usePatients()
@@ -27,4 +27,4 @@ const PatientsTable = () => {
   )
 }
 
-export default PatientsTable
+export default OwnersTable

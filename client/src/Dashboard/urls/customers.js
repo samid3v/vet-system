@@ -11,6 +11,9 @@ const customersUrl = {
      add_customer:{
           url:`/customers/add-customer`
      },
+     edit_customer:{
+          url:`/customers/edit-customer`
+     },
      search_customer:{
           url:`/customers/search-customer`
      },

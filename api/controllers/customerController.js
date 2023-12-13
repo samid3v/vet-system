@@ -141,13 +141,13 @@ export const editCustomer = asyncHandler(async (req, res) => {
 
   const {name, email, phone, county, sub_county, ward} = req.body;
 
-  if (!name || !phone) {
-    const error = new Error("Check Required Fields");
+  if (name == "" || phone == "" ||  email == "") {
+    const error = new Error("check your inputs");
     error.statusCode = 400;
     throw error;
   }
 
-  if (phone.length !== 10) {
+  if (phone.length !== 12) {
     const error = new Error("invalid phone number");
     error.statusCode = 400;
     throw error;
@@ -159,14 +159,10 @@ export const editCustomer = asyncHandler(async (req, res) => {
       throw error;
     }
 
-  if (name == "" || phone == "" ||  email == "") {
-    const error = new Error("check your inputs");
-    error.statusCode = 400;
-    throw error;
-  }
+  
 
   const existingPhone = await User.findOne({ phone });
-  const existingMail = await User.findOne({ email });
+  const existingMail = await User.findOne({ email, _id: { $ne: id } });
 
   if (existingPhone) {
     const error = new Error("Phone already exists");
@@ -181,7 +177,9 @@ export const editCustomer = asyncHandler(async (req, res) => {
     }
     
  
-  const updatedPatient = await User.findByIdAndUpdate(id, updateData, {
+  const updatedPatient = await User.findByIdAndUpdate(id, {
+    name, email, phone, county, sub_county, ward
+  }, {
     new: true,
   });
 

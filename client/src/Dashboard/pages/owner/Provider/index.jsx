@@ -53,35 +53,7 @@ useEffect(()=>{
    },[searchTerm])
   
 
-  const getAllPatients = async (page, pageSize) => {
-    try {
-      setShowLoader(true)
-      const response = await api.get(patientUrl.get_all.url, {
-        params: { page, pageSize },
-      });
-  
-      if (response.status === 200) {
-        const { data, totalPages } = response.data;
-  
-        const dataWithIds = data.map((item, index) => ({
-          ...item,
-          id: index + 1, // Incremental numerical ID starting from 1
-        }));
-  
-        setPatients(dataWithIds);
-        console.log(dataWithIds)
-        setTotalPages(totalPages)
-      } else {
-        console.error('Failed to fetch patients');
-      }
-    } catch (error) {
-      console.error('Error fetching patients:', error.message);
-       
-    } finally {
-      setShowLoader(false);
-    }
-  };
-
+ 
   const getSingleCustomer = async () => {
     try {
       setShowLoader(true)

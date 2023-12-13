@@ -1,12 +1,11 @@
 import React from 'react'
-import PatientsTable from './Components/PatientsTable'
-import LargeDevice from './Components/TableComponent/LargeDevice'
+import OwnersTable from './Components/PatientsTable'
 
 const AllPatients = () => {
 
   return (
     <div className='bg-white  '>
-      <PatientsTable/>
+      <OwnersTable/>
     </div>
   )
 }

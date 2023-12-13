@@ -10,8 +10,8 @@ import { useOwners } from '../../../Hooks';
 import { useApp } from '../../../../../hooks/useApp';
 import ViewCustomer from '../viewCustomer';
 import BasicModal from '../../../../../components/Modal';
-import EditPatient from '../EditPatient';
 import customersUrl from '../../../../../urls/customers';
+import EditOwner from '../EditOwner';
 
 
 const Actions = ({doc}) => {
@@ -76,7 +76,7 @@ const Actions = ({doc}) => {
      <BsTrash onClick={()=>setOpenDelete(true)} className='text-error font-semibold text-lg cursor-pointer' />
      <DeleteModal open={openDelete} handleClose={()=>setOpenDelete(false)} deleteFunc={deleteDoc} />
      <BasicModal open={open} element={<ViewCustomer handleClose={handleClose}/>}/>
-     <BasicModal open={openEditModal} element={<EditPatient handleClose={handleCloseEditModa}/>}/>
+     <BasicModal open={openEditModal} element={<EditOwner handleClose={handleCloseEditModa}/>}/>
     
     </div>
   )
