@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useApp } from '../../../../hooks/useApp'
-import { useBoarding } from '../../Hooks'
-import patientUrl from '../../../../urls/patients'
-import api from '../../../../helpers/axiosInstance'
+import { useApp } from '../../../../../hooks/useApp'
+import { useBoarding } from '../../../Hooks'
+import patientUrl from '../../../../../urls/patients'
+import api from '../../../../../helpers/axiosInstance'
 import { GiCancel } from 'react-icons/gi'
 import { toast } from 'react-toastify'
-import Loader from '../../../../components/Loader'
-import LocationData from '../../../../urls/data/LocationData'
-import customersUrl from '../../../../urls/customers'
+import Loader from '../../../../../components/Loader'
+import LocationData from '../../../../../urls/data/LocationData'
+import customersUrl from '../../../../../urls/customers'
 
 const EditOwner = ({handleClose}) => {
      const { setShowLoader  } = useApp()

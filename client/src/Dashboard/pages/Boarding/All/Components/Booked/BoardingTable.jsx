@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { useApp } from '../../../../hooks/useApp';
+import { useApp } from '../../../../../hooks/useApp';
 import LargeDevice from './TableComponent/LargeDevice';
-import BasicModal from '../../../../components/Modal';
-import { useBoarding } from '../../Hooks';
-import AddOwner from './AddOwner';
+import BasicModal from '../../../../../components/Modal';
+import { useBoarding } from '../../../Hooks';
+import AddOwner from '../AddOwner';
 
-const BoardingTable = () => {
+const BookingTable = () => {
 
   const {setModalOpen, setModalMessage, isModalOpen, modalMessage} = useApp();
   const {searchTerm, setSearchTerm} = useBoarding()
@@ -27,4 +27,4 @@ const BoardingTable = () => {
   )
 }
 
-export default BoardingTable
+export default BookingTable

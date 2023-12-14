@@ -1,9 +1,9 @@
 import React from 'react'
-import { useBoarding } from '../../../Hooks'
 import Pagination from '@mui/material/Pagination';
 
 import THeader from './TableHeader';
 import TBody from './TableBody';
+import { useBoarding } from '../../../../Hooks';
 
 const LargeDevice = () => {
 

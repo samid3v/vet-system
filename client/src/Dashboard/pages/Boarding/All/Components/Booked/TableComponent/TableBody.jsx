@@ -1,5 +1,5 @@
 import React from 'react'
-import { useBoarding } from '../../../Hooks'
+import { useBoarding } from '../../../../Hooks'
 import TRow from './TableRow'
 
 const TBody = () => {

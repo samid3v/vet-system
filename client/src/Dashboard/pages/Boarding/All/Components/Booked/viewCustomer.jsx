@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { useApp } from '../../../../hooks/useApp';
-import { useBoarding } from '../../Hooks';
+import { useApp } from '../../../../../hooks/useApp';
+import { useBoarding } from '../../../Hooks';
 import { GiCancel } from "react-icons/gi";
-import Loader from '../../../../components/Loader';
+import Loader from '../../../../../components/Loader';
 
 const ViewCustomer = ({handleClose}) => {
 

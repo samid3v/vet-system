@@ -110,6 +110,8 @@ useEffect(()=>{
 
   const getAllCustomers = async (page, pageSize) =>{
      try{
+      setShowLoader(true);
+
     const response = await api.get(customersUrl.get_all.url, {
       params: { page, pageSize }
     })
@@ -127,6 +129,9 @@ useEffect(()=>{
     
     }catch(error){
         console.log(error)
+    }finally {
+      setShowLoader(false);
+
     };
 
     

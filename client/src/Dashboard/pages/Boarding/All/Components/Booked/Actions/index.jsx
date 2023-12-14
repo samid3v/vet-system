@@ -2,15 +2,15 @@ import React, { useState } from 'react'
 import { FaRegEdit } from "react-icons/fa";
 import { BsTrash } from "react-icons/bs";
 import { FaEye } from "react-icons/fa";
-import DeleteModal from '../../../../../components/DeleteModal';
-import api from '../../../../../helpers/axiosInstance';
-import patientUrl from '../../../../../urls/patients';
+import DeleteModal from '../../../../../../components/DeleteModal';
+import api from '../../../../../../helpers/axiosInstance';
+import patientUrl from '../../../../../../urls/patients';
 import { toast } from 'react-toastify';
-import { useBoarding } from '../../../Hooks';
-import { useApp } from '../../../../../hooks/useApp';
+import { useBoarding } from '../../../../Hooks';
+import { useApp } from '../../../../../../hooks/useApp';
 import ViewCustomer from '../viewCustomer';
-import BasicModal from '../../../../../components/Modal';
-import customersUrl from '../../../../../urls/customers';
+import BasicModal from '../../../../../../components/Modal';
+import customersUrl from '../../../../../../urls/customers';
 import EditOwner from '../EditOwner';
 
 
