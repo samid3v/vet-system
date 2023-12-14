@@ -3,8 +3,8 @@ import { addBoarder, deleteBoarder, editBoarder, getAllBoarders, getBoarderById,
 
 const boardingRouter = express.Router()
 
-boardingRouter.get("/all", getStatusStats)
-boardingRouter.get("/stats", getAllBoarders)
+boardingRouter.get("/stats", getStatusStats)
+boardingRouter.get("/all", getAllBoarders)
 boardingRouter.post("/add-boarder", addBoarder)
 boardingRouter.get("/get-boarder-by-id", getBoarderById)
 boardingRouter.put("/edit-boarder", editBoarder)

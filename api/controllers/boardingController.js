@@ -39,20 +39,53 @@ export const getAllBoarders = asyncHandler(async(req, res) => {
 export const addBoarder = asyncHandler(async(req, res) => {
     const {patient_id, start_date, end_date, notes, status} = req.body
     
+    if (!start_date || !end_date) {
+      const error = new Error("Check Required Inputs");
+      error.statusCode = 400;
+      throw error;
+   }
+
+   if (start_date >= end_date) {
+    const error = new Error("Wrong Date Inputs");
+    error.statusCode = 400;
+    throw error;
+ }
 
     const patient = await Patient.findOne({ _id:patient_id });
+
     if (!patient) {
         const error = new Error("Patient doesnt exist");
         error.statusCode = 404;
         throw error;
      }
 
-    if (!start_date || !end_date) {
-        const error = new Error("Check Required Inputs");
+     if (status!=='Completed') {
+      const ongoingBoarding = await Boarding.findOne({
+        patient_id: patient_id,
+        status: { $ne: 'Completed' },
+      });
+    
+      if (ongoingBoarding) {
+        const error = new Error('Patient has another Boarding In Progress');
         error.statusCode = 400;
         throw error;
+      }
+     }else{
+      const duplicateCompletedRecord = await Boarding.findOne({
+        patient_id: patient_id,
+        status: 'Completed',
+        start_date: start_date,
+        end_date: end_date,
+      });
+    
+      if (duplicateCompletedRecord) {
+        const error = new Error('Duplicate Record Found');
+        error.statusCode = 400;
+        throw error;
+      }
      }
-        
+
+          
       const newBoarder = new Boarding({patient_id, start_date, end_date, notes, status});
       const output= await newBoarder.save();
       if (output) {
