@@ -4,6 +4,7 @@ import customersUrl from '../../../urls/customers';
 import { toast } from 'react-toastify';
 import { useApp } from '../../../hooks/useApp';
 import BoardingContext from '../context';
+import boardingUrl from '../../../urls/boarding';
 
 
 const BoardingProvider = ({children}) => {
@@ -14,6 +15,7 @@ const BoardingProvider = ({children}) => {
      const [currentCustomer, setCurrentCustomer] = useState([])
       const [customers, setCustomers] = useState([]);
       const [searchTerm, setSearchTerm] = useState('');
+      const [stats, setStats] = useState([])
       const { setShowLoader } = useApp();
 
       const [bookingStatus, setBookingStatus] = useState('Booked')
@@ -21,7 +23,7 @@ const BoardingProvider = ({children}) => {
 
 useEffect(()=>{
       getAllCustomers(currentPage,10)
-
+      getBoardingStats()
    },[])
 
    useEffect(()=>{
@@ -139,6 +141,28 @@ useEffect(()=>{
     
  
 }
+
+const getBoardingStats = async (page, pageSize) =>{
+     try{
+
+    const response = await api.get(boardingUrl.get_stats.url)
+    if (response.status === 200) {
+      // const { data, totalPages } = response.data;
+
+     
+      setStats(response.data)
+      console.log(response.data)
+    } else {
+      console.error('Failed to fetch patients');
+    }
+    
+    }catch(error){
+        console.log(error)
+    }
+
+    
+ 
+}
   return (
     <BoardingContext.Provider value={{
      patients,
@@ -157,7 +181,9 @@ useEffect(()=>{
      updateSearchResults,
      refreshOwners,
      bookingStatus, 
-     setBookingStatus
+     setBookingStatus,
+     stats, 
+     setStats
      
     }}>
       {/* <Modal/> */}
