@@ -1,6 +1,6 @@
 import React from 'react'
 import BookingTable from './Components/Booked/BoardingTable'
-import BookingCards from './Components/Booked/BookingCards'
+import BookingCards from './Components/BookingCards'
 
 const AllBoarders = () => {
 

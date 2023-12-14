@@ -15,6 +15,8 @@ const BoardingProvider = ({children}) => {
       const [customers, setCustomers] = useState([]);
       const [searchTerm, setSearchTerm] = useState('');
       const { setShowLoader } = useApp();
+
+      const [bookingStatus, setBookingStatus] = useState('Booked')
  
 
 useEffect(()=>{
@@ -153,7 +155,9 @@ useEffect(()=>{
      searchTerm, 
      setSearchTerm,
      updateSearchResults,
-     refreshOwners
+     refreshOwners,
+     bookingStatus, 
+     setBookingStatus
      
     }}>
       {/* <Modal/> */}
