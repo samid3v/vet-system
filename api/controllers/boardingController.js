@@ -3,6 +3,33 @@ import Treatment from '../server/models/treatmentModel.js';
 import Boarding from '../server/models/boardingModule.js';
 import Patient from '../server/models/patientModel.js';
 
+export const getStatusStats = asyncHandler(async(req, res) => {
+  const statusCounts = await Boarding.aggregate([
+    {
+      $group: {
+        _id: '$status',
+        count: { $sum: 1 },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        status: '$_id',
+        count: 1,
+      },
+    },
+  ]);
+
+  const result = statusCounts.reduce((acc, { status, count }) => {
+    acc[status] = count;
+    return acc;
+  }, {});
+
+  res.json(result);
+
+
+})
+
 export const getAllBoarders = asyncHandler(async(req, res) => {
     const boaders = await Boarding.find().populate("patient_id")
 
