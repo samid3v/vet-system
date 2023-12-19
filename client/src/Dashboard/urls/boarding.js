@@ -8,8 +8,8 @@ const boardingUrl = {
      get_single_customer:{
           url:`/customers/get-customer-by-id`
      },
-     delete_customer:{
-          url:`/customers/delete-customer`
+     delete_boarder:{
+          url:`/boarding/delete-boarder`
      },
      add_customer:{
           url:`/customers/add-customer`

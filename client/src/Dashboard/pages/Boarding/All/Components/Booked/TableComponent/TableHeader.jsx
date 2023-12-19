@@ -6,12 +6,11 @@ const THeader = () => {
     <thead>
     <tr>
       <th className="p-3 border-b text-left">No</th>
-      <th className="p-3 border-b text-left">Name</th>
-      <th className="p-3 border-b text-left">Email</th>
-      <th className="p-3 border-b text-left">Phone</th>
-      <th className="p-3 border-b text-left">County</th>
-      <th className="p-3 border-b text-left">Sub-County</th>
-      <th className="p-3 border-b text-left">Ward</th>
+      <th className="p-3 border-b text-left">Patient Name</th>
+      <th className="p-3 border-b text-left">Owner Name</th>
+      <th className="p-3 border-b text-left">Start Date</th>
+      <th className="p-3 border-b text-left">End Date</th>
+      <th className="p-3 border-b text-left">Status</th>
       <th className="p-3 border-b text-center">Actions</th>
       {/* Add more headers as needed */}
     </tr>

@@ -31,9 +31,30 @@ export const getStatusStats = asyncHandler(async(req, res) => {
 })
 
 export const getAllBoarders = asyncHandler(async(req, res) => {
-    const boaders = await Boarding.find().populate("patient_id")
+  const status = req.query.status
+  const page = parseInt(req.query.page) || 1; // default to page 1 if not provided
+  const pageSize = parseInt(req.query.pageSize) || 10; // default to 10 items per page if not provided
 
-    res.status(200).json(boaders)
+  const skip = (page - 1) * pageSize;
+
+  const totalBoarders = await Patient.countDocuments();
+  const totalPages = Math.ceil(totalBoarders / pageSize);
+
+  const boaders = await Boarding.find({ status: status })
+  .populate({path:"patient_id", populate: {
+    path: 'owner',
+  },})
+  .sort({ createdAt: -1 })
+  .skip(skip)
+  .limit(pageSize);
+
+  res.status(200).json({
+    page,
+    pageSize,
+    totalBoarders,
+    totalPages,
+    data:boaders
+  })
 })
 
 export const addBoarder = asyncHandler(async(req, res) => {

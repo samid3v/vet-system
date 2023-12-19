@@ -10,14 +10,14 @@ import { useBoarding } from '../../../../Hooks';
 import { useApp } from '../../../../../../hooks/useApp';
 import ViewCustomer from '../viewCustomer';
 import BasicModal from '../../../../../../components/Modal';
-import customersUrl from '../../../../../../urls/customers';
 import EditOwner from '../EditOwner';
+import boardingUrl from '../../../../../../urls/boarding';
 
 
 const Actions = ({doc}) => {
 
   const [openDelete, setOpenDelete] = useState(false)
-  const {getAllCustomers, setCurrentId, setCurrentCustomer, searchTerm, currentPage, updateSearchResults} = useBoarding()
+  const {refreshBoarders, setCurrentId, setCurrentCustomer, searchTerm, refreshStats, updateSearchResults} = useBoarding()
 
   const [open, setOpen] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -45,7 +45,7 @@ const Actions = ({doc}) => {
 
   const deleteDoc = async () =>{
     try {
-      const response = await api.delete(customersUrl.delete_customer.url, {
+      const response = await api.delete(boardingUrl.delete_boarder.url, {
         params: {id:doc._id },
       });
   
@@ -55,10 +55,10 @@ const Actions = ({doc}) => {
           updateSearchResults()
   
         }else{
-          getAllCustomers(currentPage, 10)
-  
+          refreshBoarders()
+          refreshStats()
         }
-        toast.success('Customer Record Deleted Successfully')
+        toast.success('Boarder Record Deleted Successfully')
       } else {
         toast.error('Failed to fetch Customer');
       }

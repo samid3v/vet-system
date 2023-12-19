@@ -4,17 +4,17 @@ import TRow from './TableRow'
 
 const TBody = () => {
 
-  const {customers } = useBoarding()
+  const {boarders } = useBoarding()
 
-  if (customers.length==0) {
+  if (boarders.length==0) {
     return <td colSpan={7} className='text-center text-xl'>No Data</td>
   }
 
   return (
     <tbody>
-    {customers.map((owner, index) => (
+    {boarders.map((boarder, index) => (
       
-      <TRow  key={customers._id} owner={owner} index={index} />
+      <TRow  key={boarder._id} boarder={boarder} index={index} />
     ))}
   </tbody>
   )

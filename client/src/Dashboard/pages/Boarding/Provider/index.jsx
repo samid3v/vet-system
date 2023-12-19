@@ -13,30 +13,34 @@ const BoardingProvider = ({children}) => {
      const [currentId, setCurrentId] = useState(0)
      const [totalPages, setTotalPages] = useState(0)
      const [currentCustomer, setCurrentCustomer] = useState([])
-      const [customers, setCustomers] = useState([]);
+      const [boarders, setBoarders] = useState([]);
       const [searchTerm, setSearchTerm] = useState('');
       const [stats, setStats] = useState([])
       const { setShowLoader } = useApp();
 
-      const [bookingStatus, setBookingStatus] = useState('Booked')
+      const [bookingStatus, setBookingStatus] = useState('In Progress')
  
 
 useEffect(()=>{
-      getAllCustomers(currentPage,10)
+      getAllBoarders(currentPage,10)
       getBoardingStats()
    },[])
 
    useEffect(()=>{
     if (searchTerm.length<3) {
       
-      getAllCustomers(currentPage,10)
+      getAllBoarders(currentPage,10)
     }
 
 },[searchTerm])
 
    useEffect(()=>{
-    getAllCustomers(currentPage,10)
+    getAllBoarders(currentPage,10)
  },[currentPage])
+
+ useEffect(()=>{
+  getAllBoarders(currentPage,10)
+},[bookingStatus])
 
    useEffect(()=>{
      if (currentId!==0) {
@@ -80,52 +84,56 @@ useEffect(()=>{
     }
   };
 
-  const refreshOwners = () => {
-    getAllCustomers(currentPage,10)
+  const refreshBoarders = () => {
+    getAllBoarders(currentPage,10)
   }
   
   const updateSearchResults = async () => {
     
-    try {
-      setShowLoader(true);
+    // try {
+    //   setShowLoader(true);
 
-      const response = await api.get(customersUrl.search_customer.url, {
-        params: { value:searchTerm },
-      });
-      // console.log(searchTerm)
-      if (response.status === 200) {
-        setCustomers(response.data);
-      } else {
-        toast.error('Failed to fetch customer');
-      }
+    //   const response = await api.get(customersUrl.search_customer.url, {
+    //     params: { value:searchTerm },
+    //   });
+    //   // console.log(searchTerm)
+    //   if (response.status === 200) {
+    //     setCustomers(response.data);
+    //   } else {
+    //     toast.error('Failed to fetch customer');
+    //   }
       
-    }  catch (error) {
-      toast.error(error.message);
-    } finally {
-      setShowLoader(false);
-      setTotalPages(0)
+    // }  catch (error) {
+    //   toast.error(error.message);
+    // } finally {
+    //   setShowLoader(false);
+    //   setTotalPages(0)
 
-    }
+    // }
     
 
     
   };
   
 
-  const getAllCustomers = async (page, pageSize) =>{
+  const getAllBoarders = async (page, pageSize) =>{
      try{
       setShowLoader(true);
 
-    const response = await api.get(customersUrl.get_all.url, {
-      params: { page, pageSize }
+    const response = await api.get(boardingUrl.get_all.url, {
+      params: { 
+        page, 
+        pageSize,
+        status:bookingStatus  
+      }
     })
     if (response.status === 200) {
       const { data, totalPages } = response.data;
 
      
 
-      setCustomers(data);
-      console.log(response.data)
+      setBoarders(data);
+      console.log(data)
       setTotalPages(totalPages)
     } else {
       console.error('Failed to fetch patients');
@@ -140,6 +148,10 @@ useEffect(()=>{
 
     
  
+}
+
+const refreshStats =()=>{
+  getBoardingStats()
 }
 
 const getBoardingStats = async (page, pageSize) =>{
@@ -165,7 +177,6 @@ const getBoardingStats = async (page, pageSize) =>{
 }
   return (
     <BoardingContext.Provider value={{
-     patients,
      totalPages, 
      setTotalPages,
      currentPage, 
@@ -174,16 +185,16 @@ const getBoardingStats = async (page, pageSize) =>{
      setCurrentCustomer,
      currentId, 
      setCurrentId,
-     getAllCustomers,
-     customers,
+     boarders, 
      searchTerm, 
      setSearchTerm,
      updateSearchResults,
-     refreshOwners,
+     refreshBoarders,
      bookingStatus, 
      setBookingStatus,
      stats, 
-     setStats
+     setStats,
+     refreshStats
      
     }}>
       {/* <Modal/> */}
