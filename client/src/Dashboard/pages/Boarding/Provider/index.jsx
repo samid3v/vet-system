@@ -19,6 +19,7 @@ const BoardingProvider = ({children}) => {
       const { setShowLoader } = useApp();
 
       const [bookingStatus, setBookingStatus] = useState('In Progress')
+      const [boardingState, setBoardingState] = useState('')
  
 
 useEffect(()=>{
@@ -114,6 +115,10 @@ useEffect(()=>{
 
     
   };
+
+  useEffect(()=>{
+      console.log(boardingState)
+  },[boardingState])
   
 
   const getAllBoarders = async (page, pageSize) =>{
@@ -194,7 +199,9 @@ const getBoardingStats = async (page, pageSize) =>{
      setBookingStatus,
      stats, 
      setStats,
-     refreshStats
+     refreshStats,
+     boardingState, 
+     setBoardingState
      
     }}>
       {/* <Modal/> */}
