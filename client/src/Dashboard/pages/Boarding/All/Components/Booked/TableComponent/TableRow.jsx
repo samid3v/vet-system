@@ -31,7 +31,7 @@ const TRow = ({boarder, index}) => {
         <td className="p-3 border-b">{humateDateFormat(boarder?.end_date)}</td>
         <td className="p-3 border-b flex justify-start gap-5 items-center  ">
           {boarder?.status || '---'}
-          {(boarder?.status == 'In Progress' || boarder?.status == 'Booked') && 
+          {(boarder?.status === 'In Progress' || boarder?.status == 'Booked') && 
           (
             <>
               <CiMenuKebab onClick={()=> setMenuDisabled(!menuDisabled)} className='text-xl font-semibold'/>
@@ -42,7 +42,7 @@ const TRow = ({boarder, index}) => {
           
          </td>
           
-        <td className="p-3 border-b"><Actions doc={boarder}/></td>
+       { boarder?.status !== 'Canceled' && <td className="p-3 border-b"><Actions doc={boarder}/></td>}
       </tr>
   )
 }
