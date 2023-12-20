@@ -35,7 +35,7 @@ const TRow = ({boarder, index}) => {
           (
             <>
               <CiMenuKebab onClick={()=> setMenuDisabled(!menuDisabled)} className='text-xl font-semibold'/>
-              {menuDisabled && <Status status={boarder?.status} setMenuDisabled={setMenuDisabled}/>}
+              {menuDisabled && <Status id={boarder._id} status={boarder?.status} setMenuDisabled={setMenuDisabled}/>}
             </>
           )
           }

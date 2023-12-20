@@ -1,9 +1,9 @@
 import React from 'react'
 import { useBoarding } from '../../../../Hooks';
 
-const Status = ({status, setMenuDisabled}) => {
+const Status = ({status, setMenuDisabled,id}) => {
 
-     const {boardingState, setBoardingState} = useBoarding()
+     const {boardingState, setBoardingState, setStatusId} = useBoarding()
 
      const containerClasses = `bg-white absolute px-1 py-2 shadow-lg ${
           status === 'In Progress' ? 'right-24 top-14' : 'right-30 top-12'
@@ -12,6 +12,7 @@ const Status = ({status, setMenuDisabled}) => {
      const statusBtnFn = (currentState)=>{
           setMenuDisabled(false)
           setBoardingState(currentState)
+          setStatusId(id)
      }
  
      return (

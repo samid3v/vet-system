@@ -169,6 +169,38 @@ export const getBoarderById = asyncHandler(async (req, res) => {
     
   });
 
+  export const editBoarderStatus = asyncHandler(async (req, res) => {
+    const { id, status } = req.query;
+
+    if (!id) {
+      const error = new Error("Id Not Added");
+      error.statusCode = 404;
+      throw error;
+   }
+
+    if (!status) {
+        const error = new Error("Status Not Added");
+        error.statusCode = 404;
+        throw error;
+     }
+  
+    
+     const updatedBoarderStatus = await Boarding.findByIdAndUpdate(
+      id,
+      { status },
+      { runValidators: true, new: true }
+    );
+
+    if (updatedBoarderStatus) {
+      return res.status(201).json({ message: 'Boarding Status updated successfully' });
+    }else{
+        const error = new Error('Boarding Info Not Added');
+        error.statusCode = 400;
+        throw error;
+    }
+    
+  });
+
   export const deleteBoarder = asyncHandler(async (req, res) => {
     const { id } = req.query;
 

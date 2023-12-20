@@ -14,6 +14,9 @@ const boardingUrl = {
      add_customer:{
           url:`/customers/add-customer`
      },
+     edit_boarding_status:{
+          url:`/boarding/edit-boarder-status`
+     },
      edit_customer:{
           url:`/customers/edit-customer`
      },

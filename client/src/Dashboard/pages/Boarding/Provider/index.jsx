@@ -8,9 +8,9 @@ import boardingUrl from '../../../urls/boarding';
 
 
 const BoardingProvider = ({children}) => {
-     const [patients, setPatients] = useState([]);
      const [currentPage, setCurrentPage] = useState(1)
      const [currentId, setCurrentId] = useState(0)
+     const [statusId, setStatusId] = useState(null)
      const [totalPages, setTotalPages] = useState(0)
      const [currentCustomer, setCurrentCustomer] = useState([])
       const [boarders, setBoarders] = useState([]);
@@ -117,8 +117,11 @@ useEffect(()=>{
   };
 
   useEffect(()=>{
-      console.log(boardingState)
-  },[boardingState])
+    if (statusId!==null && boardingState!=='') {
+      
+      updateBoardingStatus()
+    }
+  },[boardingState, statusId])
   
 
   const getAllBoarders = async (page, pageSize) =>{
@@ -153,6 +156,39 @@ useEffect(()=>{
 
     
  
+}
+
+const updateBoardingStatus = async () =>{
+  console.log(boardingState)
+  try{
+   setShowLoader(true);
+
+ const response = await api.put(boardingUrl.edit_boarding_status.url,null, {
+   params: { 
+     id:statusId,
+     status:boardingState
+  
+   }
+ })
+ console.log(response)
+
+ if (response.status === 201) {
+  setCurrentId(null)
+  refreshStats()
+  refreshBoarders()
+ } else {
+   toast.error('Failed to fetch patients');
+ }
+ 
+ }catch(error){
+     console.log(error)
+ }finally {
+   setShowLoader(false);
+
+ };
+
+ 
+
 }
 
 const refreshStats =()=>{
@@ -201,7 +237,9 @@ const getBoardingStats = async (page, pageSize) =>{
      setStats,
      refreshStats,
      boardingState, 
-     setBoardingState
+     setBoardingState,
+     statusId, 
+     setStatusId
      
     }}>
       {/* <Modal/> */}
