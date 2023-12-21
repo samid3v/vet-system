@@ -10,30 +10,21 @@ import { useBoarding } from '../../../../Hooks';
 import { useApp } from '../../../../../../hooks/useApp';
 import ViewCustomer from '../viewCustomer';
 import BasicModal from '../../../../../../components/Modal';
-import EditOwner from '../EditOwner';
+import EditOwner from '../EditBoarder';
 import boardingUrl from '../../../../../../urls/boarding';
 
 
 const Actions = ({doc}) => {
 
   const [openDelete, setOpenDelete] = useState(false)
-  const {refreshBoarders, setCurrentId,bookingStatus, setCurrentCustomer, searchTerm, refreshStats, updateSearchResults} = useBoarding()
+  const {refreshBoarders, setCurrentId,bookingStatus, setCurrentBoarder, searchTerm, refreshStats, updateSearchResults} = useBoarding()
 
   const [open, setOpen] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
-  const handleOpen = () => {
-    setOpen(true)
-    setCurrentId(doc._id)
-  };
-  const handleClose = () => {
-    setOpen(false)
-    setCurrentCustomer([])
-    setCurrentId(0)
-  };
 
-  const handleCloseEditModa = () => {
+  const handleCloseEditModal = () => {
     setOpenEditModal(false)
-    setCurrentCustomer([])
+    setCurrentBoarder([])
     setCurrentId(0)
    }
 
@@ -71,7 +62,7 @@ const Actions = ({doc}) => {
 
   return (
     <div className='flex justify-center items-center gap-3'>
-     <FaEye onClick={handleOpen} className='text-secondary font-semibold text-lg cursor-pointer' />
+     <FaEye className='text-secondary font-semibold text-lg cursor-pointer' />
      {
       (bookingStatus === 'Booked' || bookingStatus==='In Progress') && (
         <>
@@ -82,8 +73,7 @@ const Actions = ({doc}) => {
 
      }
      <DeleteModal open={openDelete} handleClose={()=>setOpenDelete(false)} deleteFunc={deleteDoc} />
-     <BasicModal open={open} element={<ViewCustomer handleClose={handleClose}/>}/>
-     <BasicModal open={openEditModal} element={<EditOwner handleClose={handleCloseEditModa}/>}/>
+     <BasicModal open={openEditModal} element={<EditOwner handleClose={handleCloseEditModal}/>}/>
     
     </div>
   )

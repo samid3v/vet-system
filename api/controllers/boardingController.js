@@ -67,19 +67,7 @@ export const getAllBoarders = asyncHandler(async(req, res) => {
   })
 })
 
- const addPayment = asyncHandler(async(data) => {
-   
-    
-    if (output) {
-        return output
-    }else{
-        const error = new Error("something wrong happenned, try again");
-        error.statusCode = 400;
-        throw error;
-    }
-
-})
-
+ 
 export const addBoarder = asyncHandler(async(req, res) => {
     const {patient_id, start_date, end_date, notes, status, amount, description } = req.body
     
@@ -158,22 +146,40 @@ export const addBoarder = asyncHandler(async(req, res) => {
 
 export const getBoarderById = asyncHandler(async (req, res) => {
     const { id } = req.query;
+
+   const payment = await Payment.findOne({ module_id: id })
+  .populate({
+    path: 'module_id',
+    model: 'Boarding', // Model name for the reference
+  })
   
-    if (id) {
-      const boarder = await Boarding.findById(id).populate("patient_id")
-  
-      if (boarder) {
-        res.status(200).json(boarder);
-      } else {
-        const error = new Error('Boarder not found');
-        error.statusCode = 404; // Correct the status code to 404 for "Not Found"
-        throw error;
-      }
+    if (payment) {
+      console.log(payment);
+      res.status(200).json(payment);
     } else {
-      const error = new Error('Invalid Request');
-      error.statusCode = 400;
+      console.error(err);
+      const error = new Error('Boarder not found');
+      error.statusCode = 404; // Correct the status code to 404 for "Not Found"
       throw error;
+
     }
+  
+  
+    // if (id) {
+    //   const boarder = await Boarding.findById(id).populate("patient_id")
+  
+    //   if (boarder) {
+    //     res.status(200).json(boarder);
+    //   } else {
+    //     const error = new Error('Boarder not found');
+    //     error.statusCode = 404; // Correct the status code to 404 for "Not Found"
+    //     throw error;
+    //   }
+    // } else {
+    //   const error = new Error('Invalid Request');
+    //   error.statusCode = 400;
+    //   throw error;
+    // }
   });
 
   export const editBoarder = asyncHandler(async (req, res) => {

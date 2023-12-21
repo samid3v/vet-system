@@ -17,6 +17,7 @@ const BoardingProvider = ({children}) => {
       const [searchTerm, setSearchTerm] = useState('');
       const [stats, setStats] = useState([])
       const { setShowLoader } = useApp();
+      const [currentBoarder, setCurrentBoarder] =useState([])
 
       const [bookingStatus, setBookingStatus] = useState('In Progress')
       const [boardingState, setBoardingState] = useState('')
@@ -46,7 +47,7 @@ useEffect(()=>{
 
    useEffect(()=>{
      if (currentId!==0) {
-      getSingleCustomer()
+      getSingleBoarding()
      }
    },[currentId])
 
@@ -63,18 +64,18 @@ useEffect(()=>{
   
 
  
-  const getSingleCustomer = async () => {
+  const getSingleBoarding = async () => {
     try {
       setShowLoader(true)
 
       if (currentId !== 0) {
-        const response = await api.get(customersUrl.get_single_customer.url, {
+        const response = await api.get(boardingUrl.get_single_boarder.url, {
           params: { id: currentId },
         });
   
         if (response.status === 200) {
           console.log(response)
-          setCurrentCustomer(response.data);
+          setCurrentBoarder(response.data);
         } else {
           toast.error('Failed to fetch patient');
         }
@@ -258,6 +259,8 @@ const getBoardingStats = async (page, pageSize) =>{
      refreshStats,
      boardingState, 
      setBoardingState,
+     currentBoarder, 
+     setCurrentBoarder,
      statusId, 
      setStatusId
      

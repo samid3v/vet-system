@@ -5,8 +5,8 @@ const boardingUrl = {
      get_stats:{
           url:`/boarding/stats`
      },
-     get_single_customer:{
-          url:`/customers/get-customer-by-id`
+     get_single_boarder:{
+          url:`/boarding/get-boarder-by-id`
      },
      delete_boarder:{
           url:`/boarding/delete-boarder`
