@@ -8,10 +8,11 @@ import { toast } from 'react-toastify'
 import Loader from '../../../../../components/Loader'
 import LocationData from '../../../../../urls/data/LocationData'
 import customersUrl from '../../../../../urls/customers'
+import boardingUrl from '../../../../../urls/boarding'
 
 const EditBoarder = ({handleClose}) => {
      const { setShowLoader  } = useApp()
-     const { currentBoarder, refreshBoarders, currentId } = useBoarding()
+     const { currentBoarder, refreshBoarders, currentId, patients } = useBoarding()
      const [formData, setFormData] = useState({
       patient_id:'', 
       start_date:'', 
@@ -23,13 +24,17 @@ const EditBoarder = ({handleClose}) => {
     });
 
      useEffect(() => {
-    if (currentBoarder && currentBoarder.length > 0) {
+    if (currentBoarder && Object.keys(currentBoarder).length > 0) {
       setFormData({
-        patient_id: currentBoarder?.module_id.patient_id || '---',
-        start_date: currentBoarder?.module_id.start_date || '---',
-        end_date: currentBoarder?.module_id.end_date || '---',
-        notes: currentBoarder?.module_id.notes || '---',
-        status: currentBoarder?.module_id.status || '---',
+        patient_id: currentBoarder?.module_id?.patient_id || '---',
+        start_date: currentBoarder?.module_id?.start_date
+        ? new Date(currentBoarder?.module_id?.start_date).toISOString().slice(0, 16)
+        : '---',
+      end_date: currentBoarder?.module_id?.end_date
+        ? new Date(currentBoarder?.module_id?.end_date).toISOString().slice(0, 16)
+        : '---',
+        notes: currentBoarder?.module_id?.notes || '---',
+        pay_id: currentBoarder?._id || '---',
         amount: currentBoarder?.amount || '',
         description: currentBoarder?.description || '',
       });
@@ -39,7 +44,7 @@ const EditBoarder = ({handleClose}) => {
  
       
 
-  if (!currentBoarder || currentBoarder.length === 0) {
+  if (!currentBoarder || Object.keys(currentBoarder).length === 0) {
     return (
          <div></div>
     );
@@ -70,7 +75,7 @@ const EditBoarder = ({handleClose}) => {
         setShowLoader(true);
         console.log(formData)
         
-        const response = await api.put(customersUrl.edit_customer.url, formData,{
+        const response = await api.put(boardingUrl.edit_boarding.url, formData,{
           headers: {
             'Content-Type': 'application/json',
           },
@@ -86,7 +91,7 @@ const EditBoarder = ({handleClose}) => {
             start_date:'', 
             end_date:'', 
             notes:'', 
-            status:'', 
+            pay_id:'', 
             amount:'', 
             description:''
           })
@@ -132,7 +137,10 @@ const EditBoarder = ({handleClose}) => {
                 onChange={handleInputChange}
               />
           </div>
-          <div className="w-full">
+          
+        </div>
+        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className="w-full">
             <label htmlFor="species">Patient Name</label>
               <select
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
@@ -141,6 +149,7 @@ const EditBoarder = ({handleClose}) => {
                 id="patient_id"
                 value={formData.patient_id}
                 onChange={handleInputChange}
+                disabled
               >
                   <option value="select">Select Patient </option>
                   { patients && (patients.map((patient, index)=>(
@@ -150,8 +159,6 @@ const EditBoarder = ({handleClose}) => {
                   }
               </select>
           </div>
-        </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="amount">Amount</label>
               <input
@@ -164,49 +171,7 @@ const EditBoarder = ({handleClose}) => {
                 onChange={handleInputChange}
               />
           </div>
-          <div className="w-full">
-      <label htmlFor="status">Status</label>
-      <div className="flex space-x-4">
-        <label className="flex items-center">
-          <input
-            type="radio"
-            name="status"
-            id="completed"
-            value="Completed"
-            checked={formData.status === 'Completed'}
-            onChange={handleInputChange}
-            className="form-radio text-blue-500 focus:ring-0 focus:outline-none"
-          />
-          <span className="ml-2">Completed</span>
-        </label>
-
-        <label className="flex items-center">
-          <input
-            type="radio"
-            name="status"
-            id="in_progress"
-            value="In Progress"
-            checked={formData.status === 'In Progress'}
-            onChange={handleInputChange}
-            className="form-radio text-red-500 focus:ring-0 focus:outline-none"
-          />
-          <span className="ml-2">In Progress</span>
-        </label>
-        <label className="flex items-center">
-          <input
-            type="radio"
-            name="status"
-            id="booked"
-            value="Booked"
-            checked={formData.status === 'Booked'}
-            onChange={handleInputChange}
-            className="form-radio text-red-500 focus:ring-0 focus:outline-none"
-          />
-          <span className="ml-2">Booked</span>
-        </label>
-      </div>
-    </div>
-          
+         
         </div>
         <div className='flex justify-between items-center gap-2 my-2 '>
           

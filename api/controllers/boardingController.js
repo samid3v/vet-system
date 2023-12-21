@@ -164,51 +164,51 @@ export const getBoarderById = asyncHandler(async (req, res) => {
 
     }
   
-  
-    // if (id) {
-    //   const boarder = await Boarding.findById(id).populate("patient_id")
-  
-    //   if (boarder) {
-    //     res.status(200).json(boarder);
-    //   } else {
-    //     const error = new Error('Boarder not found');
-    //     error.statusCode = 404; // Correct the status code to 404 for "Not Found"
-    //     throw error;
-    //   }
-    // } else {
-    //   const error = new Error('Invalid Request');
-    //   error.statusCode = 400;
-    //   throw error;
-    // }
   });
 
   export const editBoarder = asyncHandler(async (req, res) => {
     const { id } = req.query;
 
-    const updateData = req.body;
+    const {patient_id, pay_id, start_date, status, end_date, notes, amount, description } = req.body
 
-    const patient = await Patient.findOne({ _id:updateData.patient_id });
+    const patient = await Patient.findOne({ _id:patient_id });
     if (!patient) {
         const error = new Error("Patient doesnt exist");
         error.statusCode = 404;
         throw error;
      }
   
-    if (!updateData.start_date || !updateData.end_date ) {
-        const error = new Error('Check Required Fields');
-        error.statusCode = 400;
-        throw error;
-    }
+     if (!start_date || !end_date || !amount || !patient_id ) {
+      const error = new Error("Check Required Inputs");
+      error.statusCode = 400;
+      throw error;
+   }
 
-    const updateBoarder = await Boarding.findByIdAndUpdate(id, updateData, { new: true });
-
-    if (updateBoarder) {
-      return res.status(201).json({ message: 'Boarder Info updated successfully' });
-    }else{
-        const error = new Error('Boarder Not Found');
-        error.statusCode = 400;
-        throw error;
-    }
+   
+    const updateBoarder = await Boarding.findByIdAndUpdate(id,{
+      patient_id, 
+      start_date, 
+      end_date, 
+      notes, 
+    }, { new: true });
+      if (updateBoarder) {
+        console.log(updateBoarder)
+         
+          const updatePay = await Payment.findByIdAndUpdate(pay_id, {
+            amount,
+            description,
+          },{ new: true } );
+            if (updatePay) {
+              res.status(201).json({ message: "Boarding Updated Successfully", updatePay });
+              
+            }
+      
+          
+      }else{
+          const error = new Error("something wrong happenned, try again");
+          error.statusCode = 400;
+          throw error;
+      }
     
   });
 

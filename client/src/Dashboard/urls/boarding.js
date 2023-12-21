@@ -17,6 +17,9 @@ const boardingUrl = {
      edit_boarding_status:{
           url:`/boarding/edit-boarder-status`
      },
+     edit_boarding:{
+          url:`/boarding/edit-boarder`
+     },
      get_patient:{
           url:`/boarding/get-patients`
      },
