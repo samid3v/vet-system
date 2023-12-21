@@ -11,14 +11,14 @@ const boardingUrl = {
      delete_boarder:{
           url:`/boarding/delete-boarder`
      },
-     add_customer:{
-          url:`/customers/add-customer`
+     add_boarding:{
+          url:`/boarding/add-boarder`
      },
      edit_boarding_status:{
           url:`/boarding/edit-boarder-status`
      },
-     edit_customer:{
-          url:`/customers/edit-customer`
+     get_patient:{
+          url:`/boarding/get-patients`
      },
      search_customer:{
           url:`/customers/search-customer`

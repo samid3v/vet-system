@@ -31,6 +31,15 @@ export const getStatusStats = asyncHandler(async(req, res) => {
 
 })
 
+export const getPatients = asyncHandler(async(req, res) => {
+  const appointments = await Patient.find()
+  if (appointments) {
+    
+    res.status(200).json(appointments)
+  }
+
+})
+
 export const getAllBoarders = asyncHandler(async(req, res) => {
   const status = req.query.status
   const page = parseInt(req.query.page) || 1; // default to page 1 if not provided

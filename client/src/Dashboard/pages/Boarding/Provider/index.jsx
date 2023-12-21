@@ -12,7 +12,7 @@ const BoardingProvider = ({children}) => {
      const [currentId, setCurrentId] = useState(0)
      const [statusId, setStatusId] = useState(null)
      const [totalPages, setTotalPages] = useState(0)
-     const [currentCustomer, setCurrentCustomer] = useState([])
+     const [patients, setPatients] = useState([])
       const [boarders, setBoarders] = useState([]);
       const [searchTerm, setSearchTerm] = useState('');
       const [stats, setStats] = useState([])
@@ -25,6 +25,7 @@ const BoardingProvider = ({children}) => {
 useEffect(()=>{
       getAllBoarders(currentPage,10)
       getBoardingStats()
+      getPatients()
    },[])
 
    useEffect(()=>{
@@ -157,6 +158,26 @@ useEffect(()=>{
     
  
 }
+const getPatients = async () =>{
+  try{
+
+ const response = await api.get(boardingUrl.get_patient.url)
+ if (response.status === 200) {
+
+  
+   setPatients(response.data)
+   console.log(response.data)
+ } else {
+   toast.error('Failed to fetch patients');
+ }
+ 
+ }catch(error){
+     console.log(error)
+ }
+
+ 
+
+}
 
 const updateBoardingStatus = async () =>{
   console.log(boardingState)
@@ -222,8 +243,7 @@ const getBoardingStats = async (page, pageSize) =>{
      setTotalPages,
      currentPage, 
      setCurrentPage,
-     currentCustomer, 
-     setCurrentCustomer,
+     patients,
      currentId, 
      setCurrentId,
      boarders, 
