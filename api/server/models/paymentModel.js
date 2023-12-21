@@ -2,18 +2,20 @@ import mongoose from "mongoose";
 
 const PaymentsSchema = new mongoose.Schema({
     module_id:{
-        type: String,
-        required:true,
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        refPath: 'module_name',
     },
     module_name:{
      type:String,
      enum: ['Appointments', 'Boarding', 'Vaccines', 'Treatment'],
-     default: 'Pending',
+     default: 'Boarding',
     },
     amount:{
      type:Number,
      float:true,
      required:true,
+     default: 0,
     },
     status: {
      type: String,

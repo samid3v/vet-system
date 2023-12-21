@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 const TransactionSchema = new mongoose.Schema({
-     payment_id:{
+  boarding:{
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Payments',
+          ref: 'Boarding',
           required:true,
       },
     mpesa_transaction_id:{

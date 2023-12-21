@@ -1,7 +1,8 @@
 import asyncHandler from 'express-async-handler';
 import Treatment from '../server/models/treatmentModel.js';
-import Boarding from '../server/models/boardingModule.js';
+import Boarding from '../server/models/boardingModel.js';
 import Patient from '../server/models/patientModel.js';
+import Payment from '../server/models/paymentModel.js';
 
 export const getStatusStats = asyncHandler(async(req, res) => {
   const statusCounts = await Boarding.aggregate([
@@ -57,10 +58,23 @@ export const getAllBoarders = asyncHandler(async(req, res) => {
   })
 })
 
-export const addBoarder = asyncHandler(async(req, res) => {
-    const {patient_id, start_date, end_date, notes, status} = req.body
+ const addPayment = asyncHandler(async(data) => {
+   
     
-    if (!start_date || !end_date) {
+    if (output) {
+        return output
+    }else{
+        const error = new Error("something wrong happenned, try again");
+        error.statusCode = 400;
+        throw error;
+    }
+
+})
+
+export const addBoarder = asyncHandler(async(req, res) => {
+    const {patient_id, start_date, end_date, notes, status, amount, description } = req.body
+    
+    if (!start_date || !end_date || !amount || !patient_id || !status ) {
       const error = new Error("Check Required Inputs");
       error.statusCode = 400;
       throw error;
@@ -83,7 +97,7 @@ export const addBoarder = asyncHandler(async(req, res) => {
      if (status!=='Completed') {
       const ongoingBoarding = await Boarding.findOne({
         patient_id: patient_id,
-        status: { $ne: 'Completed' },
+        status: { $nin: ['Completed','Canceled'] },
       });
     
       if (ongoingBoarding) {
@@ -110,7 +124,21 @@ export const addBoarder = asyncHandler(async(req, res) => {
       const newBoarder = new Boarding({patient_id, start_date, end_date, notes, status});
       const output= await newBoarder.save();
       if (output) {
-          res.status(201).json({message:"Patient Boarding Added Successfully"})
+        console.log(output)
+         const data = {
+            module_id: output._id,
+            module_name:'Boarding',
+            amount:amount,
+            description:description,
+          }
+          const newPay = new Payment(data);
+          const paymentOutput= await newPay.save();
+            if (paymentOutput) {
+              res.status(201).json({ message: "Boarding Added Successfully", paymentOutput });
+              
+            }
+      
+          
       }else{
           const error = new Error("something wrong happenned, try again");
           error.statusCode = 400;

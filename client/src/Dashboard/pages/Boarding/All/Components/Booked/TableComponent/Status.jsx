@@ -21,7 +21,7 @@ const Status = ({status, setMenuDisabled,id}) => {
        {
           status === 'Booked' && (
                <>
-                    <li onClick={()=>statusBtnFn('Cancel')} className='hover:bg-gray-100 rounded-md py-1 px-2 cursor-pointer'>Cancel</li>
+                    <li onClick={()=>statusBtnFn('Canceled')} className='hover:bg-gray-100 rounded-md py-1 px-2 cursor-pointer'>Cancel</li>
                     <li onClick={()=>statusBtnFn('In Progress')} className='hover:bg-gray-100 rounded-md py-1 px-2 cursor-pointer'>In Progress</li>
                </>
           )

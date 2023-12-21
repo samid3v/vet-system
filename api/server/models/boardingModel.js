@@ -20,6 +20,7 @@ const BoardingSchema = new mongoose.Schema({
         enum: ['Booked', 'In Progress', 'Completed', 'Canceled'],
         default: 'Booked',
       },
+      
     
 },{timestamps:true})
 
