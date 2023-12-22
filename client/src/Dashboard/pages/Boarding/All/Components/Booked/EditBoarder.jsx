@@ -9,6 +9,8 @@ import Loader from '../../../../../components/Loader'
 import LocationData from '../../../../../urls/data/LocationData'
 import customersUrl from '../../../../../urls/customers'
 import boardingUrl from '../../../../../urls/boarding'
+import moment from "moment-timezone";
+import {DateTime} from 'luxon'
 
 const EditBoarder = ({handleClose}) => {
      const { setShowLoader  } = useApp()
@@ -25,14 +27,14 @@ const EditBoarder = ({handleClose}) => {
 
      useEffect(() => {
     if (currentBoarder && Object.keys(currentBoarder).length > 0) {
+
+      const startDateTime = DateTime.fromISO(currentBoarder?.module_id?.start_date || '---', { zone: 'Africa/Nairobi' }).toJSDate();
+      const endDateTime = DateTime.fromISO(currentBoarder?.module_id?.end_date || '---', { zone: 'Africa/Nairobi' }).toJSDate();
+      
       setFormData({
         patient_id: currentBoarder?.module_id?.patient_id || '---',
-        start_date: currentBoarder?.module_id?.start_date
-        ? new Date(currentBoarder?.module_id?.start_date).toISOString().slice(0, 16)
-        : '---',
-      end_date: currentBoarder?.module_id?.end_date
-        ? new Date(currentBoarder?.module_id?.end_date).toISOString().slice(0, 16)
-        : '---',
+        start_date: moment.tz(currentBoarder?.module_id?.start_date, 'Africa/Nairobi').format('YYYY-MM-DD HH:mm:ss'),
+        end_date: moment.tz(currentBoarder?.module_id?.end_date, 'Africa/Nairobi').format('YYYY-MM-DD HH:mm:ss'),
         notes: currentBoarder?.module_id?.notes || '---',
         pay_id: currentBoarder?._id || '---',
         amount: currentBoarder?.amount || '',
@@ -111,6 +113,7 @@ const EditBoarder = ({handleClose}) => {
      return (
       <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
       <h3 className='text-xl font-semibold'>Edit Boarding</h3>
+     
       <form onSubmit={ handleEditBoarder }>
       <div className='flex justify-between items-center gap-2 my-2 '>
           <div className="w-full">
@@ -207,7 +210,7 @@ const EditBoarder = ({handleClose}) => {
           </div>
         </div>
         <div className='flex justify-between items-center my-3'>
-          <button onClick={handleClose} className='bg-gray-300 w-[80px] py-2 px-3 rounded-lg'>Close</button>
+          <button type='button' onClick={handleClose} className='bg-gray-300 w-[80px] py-2 px-3 rounded-lg'>Close</button>
           <button type='submit' className='bg-primary py-2 px-3 rounded-lg'>Edit Boarder</button>
         </div>
       </form>

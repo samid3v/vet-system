@@ -3,6 +3,9 @@ import Treatment from '../server/models/treatmentModel.js';
 import Boarding from '../server/models/boardingModel.js';
 import Patient from '../server/models/patientModel.js';
 import Payment from '../server/models/paymentModel.js';
+import moment from 'moment-timezone';
+
+moment.tz.setDefault('Africa/Nairobi');
 
 export const getStatusStats = asyncHandler(async(req, res) => {
   const statusCounts = await Boarding.aggregate([
@@ -187,8 +190,9 @@ export const getBoarderById = asyncHandler(async (req, res) => {
    
     const updateBoarder = await Boarding.findByIdAndUpdate(id,{
       patient_id, 
-      start_date, 
-      end_date, 
+      
+      start_date:moment(start_date).format('YYYY-MM-DD HH:mm:ss') , 
+      end_date: moment(end_date).format('YYYY-MM-DD HH:mm:ss') , 
       notes, 
     }, { new: true });
       if (updateBoarder) {
