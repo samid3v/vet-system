@@ -10,9 +10,12 @@ import { useApp } from '../../../../../../hooks/useApp';
 import BasicModal from '../../../../../../components/Modal';
 import boardingUrl from '../../../../../../urls/boarding';
 import EditBoarder from '../EditBoarder';
+import { useNavigate } from 'react-router-dom';
 
 
 const Actions = ({doc}) => {
+
+  const navigate = useNavigate()
 
   const [openDelete, setOpenDelete] = useState(false)
   const {refreshBoarders, setCurrentId,bookingStatus, setCurrentBoarder, searchTerm, refreshStats, updateSearchResults} = useBoarding()
@@ -60,7 +63,7 @@ const Actions = ({doc}) => {
 
   return (
     <div className='flex justify-center items-center gap-3'>
-     <FaEye className='text-secondary font-semibold text-lg cursor-pointer' />
+     <FaEye onClick={()=> navigate(`./${doc._id}/view`)} className='text-secondary font-semibold text-lg cursor-pointer' />
      {
       (bookingStatus === 'Booked' || bookingStatus==='In Progress') && (
         <>

@@ -149,11 +149,17 @@ export const addBoarder = asyncHandler(async(req, res) => {
 
 export const getBoarderById = asyncHandler(async (req, res) => {
     const { id } = req.query;
-
+   
    const payment = await Payment.findOne({ module_id: id })
   .populate({
     path: 'module_id',
     model: 'Boarding', // Model name for the reference
+    populate: {
+        path: 'patient_id',
+        populate: {
+          path: 'owner',
+        }
+      }
   })
   
     if (payment) {

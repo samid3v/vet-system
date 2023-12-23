@@ -9,6 +9,7 @@ import Owners from './pages/owner'
 import AllOwners from './pages/owner/All'
 import AllBoarders from './pages/Boarding/All'
 import Boarding from './pages/Boarding'
+import ViewBoarding from './pages/Boarding/View'
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
             </Route>
             <Route path='boarding' element={<Boarding/>} >
               <Route index element={<AllBoarders/>} />
+              <Route path=':id/view' element={<ViewBoarding/>} />
             </Route>
           </Route>
         </Routes>    
