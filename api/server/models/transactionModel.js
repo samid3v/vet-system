@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 const TransactionSchema = new mongoose.Schema({
-  boarding:{
+  payment_id:{
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Boarding',
+          ref: 'Payment',
           required:true,
       },
     mpesa_transaction_id:{
@@ -19,7 +19,7 @@ const TransactionSchema = new mongoose.Schema({
      enum: ['Cash', 'Mpesa', 'Bank'],
      default: 'Cash',
    },
-   transaction_reference:{
+   bank_transaction_reference:{
      type:String,
     },
     bank_name:{

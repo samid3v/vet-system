@@ -12,6 +12,7 @@ import medicalRouter from "./routes/medicalRoute.js"
 import treatmentRouter from "./routes/treatmentRoute.js"
 import boardingRouter from "./routes/boardingRoute.js"
 import customerRouter from "./routes/customerRoute.js"
+import transactionRoutes from "./routes/transactionRoute.js"
 
 dotenv.config()
 
@@ -38,6 +39,7 @@ app.use("/api/medical", medicalRouter)
 app.use("/api/treatment", treatmentRouter)
 app.use("/api/boarding", boardingRouter)
 app.use("/api/customers", customerRouter)
+app.use("/api/transactions", transactionRoutes)
 
 app.use(errorHandler);
 

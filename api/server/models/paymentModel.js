@@ -22,6 +22,11 @@ const PaymentsSchema = new mongoose.Schema({
      enum: ['Completed', 'Pending'],
      default: 'Pending',
    },
+   payment_bal:{
+     type:Number,
+     float:true,
+     default: 0,
+   },
     description:{
      type:String,
     },

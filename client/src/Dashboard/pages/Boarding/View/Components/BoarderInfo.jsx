@@ -5,11 +5,17 @@ import { toast } from 'react-toastify'
 import { useApp } from '../../../../hooks/useApp'
 import api from '../../../../helpers/axiosInstance'
 import moment from 'moment-timezone';
+import BasicModal from '../../../../components/Modal'
+import AddPayment from './AddPayment'
 
 const BoarderInfo = ({id}) => {
      const [loading, setLoading] = useState()
      const [boarding, setBoarding] = useState([])
      const { setShowLoader } = useApp();
+
+     const [open, setOpen] = useState(false);
+     const handleOpen = () => setOpen(true);
+     const handleClose = () => setOpen(false);
 
      useEffect(()=>{
           getSingleBoarding()
@@ -77,8 +83,18 @@ const BoarderInfo = ({id}) => {
                <p className='text-md text-gray-600 font-semibold'>Amount: <span className='text-gray-500'>{boarding?.amount}</span></p>
           </div>
           <div>
+               <p className='text-md text-gray-600 font-semibold'>Balance: <span className='text-gray-500'>{boarding?.payment_bal}</span></p>
+          </div>
+          <div>
                <p className='text-md text-gray-600 font-semibold'>Status: <span className={`text-black text-sm font-normal ${boarding.status==='Pending'? 'bg-yellow-600':'bg-green-600'} rounded-2xl px-3 py-1`}>{boarding?.status}</span></p>
           </div>
+     </div>
+     <div>
+          <div className='flex justify-end items-center'>
+               <button onClick={handleOpen} type="button" className='rounded-lg text-neutral w-40 bg-primary px-3 py-2'>Add Payment</button>
+          </div>
+      <BasicModal open={open} element={<AddPayment id={boarding?._id} handleClose={handleClose}/>}/>
+
      </div>
     </>
   )
