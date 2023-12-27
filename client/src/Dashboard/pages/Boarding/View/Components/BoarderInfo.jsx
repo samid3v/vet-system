@@ -7,10 +7,14 @@ import api from '../../../../helpers/axiosInstance'
 import moment from 'moment-timezone';
 import BasicModal from '../../../../components/Modal'
 import AddPayment from './AddPayment'
+import LargeDevice from './TableComponent/LargeDevice'
+import trasactionUrl from '../../../../urls/transaction'
 
 const BoarderInfo = ({id}) => {
      const [loading, setLoading] = useState()
      const [boarding, setBoarding] = useState([])
+     const [transactions, setTransactions] = useState([])
+     const [transactId, setTransactId] = useState(0)
      const { setShowLoader } = useApp();
 
      const [open, setOpen] = useState(false);
@@ -18,8 +22,15 @@ const BoarderInfo = ({id}) => {
      const handleClose = () => setOpen(false);
 
      useEffect(()=>{
-          getSingleBoarding()
+          getSingleBoarding()        
      },[])
+
+     useEffect(()=>{
+        if (transactId!==0) {
+          getTransactionInfo()
+          
+        }
+     },[transactId])
 
      const getSingleBoarding = async () => {
           try {
@@ -31,12 +42,35 @@ const BoarderInfo = ({id}) => {
               });
         
               if (response.status === 200) {
-                console.log(response)
+                console.log(response.data)
                 setBoarding(response.data);
+                setTransactId(response.data._id)
               } else {
                 toast.error('Failed to fetch patient');
               }
             }
+          } catch (error) {
+            toast.error(error.message);
+          } finally {
+            setShowLoader(false);
+          }
+        };
+
+        const getTransactionInfo = async () => {
+          try {
+            setShowLoader(true)
+      
+              const response = await api.get(trasactionUrl.get_all.url, {
+               params: { pay_id: boarding._id },
+              });
+        
+              if (response.status === 200) {
+                console.log(response.data)
+                setTransactions(response.data);
+              } else {
+                toast.error('Failed to fetch patient');
+              }
+           
           } catch (error) {
             toast.error(error.message);
           } finally {
@@ -94,7 +128,7 @@ const BoarderInfo = ({id}) => {
                <button onClick={handleOpen} type="button" className='rounded-lg text-neutral w-40 bg-primary px-3 py-2'>Add Payment</button>
           </div>
       <BasicModal open={open} element={<AddPayment id={boarding?._id} handleClose={handleClose}/>}/>
-
+     <LargeDevice transactions={transactions} />
      </div>
     </>
   )

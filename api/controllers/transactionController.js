@@ -3,7 +3,9 @@ import Transaction from '../server/models/transactionModel.js';
 import Payment from '../server/models/paymentModel.js';
 
 export const fetchTransactions = asyncHandler( async(req, res)=>{
-      const {pay_id} = req.params
+      const {pay_id} = req.query
+
+      console.log(pay_id)
 
       const transactions = await Transaction.find({payment_id:pay_id}).populate('payment_id')
 

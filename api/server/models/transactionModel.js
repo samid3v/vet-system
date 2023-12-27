@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const TransactionSchema = new mongoose.Schema({
   payment_id:{
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Payment',
+          ref: 'Payments',
           required:true,
       },
     mpesa_transaction_id:{
