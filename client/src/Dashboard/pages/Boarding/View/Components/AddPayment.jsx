@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useApp } from '../../../../hooks/useApp';
 import api from '../../../../helpers/axiosInstance';
 import boardingUrl from '../../../../urls/boarding';
+import { toast } from 'react-toastify';
 
 const AddPayment = ({handleClose, id}) => {
 
@@ -29,9 +30,29 @@ const AddPayment = ({handleClose, id}) => {
   const handleAddPayment = async (e) => {
         
     e.preventDefault()
-    
+
     formData.payment_id = id
     
+
+    if (!formData.amount_paid || !formData.payment_date || !formData.payment_id) {
+      toast.error('Check required fields.');
+      return;
+    }
+
+    if (formData.payment_type === 'Mpesa') {
+      if (!formData.mpesa_transaction_id) {
+        toast.error('Mpesa transaction number is required');
+        return;        
+      }
+    }
+
+    if (formData.payment_type === 'Bank') {
+      if (!formData.bank_transaction_reference || !formData.bank_name) {
+        toast.error('Bank Details are required');
+        return;        
+      }
+    }
+
     console.log(formData)
 
     
@@ -147,7 +168,8 @@ const AddPayment = ({handleClose, id}) => {
           </div>
           
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        {formData.payment_type==='Bank' && (
+          <div className='flex justify-between items-center gap-2 my-2 '>
           
           <div className="w-full">
             <label htmlFor="species">Bank Reference Number</label>
@@ -166,7 +188,7 @@ const AddPayment = ({handleClose, id}) => {
             <label htmlFor="species">Bank Name</label>
             <input
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
-                placeholder='Boarding Notes...'
+                placeholder='Bank Name...'
                 type="text"
                 name="bank_name"
                 id="bank_name"
@@ -175,7 +197,9 @@ const AddPayment = ({handleClose, id}) => {
               />
           </div>
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        )}
+        {formData.payment_type==='Mpesa' && (
+          <div className='flex justify-between items-center gap-2 my-2 '>
           
           <div className="w-full">
             <label htmlFor="species">Mpesa Transaction Number</label>
@@ -191,6 +215,7 @@ const AddPayment = ({handleClose, id}) => {
                   
           </div>
         </div>
+        )}
         <div className='flex justify-between items-center my-3'>
           <button type='button' onClick={handleClose} className='bg-gray-300 w-[80px] py-2 px-3 rounded-lg'>Close</button>
           <button type='submit' className='bg-primary py-2 px-3 rounded-lg'>Add Payment</button>
