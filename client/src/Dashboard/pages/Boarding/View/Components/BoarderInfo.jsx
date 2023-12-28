@@ -78,6 +78,11 @@ const BoarderInfo = ({id}) => {
           }
         };
 
+        const refreshData = () =>{
+          getSingleBoarding()
+          getTransactionInfo()
+        }
+
         const dateFormat = (dateString) =>{
           const dateMoment = moment.utc(dateString);
 
@@ -127,8 +132,8 @@ const BoarderInfo = ({id}) => {
           <div className='flex justify-end items-center'>
                <button onClick={handleOpen} type="button" className='rounded-lg text-neutral w-40 bg-primary px-3 py-2'>Add Payment</button>
           </div>
-      <BasicModal open={open} element={<AddPayment id={boarding?._id} handleClose={handleClose}/>}/>
-     <LargeDevice transactions={transactions} />
+      <BasicModal open={open} element={<AddPayment refreshData={refreshData} id={boarding?._id} handleClose={handleClose}/>}/>
+     <LargeDevice transactions={transactions} refreshData={refreshData} />
      </div>
     </>
   )

@@ -3,8 +3,9 @@ import { useApp } from '../../../../hooks/useApp';
 import api from '../../../../helpers/axiosInstance';
 import boardingUrl from '../../../../urls/boarding';
 import { toast } from 'react-toastify';
+import trasactionUrl from '../../../../urls/transaction';
 
-const AddPayment = ({handleClose, id}) => {
+const AddPayment = ({handleClose, id, refreshData}) => {
 
   const { setShowLoader,setModalOpen } = useApp();
 
@@ -41,6 +42,8 @@ const AddPayment = ({handleClose, id}) => {
 
     if (formData.payment_type === 'Mpesa') {
       if (!formData.mpesa_transaction_id) {
+        formData.bank_name=""
+        formData.bank_transaction_reference=""
         toast.error('Mpesa transaction number is required');
         return;        
       }
@@ -48,47 +51,43 @@ const AddPayment = ({handleClose, id}) => {
 
     if (formData.payment_type === 'Bank') {
       if (!formData.bank_transaction_reference || !formData.bank_name) {
+        formData.mpesa_transaction_id=""
         toast.error('Bank Details are required');
         return;        
       }
     }
 
     console.log(formData)
-
-    
-  
-    // try {
-    //   setShowLoader(true);
+    try {
+      setShowLoader(true);
       
-    //   const response = await api.post(boardingUrl.add_boarding.url, formData,{
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   });
+      const response = await api.post(trasactionUrl.add_transaction.url, formData,{
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    //   if (response.status === 201) {
-    //     refreshBoarders();
-    //     refreshStats();
-    //     handleClose();
-    //     setFormData({
-    //       payment_id:'', 
-    //       mpesa_transaction_id:'', 
-    //       amount_paid:'', 
-    //       payment_type:'', 
-    //       bank_transaction_reference:'',
-    //       bank_name:'',
-    //       payment_date:''
-    //     })
-    //   toast.success('Payment Record added successfully!');
+      if (response.status === 201) {
+        refreshData();
+        setFormData({
+          payment_id:'', 
+          mpesa_transaction_id:'', 
+          amount_paid:'', 
+          payment_type:'', 
+          bank_transaction_reference:'',
+          bank_name:'',
+          payment_date:''
+        })
+      toast.success('Transaction Record added successfully!');
 
-    //   } else {
-    //     console.error('Failed to add Payment Record');
-    //   }
-    // } catch (error) {
-    //   toast.error(error.response.data.error);
-    // } finally {
-    //   setShowLoader(false);
-    // }
+      } else {
+        console.error('Failed to add Transaction Record');
+      }
+    } catch (error) {
+      toast.error(error.response.data.error);
+    } finally {
+      setShowLoader(false);
+    }
     
   };
 

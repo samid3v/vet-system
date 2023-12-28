@@ -2,7 +2,7 @@ import React from 'react'
 
 import Actions from '../Actions';
 
-const LargeDevice = ({transactions}) => {
+const LargeDevice = ({transactions, refreshData}) => {
 
   const humateDateFormat = (dateString) =>{
     const formattedDate = new Date(dateString).toLocaleString('en-US', {
@@ -45,7 +45,7 @@ const LargeDevice = ({transactions}) => {
         <td className="p-3 border-b">{doc?.mpesa_transaction_id}</td>
         <td className="p-3 border-b">{humateDateFormat(doc?.payment_date)}</td>
         <td className="p-3 border-b">{doc?.payment_type}</td>
-        <td className="p-3 border-b"><Actions doc={doc}/></td>
+        <td className="p-3 border-b"><Actions refreshData={refreshData} doc={doc}/></td>
       </tr>
           ))
         }

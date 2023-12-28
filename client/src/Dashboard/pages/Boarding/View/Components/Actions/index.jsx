@@ -1,64 +1,43 @@
 import React, { useState } from 'react'
-import { FaRegEdit } from "react-icons/fa";
 import { BsTrash } from "react-icons/bs";
-import { FaEye } from "react-icons/fa";
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import BasicModal from '../../../../../components/Modal';
 import DeleteModal from '../../../../../components/DeleteModal';
+import trasactionUrl from '../../../../../urls/transaction';
+import api from '../../../../../helpers/axiosInstance';
 
 
-const Actions = ({doc}) => {
+const Actions = ({doc, refreshData}) => {
 
   const navigate = useNavigate()
 
   const [openDelete, setOpenDelete] = useState(false)
-
-  const [open, setOpen] = useState(false);
-  const [openEditModal, setOpenEditModal] = useState(false);
-
-  const handleCloseEditModal = () => {
-    setOpenEditModal(false)
-    setCurrentBoarder([])
-    setCurrentId(0)
-   }
-
-  const handleOpenEdit = () => {
-    setOpenEditModal(true)
-    setCurrentId(doc?._id)
-
-  };
-
+  
   const deleteDoc = async () =>{
-    // try {
-    //   const response = await api.delete(boardingUrl.delete_boarder.url, {
-    //     params: {id:doc._id },
-    //   });
+    try {
+      const response = await api.delete(trasactionUrl.delete_transaction.url, {
+        params: {
+          id:doc._id,
+          pay_id: doc.payment_id._id
+         },
+      });
   
-    //   if (response.status === 201) {
-    //     setOpenDelete(false)
-    //     if (searchTerm.length>2) {
-    //       updateSearchResults()
-  
-    //     }else{
-    //       refreshBoarders()
-    //       refreshStats()
-    //     }
-    //     toast.success('Boarder Record Deleted Successfully')
-    //   } else {
-    //     toast.error('Failed to fetch Customer');
-    //   }
-    // } catch (error) {
-    //   toast.error(error.response);
+      if (response.status === 200) {
+        setOpenDelete(false)
+        refreshData()
+        toast.success('Transaction Record Deleted Successfully')
+      } else {
+        toast.error('Failed to delete Transaction');
+      }
+    } catch (error) {
+      toast.error(error.response);
   
       
-    // }
+    }
   }
 
   return (
     <div className='flex justify-center items-center gap-3'>
-      <FaEye onClick={()=> navigate(`./${doc._id}/view`)} className='text-secondary font-semibold text-lg cursor-pointer' />
-      <FaRegEdit onClick={handleOpenEdit} className='text-primary font-semibold text-lg cursor-pointer' />
       <BsTrash onClick={()=>setOpenDelete(true)} className='text-error font-semibold text-lg cursor-pointer' />
         
      

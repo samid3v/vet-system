@@ -2,7 +2,7 @@ const trasactionUrl = {
      get_all:{
           url:`/transactions/all`
      },
-     delete_boarder:{
+     delete_transaction:{
           url:`/transactions/delete-transaction`
      },
      add_transaction:{

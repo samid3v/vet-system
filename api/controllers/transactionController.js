@@ -63,7 +63,6 @@ export const addTransactions = asyncHandler(async(req, res) => {
                throw error;
           }
       }
-console.log(pay_info)
       if (!pay_info) {
           const error = new Error("Payment Info Not Found");
           error.statusCode = 400;
@@ -88,7 +87,6 @@ console.log(pay_info)
 
       const saveTransaction = await newTransaction.save()
 
-     //  console.log(saveTransaction)
 
       if (saveTransaction) {
           payment_bal = pay_info.payment_bal-amount_paid
@@ -98,7 +96,6 @@ console.log(pay_info)
                { runValidators: true, new: true }
                )
 
-          console.log(status)
 
           if (updatePayment) {
               res.status(201).json({ message: "Transaction Added Successfully" });
@@ -113,7 +110,30 @@ console.log(pay_info)
           error.statusCode = 501;
           throw error;
      }
-
-
      
+})
+
+export const deleteTransaction = asyncHandler(async(req, res) => {
+     const {id, pay_id} = req.query
+     
+     const pay_info = await Payment.findOne({_id:pay_id})
+     const transact_info = await Transaction.findOne({_id:id})
+
+     if (pay_info && transact_info) {
+          const payment_bal=transact_info.amount_paid + pay_info.payment_bal
+          const status = "Pending"
+          const updateBal = await Payment.findByIdAndUpdate(
+               pay_id,
+               { status, payment_bal },
+               { runValidators: true, new: true }
+          )
+
+          if (updateBal) {
+               const deleteTransaction = await Transaction.findByIdAndDelete(id)
+               if (deleteTransaction) {
+                    res.status(200).json({message:"Transaction Deleted Successfully" })
+               }
+          }
+     }
+
 })
