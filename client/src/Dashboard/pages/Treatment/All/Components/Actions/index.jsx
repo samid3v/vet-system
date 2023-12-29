@@ -2,13 +2,12 @@ import React, { useState } from 'react'
 import { FaRegEdit } from "react-icons/fa";
 import { BsTrash } from "react-icons/bs";
 import { FaEye } from "react-icons/fa";
-import DeleteModal from '../../../../../../components/DeleteModal';
-import api from '../../../../../../helpers/axiosInstance';
+import DeleteModal from '../../../../../components/DeleteModal';
+import api from '../../../../../helpers/axiosInstance';
 import { toast } from 'react-toastify';
-import { useTreatment } from '../../../../Hooks';
-import { useApp } from '../../../../../../hooks/useApp';
-import BasicModal from '../../../../../../components/Modal';
-import boardingUrl from '../../../../../../urls/boarding';
+import { useTreatment } from '../../../Hooks';
+import BasicModal from '../../../../../components/Modal';
+import boardingUrl from '../../../../../urls/boarding';
 import EditBoarder from '../EditBoarder';
 import { useNavigate } from 'react-router-dom';
 

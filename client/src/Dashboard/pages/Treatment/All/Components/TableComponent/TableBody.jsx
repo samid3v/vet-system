@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTreatment } from '../../../../Hooks'
+import { useTreatment } from '../../../Hooks'
 import TRow from './TableRow'
 
 const TBody = () => {

@@ -3,7 +3,7 @@ import Pagination from '@mui/material/Pagination';
 
 import THeader from './TableHeader';
 import TBody from './TableBody';
-import { useTreatment } from '../../../../Hooks';
+import { useTreatment } from '../../../Hooks';
 
 const LargeDevice = () => {
 

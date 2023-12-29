@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTreatment } from '../../../../Hooks';
+import { useTreatment } from '../../../Hooks';
 
 const Status = ({status, setMenuDisabled,id}) => {
 
