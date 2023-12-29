@@ -10,6 +10,8 @@ import AllOwners from './pages/owner/All'
 import AllBoarders from './pages/Boarding/All'
 import Boarding from './pages/Boarding'
 import ViewBoarding from './pages/Boarding/View'
+import Treatment from './pages/Treatment'
+import AllTreatment from './pages/Treatment/All'
 
 function App() {
 
@@ -28,6 +30,10 @@ function App() {
             <Route path='boarding' element={<Boarding/>} >
               <Route index element={<AllBoarders/>} />
               <Route path=':id/view' element={<ViewBoarding/>} />
+            </Route>
+            <Route path='treatment' element={<Treatment/>} >
+              <Route index element={<AllTreatment/>} />
+              {/* <Route path=':id/view' element={<ViewBoarding/>} /> */}
             </Route>
           </Route>
         </Routes>    

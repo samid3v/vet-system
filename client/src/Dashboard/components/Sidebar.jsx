@@ -34,7 +34,7 @@ const Sidebar = () => {
                          <GiCage className='text-xl'/>
                     </div>
 
-                    <div className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
+                    <div onClick={()=>navigate("./treatment")} className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
                          <PiSyringeDuotone className='text-xl'/>
                     </div>
                     <div className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
