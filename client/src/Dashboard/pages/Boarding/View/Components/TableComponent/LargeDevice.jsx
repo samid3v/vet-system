@@ -42,7 +42,7 @@ const LargeDevice = ({transactions, refreshData}) => {
         <td className="p-3 border-b">{doc?.amount_paid}</td>
         <td className="p-3 border-b">{doc?.mpesa_transaction_id}</td>
         <td className="p-3 border-b">{doc?.bank_name}</td>
-        <td className="p-3 border-b">{doc?.mpesa_transaction_id}</td>
+        <td className="p-3 border-b">{doc?.bank_transaction_reference}</td>
         <td className="p-3 border-b">{humateDateFormat(doc?.payment_date)}</td>
         <td className="p-3 border-b">{doc?.payment_type}</td>
         <td className="p-3 border-b"><Actions refreshData={refreshData} doc={doc}/></td>

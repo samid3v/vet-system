@@ -49,6 +49,12 @@ const AddPayment = ({handleClose, id, refreshData}) => {
       }
     }
 
+    if (formData.payment_type === 'Cash') {
+        formData.bank_name=""
+        formData.mpesa_transaction_id=""
+        formData.bank_transaction_reference=""
+    }
+
     if (formData.payment_type === 'Bank') {
       if (!formData.bank_transaction_reference || !formData.bank_name) {
         formData.mpesa_transaction_id=""
@@ -97,7 +103,7 @@ const AddPayment = ({handleClose, id, refreshData}) => {
       <form onSubmit={ handleAddPayment }>
         <div className='flex justify-between items-center gap-2 my-2 '>
           <div className="w-full">
-            <label htmlFor="start_date">Payment Amount</label>
+            <label htmlFor="amount_paid">Payment Amount</label>
               <input
                 className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
                 placeholder='Payment Amount...'
@@ -112,7 +118,7 @@ const AddPayment = ({handleClose, id, refreshData}) => {
         <div className='flex justify-between items-center gap-2 my-2 '>
           
         <div className="w-full">
-            <label htmlFor="end_date">Payment Date</label>
+            <label htmlFor="payment_date">Payment Date</label>
               <input
                 className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
                 placeholder='payment date...'
@@ -171,7 +177,7 @@ const AddPayment = ({handleClose, id, refreshData}) => {
           <div className='flex justify-between items-center gap-2 my-2 '>
           
           <div className="w-full">
-            <label htmlFor="species">Bank Reference Number</label>
+            <label htmlFor="bank_transaction_reference">Bank Reference Number</label>
               <input
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
                 placeholder='Bank Reference Number'
@@ -184,7 +190,7 @@ const AddPayment = ({handleClose, id, refreshData}) => {
                   
           </div>
           <div className="w-full">
-            <label htmlFor="species">Bank Name</label>
+            <label htmlFor="bank_name">Bank Name</label>
             <input
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
                 placeholder='Bank Name...'
@@ -201,10 +207,10 @@ const AddPayment = ({handleClose, id, refreshData}) => {
           <div className='flex justify-between items-center gap-2 my-2 '>
           
           <div className="w-full">
-            <label htmlFor="species">Mpesa Transaction Number</label>
+            <label htmlFor="mpesa_transaction_id">Mpesa Transaction Number</label>
               <input
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
-                placeholder='Bank Reference Number'
+                placeholder='Mpesa Transaction Number'
                 type="text"
                 name="mpesa_transaction_id"
                 id="mpesa_transaction_id"
