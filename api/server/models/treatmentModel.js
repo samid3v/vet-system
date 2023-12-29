@@ -15,7 +15,7 @@ const TreatmentSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users',
     },
-    description:{
+    notes:{
         type: String,
     },
     cost:{

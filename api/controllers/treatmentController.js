@@ -2,9 +2,32 @@ import asyncHandler from 'express-async-handler';
 import Treatment from '../server/models/treatmentModel.js';
 
 export const getAllTreatments = asyncHandler(async(req, res) => {
-    const treatment = await Treatment.find()
 
-    res.status(200).json(treatment)
+  const page = parseInt(req.query.page) || 1; // default to page 1 if not provided
+  const pageSize = parseInt(req.query.pageSize) || 10; // default to 10 items per page if not provided
+
+  const skip = (page - 1) * pageSize;
+
+  const totalDocs = await Treatment.countDocuments();
+  const totalPages = Math.ceil(totalDocs / pageSize);
+   const treatments = await Treatment.find()
+   .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(pageSize);
+    
+   if (treatments) {
+    
+    res.status(200).json(
+      {
+        page,
+        pageSize,
+        totalDocs,
+        totalPages, 
+        data: treatments,
+      }
+    )
+    
+   }
 })
 
 export const addTreatment = asyncHandler(async(req, res) => {
