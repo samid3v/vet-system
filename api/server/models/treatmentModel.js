@@ -18,15 +18,8 @@ const TreatmentSchema = new mongoose.Schema({
     notes:{
         type: String,
     },
-    cost:{
-        type: Number,
-        min: 0,
-        default:0
-    },
-    status: {
-        type: String,
-        enum: ['Paid', 'Pending'],
-        default: 'Pending',
+    date: {
+        type: Date
       },
     
 },{timestamps:true})

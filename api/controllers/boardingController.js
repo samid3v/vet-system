@@ -129,7 +129,7 @@ export const addBoarder = asyncHandler(async(req, res) => {
             module_id: output._id,
             module_name:'Boarding',
             amount:amount,
-            payment_bal:0,
+            payment_bal:amount,
             description:description,
           }
           const newPay = new Payment(data);

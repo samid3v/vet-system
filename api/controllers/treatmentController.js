@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Treatment from '../server/models/treatmentModel.js';
+import Payment from '../server/models/paymentModel.js';
 
 export const getAllTreatments = asyncHandler(async(req, res) => {
 
@@ -10,10 +11,11 @@ export const getAllTreatments = asyncHandler(async(req, res) => {
 
   const totalDocs = await Treatment.countDocuments();
   const totalPages = Math.ceil(totalDocs / pageSize);
-   const treatments = await Treatment.find()
+   const treatments = await Treatment.find().populate("patient").populate("vet")
    .sort({ createdAt: -1 })
-    .skip(skip)
-    .limit(pageSize);
+   .skip(skip)
+   .limit(pageSize);
+    
     
    if (treatments) {
     
@@ -31,18 +33,30 @@ export const getAllTreatments = asyncHandler(async(req, res) => {
 })
 
 export const addTreatment = asyncHandler(async(req, res) => {
-    const {name, description, cost, status} = req.body
+    const {name, notes, amount, date,description, patient, vet} = req.body
 
-    if (!name) {
+    if (!name || !patient) {
         const error = new Error("Check Required Inputs");
         error.statusCode = 400;
         throw error;
      }
         
-      const newTreatment = new Treatment({name, description, cost, status});
+      const newTreatment = new Treatment({name, notes, patient, date, vet});
       const output= await newTreatment.save();
       if (output) {
-          res.status(201).json({message:"Treatment Added Successfully"})
+        const data = {
+          module_id: output._id,
+          module_name:'Treatment',
+          amount:amount,
+          payment_bal:amount,
+          description:description,
+        }
+        const newPay = new Payment(data);
+        const paymentOutput= await newPay.save();
+          if (paymentOutput) {
+            res.status(201).json({ message: "Treatment Added Successfully", paymentOutput });
+            
+          }
       }else{
           const error = new Error("something wrong happenned, try again");
           error.statusCode = 400;
