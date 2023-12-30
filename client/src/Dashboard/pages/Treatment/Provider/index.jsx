@@ -6,6 +6,7 @@ import { useApp } from '../../../hooks/useApp';
 import BoardingContext from '../context';
 import boardingUrl from '../../../urls/boarding';
 import TreatmentContext from '../context';
+import treatmentUrl from '../../../urls/treatment';
 
 
 const TreatmentProvider = ({children}) => {
@@ -14,7 +15,7 @@ const TreatmentProvider = ({children}) => {
      const [statusId, setStatusId] = useState(null)
      const [totalPages, setTotalPages] = useState(0)
      const [patients, setPatients] = useState([])
-      const [boarders, setBoarders] = useState([]);
+      const [treaments, setTreatments] = useState([]);
       const [searchTerm, setSearchTerm] = useState('');
       const [stats, setStats] = useState([])
       const { setShowLoader } = useApp();
@@ -131,11 +132,10 @@ useEffect(()=>{
      try{
       setShowLoader(true);
 
-    const response = await api.get(boardingUrl.get_all.url, {
+    const response = await api.get(treatmentUrl.get_all.url, {
       params: { 
         page, 
         pageSize,
-        status:bookingStatus  
       }
     })
     if (response.status === 200) {
@@ -143,7 +143,7 @@ useEffect(()=>{
 
      
 
-      setBoarders(data);
+      setTreatments(data);
       console.log(data)
       setTotalPages(totalPages)
     } else {
@@ -248,7 +248,7 @@ const getBoardingStats = async (page, pageSize) =>{
      patients,
      currentId, 
      setCurrentId,
-     boarders, 
+     treaments, 
      searchTerm, 
      setSearchTerm,
      updateSearchResults,

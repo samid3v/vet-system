@@ -4,17 +4,17 @@ import TRow from './TableRow'
 
 const TBody = () => {
 
-  const {boarders } = useTreatment()
+  const {treaments } = useTreatment()
 
-  if (boarders.length==0) {
+  if (treaments.length==0) {
     return <td colSpan={7} className='text-center text-xl'>No Data</td>
   }
 
   return (
     <tbody>
-    {boarders.map((boarder, index) => (
+    {treaments.map((treatment, index) => (
       
-      <TRow  key={boarder._id} boarder={boarder} index={index} />
+      <TRow  key={treatment._id} treatment={treatment} index={index} />
     ))}
   </tbody>
   )
