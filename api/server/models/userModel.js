@@ -59,7 +59,7 @@ UserSchema.pre('save', async function (next) {
     }
   });
 
-  UserSchema.pre('remove', async function (next) {
+  UserSchema.pre('deleteOne', async function (next) {
     const owner = this._id;
     await Patient.deleteMany({ owner });
     next();

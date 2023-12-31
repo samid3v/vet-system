@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Transaction from "./transactionModel.js";
 
 const PaymentsSchema = new mongoose.Schema({
     module_id:{

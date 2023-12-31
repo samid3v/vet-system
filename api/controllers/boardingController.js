@@ -4,6 +4,7 @@ import Boarding from '../server/models/boardingModel.js';
 import Patient from '../server/models/patientModel.js';
 import Payment from '../server/models/paymentModel.js';
 import moment from 'moment-timezone';
+import Transaction from '../server/models/transactionModel.js';
 
 moment.tz.setDefault('Africa/Nairobi');
 
@@ -124,7 +125,6 @@ export const addBoarder = asyncHandler(async(req, res) => {
       const newBoarder = new Boarding({patient_id, start_date, end_date, notes, status});
       const output= await newBoarder.save();
       if (output) {
-        console.log(output)
          const data = {
             module_id: output._id,
             module_name:'Boarding',
@@ -259,19 +259,45 @@ export const getBoarderById = asyncHandler(async (req, res) => {
     const { id } = req.query;
 
     if (id) {
-        const deleteBoarder = await Boarding.findByIdAndDelete(id);
+        try {
+            const borderExist = await Boarding.findById(id);
+            if (!borderExist) {
+                const error = new Error('Boarder Not Found');
+                error.statusCode = 404;
+                throw error;
+            }
 
-        if (!deleteBoarder) {
-            const error = new Error('Boarder Not Found');
-            error.statusCode = 404;
-            throw error;
+            const payExist = await Payment.findOne({ module_id: id, module_name: 'Boarding' });
+            if (!payExist) {
+                const error = new Error('Payment Record Not Found');
+                error.statusCode = 404;
+                throw error;
+            }
+
+            const deletedBoarder = await borderExist.deleteOne();
+            if (deletedBoarder) {
+                const deletePay = await Payment.deleteOne({ module_id: id, module_name: 'Boarding' });
+                if (deletePay) {
+                    console.log('pay delete info', deletePay);
+
+                    const deleteT = await Transaction.deleteMany({ payment_id: payExist._id });
+                    if (deleteT) {
+                        res.status(201).json({ message: 'Boarder record deleted successfully' });
+                    } else {
+                        throw new Error('Failed to delete related Transaction records');
+                    }
+                } else {
+                    throw new Error('Failed to delete related Payment record');
+                }
+            }
+        } catch (error) {
+            console.error('Error deleting boarder:', error);
+            res.status(error.statusCode || 500).json({ message: error.message || 'Internal Server Error' });
         }
-
-        res.status(201).json({ message: 'Boarder record deleted successfully' });
-    }else{
+    } else {
         const error = new Error('Invalid Request');
         error.statusCode = 400;
         throw error;
     }
-    
-  });
+});
+

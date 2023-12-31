@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import Payment from "./paymentModel.js";
+import Transaction from "./transactionModel.js";
 
 const BoardingSchema = new mongoose.Schema({
     patient_id:{
@@ -23,6 +25,7 @@ const BoardingSchema = new mongoose.Schema({
       
     
 },{timestamps:true})
+
 
  const Boarding = mongoose.model('Boarding', BoardingSchema)
 
