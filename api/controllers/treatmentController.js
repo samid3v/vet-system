@@ -112,12 +112,37 @@ export const getTreatmentById = asyncHandler(async (req, res) => {
     const { id } = req.query;
 
     if (id) {
-        const deleteMedicationStock = await Treatment.findByIdAndDelete(id);
+        const treatmentExist = await Treatment.findById(id);
 
-        if (!deleteMedicationStock) {
+        if (!treatmentExist) {
             const error = new Error('Treatment Not Found');
             error.statusCode = 404;
             throw error;
+        }
+        const payExist = await Payment.findOne({ module_id: id, module_name: 'Boarding' });
+            if (!payExist) {
+                const error = new Error('Payment Record Not Found');
+                error.statusCode = 404;
+                throw error;
+            }
+        const deleteTreatment = await treatmentExist.deleteOne(id)
+        if (deleteTreatment) {
+          const deletePay = await Payment.deleteOne({ module_id: id, module_name: 'Boarding' });
+                if (deletePay) {
+                    console.log('pay delete info', deletePay);
+
+                    const deleteT = await Transaction.deleteMany({ payment_id: payExist._id });
+                    if (deleteT) {
+                        res.status(201).json({ message: 'Boarder record deleted successfully' });
+                    } else {
+                        throw new Error('Failed to delete related Transaction records');
+                    }
+                } else {
+                    throw new Error('Failed to delete related Payment record');
+                }
+        }
+        if (deleteTreatment) {
+          
         }
 
         res.status(201).json({ message: 'Treatment deleted successfully' });
