@@ -1,5 +1,5 @@
 import express from "express"
-import { getAllPatients, getAllUsers } from "../controllers/randomApiController"
+import { getAllPatients, getAllUsers } from "../controllers/randomApiController.js"
 
 const randomRoutes = express.Router()
 

@@ -1,5 +1,7 @@
-import Patient from "../server/models/patientModel";
-import User from "../server/models/userModel";
+import Patient from "../server/models/patientModel.js";
+import User from "../server/models/userModel.js";
+import asyncHandler from 'express-async-handler';
+
 
 export const getAllPatients = asyncHandler(async(req, res) => {
      const patients = await Patient.find()
