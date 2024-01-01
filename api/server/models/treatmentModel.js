@@ -19,8 +19,13 @@ const TreatmentSchema = new mongoose.Schema({
         type: String,
     },
     date: {
-        type: Date
-      },
+        type: Date,
+        get: function (val) {
+        if (!val) return val;
+            return val.toISOString().split('T')[0];
+        },
+        default: Date.now, 
+    },
     
 },{timestamps:true})
 

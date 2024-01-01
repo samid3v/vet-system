@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { useTreatment } from '../../../Hooks';
 import BasicModal from '../../../../../components/Modal';
 import boardingUrl from '../../../../../urls/boarding';
-import EditBoarder from '../EditBoarder';
+import EditTreatment from '../EditTreatment';
 import { useNavigate } from 'react-router-dom';
 import treatmentUrl from '../../../../../urls/treatment';
 
@@ -18,14 +18,14 @@ const Actions = ({doc}) => {
   const navigate = useNavigate()
 
   const [openDelete, setOpenDelete] = useState(false)
-  const {refreshTreatments, setCurrentId, setCurrentBoarder, searchTerm, updateSearchResults} = useTreatment()
+  const {refreshTreatments, setCurrentId, setCurrentTreatment, searchTerm, updateSearchResults} = useTreatment()
 
   const [open, setOpen] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
 
   const handleCloseEditModal = () => {
     setOpenEditModal(false)
-    setCurrentBoarder([])
+    setCurrentTreatment([])
     setCurrentId(0)
    }
 
@@ -68,7 +68,7 @@ const Actions = ({doc}) => {
         
      
      <DeleteModal open={openDelete} handleClose={()=>setOpenDelete(false)} deleteFunc={deleteDoc} />
-     <BasicModal open={openEditModal} element={<EditBoarder handleClose={handleCloseEditModal}/>}/>
+     <BasicModal open={openEditModal} element={<EditTreatment handleClose={handleCloseEditModal}/>}/>
     
     </div>
   )

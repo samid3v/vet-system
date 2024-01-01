@@ -11,10 +11,11 @@ import customersUrl from '../../../../urls/customers'
 import boardingUrl from '../../../../urls/boarding'
 import moment from "moment-timezone";
 import {DateTime} from 'luxon'
+import treatmentUrl from '../../../../urls/treatment'
 
-const EditBoarder = ({handleClose}) => {
+const EditTreatment = ({handleClose}) => {
      const { setShowLoader  } = useApp()
-     const { currentBoarder, refreshBoarders, currentId, patients } = useTreatment()
+     const { currentTreatment, setCurrentId, setCurrentTreatment, refreshTreatments, refreshInfo, currentId, patients, users } = useTreatment()
      const [formData, setFormData] = useState({
       name:'', 
       patient:'', 
@@ -25,27 +26,44 @@ const EditBoarder = ({handleClose}) => {
       pay_id: '',
       description:''
     });
+    const [maxDate, setMaxDate] = useState('')
+
+
+    useEffect(()=>{
+      refreshInfo()
+      getFormattedToday()
+    },[])
+
+    const getFormattedToday = () => {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = (today.getMonth() + 1).toString().padStart(2, '0');
+      const day = today.getDate().toString().padStart(2, '0');
+      setMaxDate(`${year}-${month}-${day}`);
+    };
 
      useEffect(() => {
-    if (currentBoarder && Object.keys(currentBoarder).length > 0) {
+    if (currentTreatment && Object.keys(currentTreatment).length > 0) {
 
       
       setFormData({
-        patient: currentBoarder?.module_id?.patient_id || '---',
-        name: currentBoarder?.module_id?.patient?.name || '---',
-        date: moment.tz(currentBoarder?.module_id?.date, 'Africa/Nairobi').format('YYYY-MM-DD HH:mm:ss'),
-        notes: currentBoarder?.module_id?.notes || '---',
-        pay_id: currentBoarder?._id || '---',
-        amount: currentBoarder?.amount || '---',
-        description: currentBoarder?.description || '---',
+        patient: currentTreatment?.module_id?.patient_id || '---',
+        name: currentTreatment?.module_id?.name || '---',
+        patient: currentTreatment?.module_id?.patient?._id || '---',
+        vet: currentTreatment?.module_id?.vet?._id || '---',
+        date: moment(currentTreatment?.module_id?.date).format('YYYY-MM-DD'),
+        notes: currentTreatment?.module_id?.notes || '---',
+        pay_id: currentTreatment?._id || '---',
+        amount: currentTreatment?.amount || '---',
+        description: currentTreatment?.description || '---',
       });
     }
-  }, [currentBoarder]);
+  }, [currentTreatment]);
 
  
       
 
-  if (!currentBoarder || Object.keys(currentBoarder).length === 0) {
+  if (!currentTreatment || Object.keys(currentTreatment).length === 0) {
     return (
          <div></div>
     );
@@ -59,15 +77,15 @@ const EditBoarder = ({handleClose}) => {
        }));
      };
    
-     const handleEditBoarder = async (e) => {
+     const handleEditTreatment = async (e) => {
         
       e.preventDefault()
-      if (!formData.start_date || !formData.end_date || !formData.amount) {
+      if (!formData.name || !formData.patient || !formData.amount || !formData.date) {
         toast.error('Check required fields.');
         return;
       }
   
-      if (formData.patient_id === 'select') {
+      if (formData.patient === '') {
         toast.error('Select Patient Name fields.');
         return;
       }
@@ -76,30 +94,35 @@ const EditBoarder = ({handleClose}) => {
         setShowLoader(true);
         console.log(formData)
         
-        const response = await api.put(boardingUrl.edit_boarding.url, formData,{
+        const response = await api.put(treatmentUrl.edit_treatment.url, formData,{
           headers: {
             'Content-Type': 'application/json',
           },
-          params:{id:currentId}
+          params:{
+            id:currentId
+          }
 
         });
   
         if (response.status === 201) {
-          refreshBoarders();
+          refreshTreatments();
           handleClose();
+          setCurrentTreatment([])
+          setCurrentId(0)
           setFormData({
-            patient_id:'', 
-            start_date:'', 
-            end_date:'', 
+            name:'', 
+            patient:'', 
+            vet:'', 
             notes:'', 
-            pay_id:'', 
-            amount:'', 
+            date:'', 
+            amount:'',
+            pay_id: '',
             description:''
           })
-        toast.success('Boarding Updated successfully!');
+        toast.success('Treatment Updated successfully!');
   
         } else {
-          console.error('Failed to add Boarding');
+          console.error('Failed to update Treatment');
         }
       } catch (error) {
         toast.error(error.response.data.error);
@@ -111,9 +134,9 @@ const EditBoarder = ({handleClose}) => {
    
      return (
       <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
-      <h3 className='text-xl font-semibold'>Edit Boarding</h3>
+      <h3 className='text-xl font-semibold'>Edit Treatment</h3>
      
-      <form onSubmit={ handleEditBoarder }>
+      <form onSubmit={ handleEditTreatment }>
       <div className='flex justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="start_date">Treatment Name</label>
@@ -227,11 +250,11 @@ const EditBoarder = ({handleClose}) => {
         </div>
         <div className='flex justify-between items-center my-3'>
           <button type='button' onClick={handleClose} className='bg-gray-300 w-[80px] py-2 px-3 rounded-lg'>Close</button>
-          <button type='submit' className='bg-primary py-2 px-3 rounded-lg'>Edit Boarder</button>
+          <button type='submit' className='bg-primary py-2 px-3 rounded-lg'>Edit Treatment</button>
         </div>
       </form>
     </div>
      );
 }
 
-export default EditBoarder
+export default EditTreatment

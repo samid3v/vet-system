@@ -2,6 +2,8 @@ import asyncHandler from 'express-async-handler';
 import Treatment from '../server/models/treatmentModel.js';
 import Payment from '../server/models/paymentModel.js';
 import Transaction from '../server/models/transactionModel.js';
+import User from '../server/models/userModel.js';
+import Patient from '../server/models/patientModel.js';
 
 export const getAllTreatments = asyncHandler(async(req, res) => {
 
@@ -36,7 +38,7 @@ export const getAllTreatments = asyncHandler(async(req, res) => {
 export const addTreatment = asyncHandler(async(req, res) => {
     const {name, notes, amount, date,description, patient, vet} = req.body
 
-    if (!name || !patient) {
+    if (!name || !patient || !amount || !patient ) {
         const error = new Error("Check Required Inputs");
         error.statusCode = 400;
         throw error;
@@ -88,24 +90,78 @@ export const getTreatmentById = asyncHandler(async (req, res) => {
 
   export const editTreatment = asyncHandler(async (req, res) => {
     const { id } = req.query;
+    const {pay_id,  name, notes, amount, date,description, patient, vet} = req.body
   
-    const updateData = req.body; // Request body should contain the updated patient data 
-    // Ensure that "name" and "owner" fields are required
-    if (!updateData.name) {
-        const error = new Error('Check Required Fields');
-        error.statusCode = 400;
-        throw error;
+    if (!name || !patient || !amount || !patient ) {
+      const error = new Error("Check Required Inputs");
+      error.statusCode = 400;
+      throw error;
+   }
+
+   const patientExist = await Patient.findOne({ _id:patient });
+   if (!patientExist) {
+       const error = new Error("Patient doesnt exist");
+       error.statusCode = 404;
+       throw error;
     }
 
-    const updatedAppointment = await Treatment.findByIdAndUpdate(id, updateData, { new: true });
+    const payExist = await Payment.findOne({ _id:pay_id });
+   if (!payExist) {
+       const error = new Error("Payment doesnt exist");
+       error.statusCode = 404;
+       throw error;
+    }
+
+    if (vet) {
+      const vetExist = await User.findOne({ _id:vet });
+      if (!vetExist) {
+          const error = new Error("Vet doesnt exist");
+          error.statusCode = 404;
+          throw error;
+       }
+    }
+
+    const updatedAppointment = await Treatment.findByIdAndUpdate(id, {
+      name,
+      date,
+      notes,
+      patient,
+      vet
+    }, { new: true });
 
     if (updatedAppointment) {
-      return res.status(201).json({ message: 'Treatment updated successfully' });
+          const updatePay = await Payment.findByIdAndUpdate(pay_id, {
+          amount,
+          description,
+        },{ new: true } );
+          if (updatePay) {
+            return res.status(201).json({ message: 'Treatment updated successfully' });
+
+          }
     }else{
-        const error = new Error('Treatment Not Found');
+        const error = new Error('something wrong happenned, try again');
         error.statusCode = 400;
         throw error;
     }
+
+    // if (updateBoarder) {
+    //   console.log(updateBoarder)
+       
+    //     const updatePay = await Payment.findByIdAndUpdate(pay_id, {
+    //       amount,
+    //       description,
+    //     },{ new: true } );
+    //       if (updatePay) {
+    //         res.status(201).json({ message: "Boarding Updated Successfully", updatePay });
+            
+    //       }
+    
+        
+    // }else{
+    //     const error = new Error("something wrong happenned, try again");
+    //     error.statusCode = 400;
+    //     throw error;
+    // }
     
   });
 

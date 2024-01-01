@@ -18,7 +18,9 @@ const TreatmentProvider = ({children}) => {
       const [treaments, setTreatments] = useState([]);
       const [searchTerm, setSearchTerm] = useState('');
       const { setShowLoader } = useApp();
-      const [currentBoarder, setCurrentBoarder] =useState([])
+      const [currentTreatment, setCurrentTreatment] =useState([])
+      const [patients, setPatients] = useState([])
+      const [users, setUsers] = useState([])
 
  
 
@@ -72,7 +74,7 @@ useEffect(()=>{
   
         if (response.status === 200) {
           console.log(response.data)
-          setCurrentBoarder(response.data);
+          setCurrentTreatment(response.data);
         } else {
           toast.error('Failed to fetch patient');
         }
@@ -152,6 +154,49 @@ useEffect(()=>{
  
 }
 
+const getPatients = async () =>{
+  try{
+
+ const response = await api.get(random.get_all_patients.url)
+ if (response.status === 200) {
+
+  
+   setPatients(response.data)
+ } else {
+   toast.error('Failed to fetch patients');
+ }
+ 
+ }catch(error){
+     console.log(error)
+ }
+
+ 
+
+}
+const getUsers = async () =>{
+  try{
+
+ const response = await api.get(random.get_all_users.url)
+ if (response.status === 200) {
+
+  
+   setUsers(response.data)
+ } else {
+   toast.error('Failed to fetch users');
+ }
+ 
+ }catch(error){
+     console.log(error)
+ }
+
+ 
+
+}
+
+const refreshInfo = () => {
+  getPatients()
+  getUsers()
+}
 
   return (
     <TreatmentContext.Provider value={{
@@ -166,10 +211,13 @@ useEffect(()=>{
      setSearchTerm,
      updateSearchResults,
      refreshTreatments,
-     currentBoarder, 
-     setCurrentBoarder,
+     currentTreatment, 
+     setCurrentTreatment,
      statusId, 
-     setStatusId
+     setStatusId,
+     patients,
+     users,
+     refreshInfo
      
     }}>
       {/* <Modal/> */}

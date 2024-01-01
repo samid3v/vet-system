@@ -8,8 +8,8 @@ const treatmentUrl = {
      add_treatment:{
           url:`/treatments/add-treatment`
      },
-     get_patient:{
-          url:`/transactions/get-transaction`
+     edit_treatment:{
+          url:`/treatments/edit-treatment`
      },
 }
 
