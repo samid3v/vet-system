@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import api from '../../../../helpers/axiosInstance';
 import boardingUrl from '../../../../urls/boarding';
 import random from '../../../../urls/random';
+import treatmentUrl from '../../../../urls/treatment';
 
 const AddTreatment = ({handleClose}) => {
 
@@ -13,16 +14,19 @@ const AddTreatment = ({handleClose}) => {
   const { setShowLoader,setModalOpen } = useApp();
   const [patients, setPatients] = useState([])
   const [users, setUsers] = useState([])
-  const { refreshBoarders, refreshStats } = useTreatment()
+  const [maxDate, setMaxDate] = useState('')
+  const { refreshTreatments } = useTreatment()
   const [formData, setFormData] = useState({
-    patient_id:'', 
-    start_date:'', 
-    end_date:'', 
+    name:'', 
+    patient:'', 
+    vet:'', 
     notes:'', 
-    status:'', 
+    date:'', 
     amount:'', 
     description:''
   });
+
+ 
   
 
   const handleInputChange = (e) => {
@@ -35,7 +39,17 @@ const AddTreatment = ({handleClose}) => {
 
   useEffect(()=>{
     getPatients()
+    getUsers()
+    getFormattedToday()
   },[])
+
+  const getFormattedToday = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    setMaxDate(`${year}-${month}-${day}`);
+  };
 
   const getPatients = async () =>{
     try{
@@ -76,98 +90,105 @@ const AddTreatment = ({handleClose}) => {
   
   }
 
-  const handleAddBoarder = async (e) => {
+  const handleAddTreatment = async (e) => {
         
     e.preventDefault()
     
-    if (!formData.start_date || !formData.end_date || !formData.amount) {
+    if (!formData.name || !formData.patient || !formData.amount || !formData.date) {
       toast.error('Check required fields.');
       return;
     }
 
-    if (formData.patient_id === 'select') {
+    if (formData.patient === '') {
       toast.error('Select Patient Name fields.');
       return;
     }
 
-  
+   
     try {
       setShowLoader(true);
       
-      const response = await api.post(boardingUrl.add_boarding.url, formData,{
+      const response = await api.post(treatmentUrl.add_treatment.url, formData,{
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
       if (response.status === 201) {
-        refreshBoarders();
-        refreshStats();
+        refreshTreatments();
         handleClose();
         setFormData({
-          patient_id:'', 
-          start_date:'', 
-          end_date:'', 
+          name:'', 
+          patient:'', 
+          vet:'', 
           notes:'', 
-          status:'', 
+          date:'', 
           amount:'', 
           description:''
         })
-      toast.success('Boarding Record added successfully!');
+      toast.success('Treatment Record added successfully!');
 
       } else {
-        console.error('Failed to add Boarding Record');
+        console.error('Failed to add Treatment Record');
       }
     } catch (error) {
       toast.error(error.response.data.error);
     } finally {
       setShowLoader(false);
     }
+  
+    console.log(formData)
     
   };
 
   return (
     <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
-      <h3 className='text-xl font-semibold'>Add Boarding</h3>
-      <form onSubmit={ handleAddBoarder }>
+      <h3 className='text-xl font-semibold'>Add Treatment</h3>
+      <form onSubmit={ handleAddTreatment }>
         <div className='flex justify-between items-center gap-2 my-2 '>
           <div className="w-full">
-            <label htmlFor="start_date">Start Date</label>
+            <label htmlFor="start_date">Treatment Name</label>
               <input
                 className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
-                placeholder='start date...'
-                type="datetime-local"
-                name="start_date"
-                id="start_date"
-                value={formData.start_date}
+                placeholder='Treatment Name...'
+                type="text"
+                name="name"
+                id="name"
+                value={formData.name}
                 onChange={handleInputChange}
               />
           </div>
           <div className="w-full">
-            <label htmlFor="end_date">End Date</label>
-              <input
-                className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
-                placeholder='end date...'
-                type="datetime-local"
-                name="end_date"
-                id="end_date"
-                value={formData.end_date}
-                onChange={handleInputChange}
-              />
-          </div>
-          <div className="w-full">
-            <label htmlFor="species">Patient Name</label>
+            <label htmlFor="species">Vet Name</label>
               <select
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
-                placeholder='county...'
-                name="patient_id"
-                id="patient_id"
-                value={formData.patient_id}
+                name="vet"
+                id="vet"
+                value={formData.vet}
                 onChange={handleInputChange}
               >
-                  <option value="select">Select Patient </option>
+                  <option value="">Select Vet </option>
+                  { users && (users.map((user, index)=>(
+                      <option key={index} value={user._id}>{user?.name || '---'}</option>
+
+                    )))
+                  }
+              </select>
+          </div>
+          
+          <div className="w-full">
+            <label htmlFor="patient">Patient Name</label>
+              <select
+                className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
+                
+                name="patient"
+                id="patient"
+                value={formData.patient}
+                onChange={handleInputChange}
+              >
+                  <option value="">Select Patient </option>
                   { patients && (patients.map((patient, index)=>(
-                      <option key={index} value={patient._id}>{patient.name}</option>
+                      <option key={index} value={patient?._id}>{patient?.name}</option>
 
                     )))
                   }
@@ -188,47 +209,17 @@ const AddTreatment = ({handleClose}) => {
               />
           </div>
           <div className="w-full">
-      <label htmlFor="status">Status</label>
-      <div className="flex space-x-4">
-        <label className="flex items-center">
-          <input
-            type="radio"
-            name="status"
-            id="completed"
-            value="Completed"
-            checked={formData.status === 'Completed'}
-            onChange={handleInputChange}
-            className="form-radio text-blue-500 focus:ring-0 focus:outline-none"
-          />
-          <span className="ml-2">Completed</span>
-        </label>
-
-        <label className="flex items-center">
-          <input
-            type="radio"
-            name="status"
-            id="in_progress"
-            value="In Progress"
-            checked={formData.status === 'In Progress'}
-            onChange={handleInputChange}
-            className="form-radio text-red-500 focus:ring-0 focus:outline-none"
-          />
-          <span className="ml-2">In Progress</span>
-        </label>
-        <label className="flex items-center">
-          <input
-            type="radio"
-            name="status"
-            id="booked"
-            value="Booked"
-            checked={formData.status === 'Booked'}
-            onChange={handleInputChange}
-            className="form-radio text-red-500 focus:ring-0 focus:outline-none"
-          />
-          <span className="ml-2">Booked</span>
-        </label>
-      </div>
-    </div>
+            <label htmlFor="date">Treatment Date</label>
+              <input
+                className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
+                type="date"
+                name="date"
+                id="date"
+                max={maxDate}
+                value={formData.date}
+                onChange={handleInputChange}
+              />
+          </div>
           
         </div>
         <div className='flex justify-between items-center gap-2 my-2 '>
@@ -249,10 +240,10 @@ const AddTreatment = ({handleClose}) => {
               </textarea>
           </div>
           <div className="w-full">
-            <label htmlFor="species">Payment Notes</label>
+            <label htmlFor="species">Amount Description</label>
               <textarea
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
-                placeholder='Payment Notes...'
+                placeholder='Amount Description...'
                 type="text"
                 name="description"
                 id="description"
@@ -263,10 +254,11 @@ const AddTreatment = ({handleClose}) => {
                   
               </textarea>
           </div>
+          
         </div>
         <div className='flex justify-between items-center my-3'>
           <button type='button' onClick={handleClose} className='bg-gray-300 w-[80px] py-2 px-3 rounded-lg'>Close</button>
-          <button type='submit' className='bg-primary py-2 px-3 rounded-lg'>Add Boarding</button>
+          <button type='submit' className='bg-primary py-2 px-3 rounded-lg'>Add Treatment</button>
         </div>
       </form>
     </div>

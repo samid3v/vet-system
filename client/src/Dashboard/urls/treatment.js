@@ -5,7 +5,7 @@ const treatmentUrl = {
      delete_transaction:{
           url:`/treatments/delete-treatment`
      },
-     add_transaction:{
+     add_treatment:{
           url:`/treatments/add-treatment`
      },
      get_patient:{
