@@ -153,7 +153,6 @@ useEffect(()=>{
      setTotalPages,
      currentPage, 
      setCurrentPage,
-     patients,
      currentId, 
      setCurrentId,
      treaments, 
