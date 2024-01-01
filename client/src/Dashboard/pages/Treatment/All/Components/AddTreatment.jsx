@@ -6,10 +6,11 @@ import { toast } from 'react-toastify';
 import api from '../../../../helpers/axiosInstance';
 import boardingUrl from '../../../../urls/boarding';
 
-const AddBoarder = ({handleClose}) => {
+const AddTreatment = ({handleClose}) => {
 
   const { setShowLoader,setModalOpen } = useApp();
-  const { patients, refreshBoarders, refreshStats } = useTreatment()
+  const [patients, setPatients] = useState([])
+  const { refreshBoarders, refreshStats } = useTreatment()
   const [formData, setFormData] = useState({
     patient_id:'', 
     start_date:'', 
@@ -226,4 +227,4 @@ const AddBoarder = ({handleClose}) => {
   );
 };
 
-export default AddBoarder;
+export default AddTreatment;

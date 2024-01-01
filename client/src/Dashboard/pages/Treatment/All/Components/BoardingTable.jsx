@@ -3,7 +3,7 @@ import { useApp } from '../../../../hooks/useApp';
 import LargeDevice from './TableComponent/LargeDevice';
 import BasicModal from '../../../../components/Modal';
 import { useTreatment } from '../../Hooks';
-import AddBoarder from './AddBoarder';
+import AddTreatment from './AddTreatment';
 
 const TreatmentTable = () => {
 
@@ -22,7 +22,7 @@ const TreatmentTable = () => {
         <button onClick={handleOpen} type="button" className='rounded-lg text-neutral w-40 bg-primary px-3 py-2'>Add Treatment</button>
       </div>
       <LargeDevice />
-      <BasicModal open={open} element={<AddBoarder handleClose={handleClose}/>}/>
+      <BasicModal open={open} element={<AddTreatment handleClose={handleClose}/>}/>
     </div>
   )
 }

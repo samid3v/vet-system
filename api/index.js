@@ -13,6 +13,7 @@ import treatmentRouter from "./routes/treatmentRoute.js"
 import boardingRouter from "./routes/boardingRoute.js"
 import customerRouter from "./routes/customerRoute.js"
 import transactionRoutes from "./routes/transactionRoute.js"
+import randomRoutes from "./routes/randomRoutes.js"
 
 dotenv.config()
 
@@ -40,6 +41,7 @@ app.use("/api/treatments", treatmentRouter)
 app.use("/api/boarding", boardingRouter)
 app.use("/api/customers", customerRouter)
 app.use("/api/transactions", transactionRoutes)
+app.use("/api/random", randomRoutes)
 
 app.use(errorHandler);
 
