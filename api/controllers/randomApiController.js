@@ -49,6 +49,13 @@ export const getAllPatients = asyncHandler(async(req, res) => {
          }
        }
    })
+   .populate({
+     path: 'module_id',
+     model: model, 
+     populate: {
+         path: 'vet'
+       }
+   })
    
      if (payment) {
        console.log(payment);

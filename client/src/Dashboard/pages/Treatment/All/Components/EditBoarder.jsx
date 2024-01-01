@@ -16,29 +16,28 @@ const EditBoarder = ({handleClose}) => {
      const { setShowLoader  } = useApp()
      const { currentBoarder, refreshBoarders, currentId, patients } = useTreatment()
      const [formData, setFormData] = useState({
-      patient_id:'', 
-      start_date:'', 
-      end_date:'', 
+      name:'', 
+      patient:'', 
+      vet:'', 
       notes:'', 
-      status:'', 
-      amount:'', 
+      date:'', 
+      amount:'',
+      pay_id: '',
       description:''
     });
 
      useEffect(() => {
     if (currentBoarder && Object.keys(currentBoarder).length > 0) {
 
-      const startDateTime = DateTime.fromISO(currentBoarder?.module_id?.start_date || '---', { zone: 'Africa/Nairobi' }).toJSDate();
-      const endDateTime = DateTime.fromISO(currentBoarder?.module_id?.end_date || '---', { zone: 'Africa/Nairobi' }).toJSDate();
       
       setFormData({
-        patient_id: currentBoarder?.module_id?.patient_id || '---',
-        start_date: moment.tz(currentBoarder?.module_id?.start_date, 'Africa/Nairobi').format('YYYY-MM-DD HH:mm:ss'),
-        end_date: moment.tz(currentBoarder?.module_id?.end_date, 'Africa/Nairobi').format('YYYY-MM-DD HH:mm:ss'),
+        patient: currentBoarder?.module_id?.patient_id || '---',
+        name: currentBoarder?.module_id?.patient?.name || '---',
+        date: moment.tz(currentBoarder?.module_id?.date, 'Africa/Nairobi').format('YYYY-MM-DD HH:mm:ss'),
         notes: currentBoarder?.module_id?.notes || '---',
         pay_id: currentBoarder?._id || '---',
-        amount: currentBoarder?.amount || '',
-        description: currentBoarder?.description || '',
+        amount: currentBoarder?.amount || '---',
+        description: currentBoarder?.description || '---',
       });
     }
   }, [currentBoarder]);
@@ -117,51 +116,55 @@ const EditBoarder = ({handleClose}) => {
       <form onSubmit={ handleEditBoarder }>
       <div className='flex justify-between items-center gap-2 my-2 '>
           <div className="w-full">
-            <label htmlFor="start_date">Start Date</label>
+            <label htmlFor="start_date">Treatment Name</label>
               <input
                 className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
-                placeholder='start date...'
-                type="datetime-local"
-                name="start_date"
-                id="start_date"
-                value={formData.start_date}
+                placeholder='Treatment Name...'
+                type="text"
+                name="name"
+                id="name"
+                value={formData.name}
                 onChange={handleInputChange}
               />
           </div>
           <div className="w-full">
-            <label htmlFor="end_date">End Date</label>
-              <input
-                className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
-                placeholder='end date...'
-                type="datetime-local"
-                name="end_date"
-                id="end_date"
-                value={formData.end_date}
-                onChange={handleInputChange}
-              />
-          </div>
-          
-        </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
-        <div className="w-full">
-            <label htmlFor="species">Patient Name</label>
+            <label htmlFor="species">Vet Name</label>
               <select
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
-                placeholder='county...'
-                name="patient_id"
-                id="patient_id"
-                value={formData.patient_id}
+                name="vet"
+                id="vet"
+                value={formData.vet}
                 onChange={handleInputChange}
-                disabled
               >
-                  <option value="select">Select Patient </option>
-                  { patients && (patients.map((patient, index)=>(
-                      <option key={index} value={patient._id}>{patient.name}</option>
+                  <option value="">Select Vet </option>
+                  { users && (users.map((user, index)=>(
+                      <option key={index} value={user._id}>{user?.name || '---'}</option>
 
                     )))
                   }
               </select>
           </div>
+          
+          <div className="w-full">
+            <label htmlFor="patient">Patient Name</label>
+              <select
+                className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
+                
+                name="patient"
+                id="patient"
+                value={formData.patient}
+                onChange={handleInputChange}
+              >
+                  <option value="">Select Patient </option>
+                  { patients && (patients.map((patient, index)=>(
+                      <option key={index} value={patient?._id}>{patient?.name}</option>
+
+                    )))
+                  }
+              </select>
+          </div>
+        </div>
+        <div className='flex justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="amount">Amount</label>
               <input
@@ -174,7 +177,19 @@ const EditBoarder = ({handleClose}) => {
                 onChange={handleInputChange}
               />
           </div>
-         
+          <div className="w-full">
+            <label htmlFor="date">Treatment Date</label>
+              <input
+                className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
+                type="date"
+                name="date"
+                id="date"
+                max={maxDate}
+                value={formData.date}
+                onChange={handleInputChange}
+              />
+          </div>
+          
         </div>
         <div className='flex justify-between items-center gap-2 my-2 '>
           
@@ -194,10 +209,10 @@ const EditBoarder = ({handleClose}) => {
               </textarea>
           </div>
           <div className="w-full">
-            <label htmlFor="species">Payment Notes</label>
+            <label htmlFor="species">Amount Description</label>
               <textarea
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
-                placeholder='Payment Notes...'
+                placeholder='Amount Description...'
                 type="text"
                 name="description"
                 id="description"
@@ -208,6 +223,7 @@ const EditBoarder = ({handleClose}) => {
                   
               </textarea>
           </div>
+          
         </div>
         <div className='flex justify-between items-center my-3'>
           <button type='button' onClick={handleClose} className='bg-gray-300 w-[80px] py-2 px-3 rounded-lg'>Close</button>

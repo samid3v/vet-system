@@ -148,7 +148,34 @@ export const addBoarder = asyncHandler(async(req, res) => {
 
 })
 
+export const getBoarderById = asyncHandler(async (req, res) => {
+    const { id } = req.query;
+    const { model } = req.query;
+   
+   const payment = await Payment.findOne({ module_id: id })
+  .populate({
+    path: 'module_id',
+    model: model, 
+    populate: {
+        path: 'patient_id',
+        populate: {
+          path: 'owner',
+        }
+      }
+  })
+  
+    if (payment) {
+      console.log(payment);
+      res.status(200).json(payment);
+    } else {
+      console.error(err);
+      const error = new Error(`${model} not found`);
+      error.statusCode = 404; // Correct the status code to 404 for "Not Found"
+      throw error;
 
+    }
+  
+  });
 
   export const editBoarder = asyncHandler(async (req, res) => {
     const { id } = req.query;

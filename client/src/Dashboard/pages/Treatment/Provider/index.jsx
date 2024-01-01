@@ -71,7 +71,7 @@ useEffect(()=>{
         });
   
         if (response.status === 200) {
-          console.log(response)
+          console.log(response.data)
           setCurrentBoarder(response.data);
         } else {
           toast.error('Failed to fetch patient');
