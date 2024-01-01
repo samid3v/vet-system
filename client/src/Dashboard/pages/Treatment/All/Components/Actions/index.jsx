@@ -10,6 +10,7 @@ import BasicModal from '../../../../../components/Modal';
 import boardingUrl from '../../../../../urls/boarding';
 import EditBoarder from '../EditBoarder';
 import { useNavigate } from 'react-router-dom';
+import treatmentUrl from '../../../../../urls/treatment';
 
 
 const Actions = ({doc}) => {
@@ -17,7 +18,7 @@ const Actions = ({doc}) => {
   const navigate = useNavigate()
 
   const [openDelete, setOpenDelete] = useState(false)
-  const {refreshBoarders, setCurrentId,bookingStatus, setCurrentBoarder, searchTerm, refreshStats, updateSearchResults} = useTreatment()
+  const {refreshTreatments, setCurrentId, setCurrentBoarder, searchTerm, updateSearchResults} = useTreatment()
 
   const [open, setOpen] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -36,7 +37,7 @@ const Actions = ({doc}) => {
 
   const deleteDoc = async () =>{
     try {
-      const response = await api.delete(boardingUrl.delete_boarder.url, {
+      const response = await api.delete(treatmentUrl.delete_transaction.url, {
         params: {id:doc._id },
       });
   
@@ -46,32 +47,26 @@ const Actions = ({doc}) => {
           updateSearchResults()
   
         }else{
-          refreshBoarders()
-          refreshStats()
+          refreshTreatments()
         }
-        toast.success('Boarder Record Deleted Successfully')
+        toast.success('Treatment Record Deleted Successfully')
       } else {
-        toast.error('Failed to fetch Customer');
+        toast.error('Failed to fetch Treatment');
       }
     } catch (error) {
-      toast.error(error.response);
-  
-      
+      // toast.error(error.response.data.error);
+      console.log(error)
+   
     }
   }
 
   return (
     <div className='flex justify-center items-center gap-3'>
      <FaEye onClick={()=> navigate(`./${doc._id}/view`)} className='text-secondary font-semibold text-lg cursor-pointer' />
-     {
-      (bookingStatus === 'Booked' || bookingStatus==='In Progress') && (
-        <>
           <FaRegEdit onClick={handleOpenEdit} className='text-primary font-semibold text-lg cursor-pointer' />
           <BsTrash onClick={()=>setOpenDelete(true)} className='text-error font-semibold text-lg cursor-pointer' />
-        </>
-      )
-
-     }
+        
+     
      <DeleteModal open={openDelete} handleClose={()=>setOpenDelete(false)} deleteFunc={deleteDoc} />
      <BasicModal open={openEditModal} element={<EditBoarder handleClose={handleCloseEditModal}/>}/>
     

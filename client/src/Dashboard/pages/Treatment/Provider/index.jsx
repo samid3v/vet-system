@@ -26,27 +26,23 @@ const TreatmentProvider = ({children}) => {
  
 
 useEffect(()=>{
-      getAllBoarders(currentPage,10)
-      getBoardingStats()
+      getAllTreatments(currentPage,10)
       getPatients()
    },[])
 
    useEffect(()=>{
     if (searchTerm.length<3) {
       
-      getAllBoarders(currentPage,10)
+      getAllTreatments(currentPage,10)
     }
 
 },[searchTerm])
 
    useEffect(()=>{
-    getAllBoarders(currentPage,10)
+    getAllTreatments(currentPage,10)
  },[currentPage])
 
- useEffect(()=>{
-  getAllBoarders(currentPage,10)
-},[bookingStatus])
-
+ 
    useEffect(()=>{
      if (currentId!==0) {
       getSingleBoarding()
@@ -89,8 +85,8 @@ useEffect(()=>{
     }
   };
 
-  const refreshBoarders = () => {
-    getAllBoarders(currentPage,10)
+  const refreshTreatments = () => {
+    getAllTreatments(currentPage,10)
   }
   
   const updateSearchResults = async () => {
@@ -120,15 +116,9 @@ useEffect(()=>{
     
   };
 
-  useEffect(()=>{
-    if (statusId!==null && boardingState!=='') {
-      
-      updateBoardingStatus()
-    }
-  },[boardingState, statusId])
-  
+   
 
-  const getAllBoarders = async (page, pageSize) =>{
+  const getAllTreatments = async (page, pageSize) =>{
      try{
       setShowLoader(true);
 
@@ -181,64 +171,6 @@ const getPatients = async () =>{
 
 }
 
-const updateBoardingStatus = async () =>{
-  console.log(boardingState)
-  try{
-   setShowLoader(true);
-
- const response = await api.put(boardingUrl.edit_boarding_status.url,null, {
-   params: { 
-     id:statusId,
-     status:boardingState
-  
-   }
- })
- console.log(response)
-
- if (response.status === 201) {
-  setCurrentId(null)
-  refreshStats()
-  refreshBoarders()
- } else {
-   toast.error('Failed to fetch patients');
- }
- 
- }catch(error){
-     console.log(error)
- }finally {
-   setShowLoader(false);
-
- };
-
- 
-
-}
-
-const refreshStats =()=>{
-  getBoardingStats()
-}
-
-const getBoardingStats = async (page, pageSize) =>{
-     try{
-
-    const response = await api.get(boardingUrl.get_stats.url)
-    if (response.status === 200) {
-      // const { data, totalPages } = response.data;
-
-     
-      setStats(response.data)
-      console.log(response.data)
-    } else {
-      console.error('Failed to fetch patients');
-    }
-    
-    }catch(error){
-        console.log(error)
-    }
-
-    
- 
-}
   return (
     <TreatmentContext.Provider value={{
      totalPages, 
@@ -252,14 +184,7 @@ const getBoardingStats = async (page, pageSize) =>{
      searchTerm, 
      setSearchTerm,
      updateSearchResults,
-     refreshBoarders,
-     bookingStatus, 
-     setBookingStatus,
-     stats, 
-     setStats,
-     refreshStats,
-     boardingState, 
-     setBoardingState,
+     refreshTreatments,
      currentBoarder, 
      setCurrentBoarder,
      statusId, 
