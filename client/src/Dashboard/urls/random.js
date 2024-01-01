@@ -8,8 +8,8 @@ const random = {
      add_transaction:{
           url:`/treatments/add-treatment`
      },
-     get_patient:{
-          url:`/transactions/get-transaction`
+     get_single_model:{
+          url:`/random/model-by-id`
      },
 }
 

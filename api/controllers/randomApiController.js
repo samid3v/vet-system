@@ -1,4 +1,5 @@
 import Patient from "../server/models/patientModel.js";
+import Payment from "../server/models/paymentModel.js";
 import User from "../server/models/userModel.js";
 import asyncHandler from 'express-async-handler';
 
@@ -30,13 +31,19 @@ export const getAllPatients = asyncHandler(async(req, res) => {
  export const getModelById = asyncHandler(async (req, res) => {
      const { id } = req.query;
      const { model } = req.query;
+
+     if (!id || !model) {
+          const error = new Error("Check missing param");
+          error.statusCode = 400;
+          throw error;
+     }
     
     const payment = await Payment.findOne({ module_id: id })
    .populate({
      path: 'module_id',
      model: model, 
      populate: {
-         path: 'patient_id',
+         path: 'patient',
          populate: {
            path: 'owner',
          }

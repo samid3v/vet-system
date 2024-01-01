@@ -5,6 +5,6 @@ const randomRoutes = express.Router()
 
 randomRoutes.get('/all-patients', getAllPatients)
 randomRoutes.get('/all-users', getAllUsers)
-randomRoutes.get('/model-by-id-', getModelById)
+randomRoutes.get('/model-by-id', getModelById)
 
 export default randomRoutes

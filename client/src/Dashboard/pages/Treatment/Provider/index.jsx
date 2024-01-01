@@ -7,6 +7,7 @@ import BoardingContext from '../context';
 import boardingUrl from '../../../urls/boarding';
 import TreatmentContext from '../context';
 import treatmentUrl from '../../../urls/treatment';
+import random from '../../../urls/random';
 
 
 const TreatmentProvider = ({children}) => {
@@ -40,7 +41,7 @@ useEffect(()=>{
  
    useEffect(()=>{
      if (currentId!==0) {
-      getSingleBoarding()
+      getSingleTreatment()
      }
    },[currentId])
 
@@ -57,13 +58,16 @@ useEffect(()=>{
   
 
  
-  const getSingleBoarding = async () => {
+  const getSingleTreatment = async () => {
     try {
       setShowLoader(true)
 
       if (currentId !== 0) {
-        const response = await api.get(boardingUrl.get_single_boarder.url, {
-          params: { id: currentId },
+        const response = await api.get(random.get_single_model.url, {
+          params: { 
+            id: currentId,
+            model:'Treatments'
+           },
         });
   
         if (response.status === 200) {
@@ -74,7 +78,8 @@ useEffect(()=>{
         }
       }
     } catch (error) {
-      toast.error(error.message);
+      setShowLoader(false);
+      toast.error(error.response.data.error);
     } finally {
       setShowLoader(false);
     }
@@ -136,7 +141,8 @@ useEffect(()=>{
     }
     
     }catch(error){
-        console.log(error)
+        toast.error(error.message)
+
     }finally {
       setShowLoader(false);
 
