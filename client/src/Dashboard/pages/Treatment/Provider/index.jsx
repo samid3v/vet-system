@@ -14,20 +14,15 @@ const TreatmentProvider = ({children}) => {
      const [currentId, setCurrentId] = useState(0)
      const [statusId, setStatusId] = useState(null)
      const [totalPages, setTotalPages] = useState(0)
-     const [patients, setPatients] = useState([])
       const [treaments, setTreatments] = useState([]);
       const [searchTerm, setSearchTerm] = useState('');
-      const [stats, setStats] = useState([])
       const { setShowLoader } = useApp();
       const [currentBoarder, setCurrentBoarder] =useState([])
 
-      const [bookingStatus, setBookingStatus] = useState('In Progress')
-      const [boardingState, setBoardingState] = useState('')
  
 
 useEffect(()=>{
       getAllTreatments(currentPage,10)
-      getPatients()
    },[])
 
    useEffect(()=>{
@@ -150,26 +145,7 @@ useEffect(()=>{
     
  
 }
-const getPatients = async () =>{
-  try{
 
- const response = await api.get(boardingUrl.get_patient.url)
- if (response.status === 200) {
-
-  
-   setPatients(response.data)
-   console.log(response.data)
- } else {
-   toast.error('Failed to fetch patients');
- }
- 
- }catch(error){
-     console.log(error)
- }
-
- 
-
-}
 
   return (
     <TreatmentContext.Provider value={{

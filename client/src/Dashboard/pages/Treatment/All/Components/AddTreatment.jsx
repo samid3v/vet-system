@@ -5,11 +5,14 @@ import { useTreatment } from '../../Hooks';
 import { toast } from 'react-toastify';
 import api from '../../../../helpers/axiosInstance';
 import boardingUrl from '../../../../urls/boarding';
+import random from '../../../../urls/random';
 
 const AddTreatment = ({handleClose}) => {
 
+
   const { setShowLoader,setModalOpen } = useApp();
   const [patients, setPatients] = useState([])
+  const [users, setUsers] = useState([])
   const { refreshBoarders, refreshStats } = useTreatment()
   const [formData, setFormData] = useState({
     patient_id:'', 
@@ -29,6 +32,49 @@ const AddTreatment = ({handleClose}) => {
       [name]: value,
     }));
   };
+
+  useEffect(()=>{
+    getPatients()
+  },[])
+
+  const getPatients = async () =>{
+    try{
+  
+   const response = await api.get(random.get_all_patients.url)
+   if (response.status === 200) {
+  
+    
+     setPatients(response.data)
+   } else {
+     toast.error('Failed to fetch patients');
+   }
+   
+   }catch(error){
+       console.log(error)
+   }
+  
+   
+  
+  }
+  const getUsers = async () =>{
+    try{
+  
+   const response = await api.get(random.get_all_users.url)
+   if (response.status === 200) {
+  
+    
+     setUsers(response.data)
+   } else {
+     toast.error('Failed to fetch users');
+   }
+   
+   }catch(error){
+       console.log(error)
+   }
+  
+   
+  
+  }
 
   const handleAddBoarder = async (e) => {
         
