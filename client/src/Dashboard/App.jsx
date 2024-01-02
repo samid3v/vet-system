@@ -12,6 +12,7 @@ import Boarding from './pages/Boarding'
 import ViewBoarding from './pages/Boarding/View'
 import Treatment from './pages/Treatment'
 import AllTreatment from './pages/Treatment/All'
+import ViewTreatment from './pages/Treatment/View'
 
 function App() {
 
@@ -33,7 +34,7 @@ function App() {
             </Route>
             <Route path='treatment' element={<Treatment/>} >
               <Route index element={<AllTreatment/>} />
-              {/* <Route path=':id/view' element={<ViewBoarding/>} /> */}
+              <Route path=':id/view' element={<ViewTreatment/>} />
             </Route>
           </Route>
         </Routes>    

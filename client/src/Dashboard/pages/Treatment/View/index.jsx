@@ -2,7 +2,7 @@ import React from 'react'
 import BoarderInfo from './Components/BoarderInfo'
 import { useParams } from 'react-router-dom'
 
-const ViewBoarding = () => {
+const ViewTreatment = () => {
      const {id} = useParams()
      
   return (
@@ -12,4 +12,4 @@ const ViewBoarding = () => {
   )
 }
 
-export default ViewBoarding
+export default ViewTreatment
