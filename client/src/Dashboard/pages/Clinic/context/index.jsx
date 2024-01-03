@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const TreatmentContext = createContext()
+const BoardingContext = createContext()
 
-export default TreatmentContext
+export default BoardingContext

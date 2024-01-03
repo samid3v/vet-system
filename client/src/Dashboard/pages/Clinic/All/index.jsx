@@ -1,12 +1,14 @@
 import React from 'react'
-import TreatmentTable from './Components/BoardingTable'
+import BookingTable from './Components/Booked/BoardingTable'
+import BookingCards from './Components/BookingCards'
 
 const AllClinics = () => {
 
   return (
     <>
+      <BookingCards />
       <div className='bg-white  '>
-        <TreatmentTable/>
+        <BookingTable/>
       </div>
     </>
   )

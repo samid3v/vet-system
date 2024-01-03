@@ -5,45 +5,49 @@ import { toast } from 'react-toastify';
 import { useApp } from '../../../hooks/useApp';
 import BoardingContext from '../context';
 import boardingUrl from '../../../urls/boarding';
-import TreatmentContext from '../context';
-import treatmentUrl from '../../../urls/treatment';
-import random from '../../../urls/random';
 
 
-const TreatmentProvider = ({children}) => {
+const BoardingProvider = ({children}) => {
      const [currentPage, setCurrentPage] = useState(1)
      const [currentId, setCurrentId] = useState(0)
      const [statusId, setStatusId] = useState(null)
      const [totalPages, setTotalPages] = useState(0)
-      const [treaments, setTreatments] = useState([]);
+     const [patients, setPatients] = useState([])
+      const [boarders, setBoarders] = useState([]);
       const [searchTerm, setSearchTerm] = useState('');
+      const [stats, setStats] = useState([])
       const { setShowLoader } = useApp();
-      const [currentTreatment, setCurrentTreatment] =useState([])
-      const [patients, setPatients] = useState([])
-      const [users, setUsers] = useState([])
+      const [currentBoarder, setCurrentBoarder] =useState([])
 
+      const [bookingStatus, setBookingStatus] = useState('In Progress')
+      const [boardingState, setBoardingState] = useState('')
  
 
 useEffect(()=>{
-      getAllTreatments(currentPage,10)
+      getAllBoarders(currentPage,10)
+      getBoardingStats()
+      getPatients()
    },[])
 
    useEffect(()=>{
     if (searchTerm.length<3) {
       
-      getAllTreatments(currentPage,10)
+      getAllBoarders(currentPage,10)
     }
 
 },[searchTerm])
 
    useEffect(()=>{
-    getAllTreatments(currentPage,10)
+    getAllBoarders(currentPage,10)
  },[currentPage])
 
- 
+ useEffect(()=>{
+  getAllBoarders(currentPage,10)
+},[bookingStatus])
+
    useEffect(()=>{
      if (currentId!==0) {
-      getSingleTreatment()
+      getSingleBoarding()
      }
    },[currentId])
 
@@ -60,35 +64,31 @@ useEffect(()=>{
   
 
  
-  const getSingleTreatment = async () => {
+  const getSingleBoarding = async () => {
     try {
       setShowLoader(true)
 
       if (currentId !== 0) {
-        const response = await api.get(random.get_single_model.url, {
-          params: { 
-            id: currentId,
-            model:'Treatments'
-           },
+        const response = await api.get(boardingUrl.get_single_boarder.url, {
+          params: { id: currentId },
         });
   
         if (response.status === 200) {
-          console.log(response.data)
-          setCurrentTreatment(response.data);
+          console.log(response)
+          setCurrentBoarder(response.data);
         } else {
           toast.error('Failed to fetch patient');
         }
       }
     } catch (error) {
-      setShowLoader(false);
-      toast.error(error.response.data.error);
+      toast.error(error.message);
     } finally {
       setShowLoader(false);
     }
   };
 
-  const refreshTreatments = () => {
-    getAllTreatments(currentPage,10)
+  const refreshBoarders = () => {
+    getAllBoarders(currentPage,10)
   }
   
   const updateSearchResults = async () => {
@@ -118,16 +118,23 @@ useEffect(()=>{
     
   };
 
-   
+  useEffect(()=>{
+    if (statusId!==null && boardingState!=='') {
+      
+      updateBoardingStatus()
+    }
+  },[boardingState, statusId])
+  
 
-  const getAllTreatments = async (page, pageSize) =>{
+  const getAllBoarders = async (page, pageSize) =>{
      try{
       setShowLoader(true);
 
-    const response = await api.get(treatmentUrl.get_all.url, {
+    const response = await api.get(boardingUrl.get_all.url, {
       params: { 
         page, 
         pageSize,
+        status:bookingStatus  
       }
     })
     if (response.status === 200) {
@@ -135,7 +142,7 @@ useEffect(()=>{
 
      
 
-      setTreatments(data);
+      setBoarders(data);
       console.log(data)
       setTotalPages(totalPages)
     } else {
@@ -143,8 +150,7 @@ useEffect(()=>{
     }
     
     }catch(error){
-        toast.error(error.message)
-
+        console.log(error)
     }finally {
       setShowLoader(false);
 
@@ -153,15 +159,15 @@ useEffect(()=>{
     
  
 }
-
 const getPatients = async () =>{
   try{
 
- const response = await api.get(random.get_all_patients.url)
+ const response = await api.get(boardingUrl.get_patient.url)
  if (response.status === 200) {
 
   
    setPatients(response.data)
+   console.log(response.data)
  } else {
    toast.error('Failed to fetch patients');
  }
@@ -173,59 +179,98 @@ const getPatients = async () =>{
  
 
 }
-const getUsers = async () =>{
+
+const updateBoardingStatus = async () =>{
+  console.log(boardingState)
   try{
+   setShowLoader(true);
 
- const response = await api.get(random.get_all_users.url)
- if (response.status === 200) {
-
+ const response = await api.put(boardingUrl.edit_boarding_status.url,null, {
+   params: { 
+     id:statusId,
+     status:boardingState
   
-   setUsers(response.data)
+   }
+ })
+ console.log(response)
+
+ if (response.status === 201) {
+  setCurrentId(null)
+  refreshStats()
+  refreshBoarders()
  } else {
-   toast.error('Failed to fetch users');
+   toast.error('Failed to fetch patients');
  }
  
  }catch(error){
      console.log(error)
- }
+ }finally {
+   setShowLoader(false);
+
+ };
 
  
 
 }
 
-const refreshInfo = () => {
-  getPatients()
-  getUsers()
+const refreshStats =()=>{
+  getBoardingStats()
 }
 
+const getBoardingStats = async (page, pageSize) =>{
+     try{
+
+    const response = await api.get(boardingUrl.get_stats.url)
+    if (response.status === 200) {
+      // const { data, totalPages } = response.data;
+
+     
+      setStats(response.data)
+      console.log(response.data)
+    } else {
+      console.error('Failed to fetch patients');
+    }
+    
+    }catch(error){
+        console.log(error)
+    }
+
+    
+ 
+}
   return (
-    <TreatmentContext.Provider value={{
+    <BoardingContext.Provider value={{
      totalPages, 
      setTotalPages,
      currentPage, 
      setCurrentPage,
+     patients,
      currentId, 
      setCurrentId,
-     treaments, 
+     boarders, 
      searchTerm, 
      setSearchTerm,
      updateSearchResults,
-     refreshTreatments,
-     currentTreatment, 
-     setCurrentTreatment,
+     refreshBoarders,
+     bookingStatus, 
+     setBookingStatus,
+     stats, 
+     setStats,
+     refreshStats,
+     boardingState, 
+     setBoardingState,
+     currentBoarder, 
+     setCurrentBoarder,
      statusId, 
-     setStatusId,
-     patients,
-     users,
-     refreshInfo
+     setStatusId
      
     }}>
       {/* <Modal/> */}
       {/* <DeleteModal/> */}
 
           {children}
-    </TreatmentContext.Provider>
+    </BoardingContext.Provider>
   )
 }
 
-export default TreatmentProvider
+export default BoardingProvider

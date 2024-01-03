@@ -4,10 +4,10 @@ import { LuPencilLine } from "react-icons/lu";
 import { GiProgression } from "react-icons/gi";
 import { MdIncompleteCircle } from "react-icons/md";
 import { MdOutlineFreeCancellation } from "react-icons/md"
-import { useTreatment } from '../../Hooks';
+import { useBoarding } from '../../Hooks';
 
 const BookingCards = () => {
-  const { bookingStatus,setBookingStatus, stats  } = useTreatment()
+  const { bookingStatus,setBookingStatus, stats  } = useBoarding()
   return (
     <div className='my-4 flex items-center gap-5 flex-nowrap'>
       <Card onClick={()=>setBookingStatus('In Progress')} active={bookingStatus=='In Progress'? true:false} variant={'In Progress'} value={stats?.['In Progress'] || 0} title={'In Progress'} icon={<GiProgression/>} />
