@@ -19,7 +19,7 @@ const BoardingProvider = ({children}) => {
       const { setShowLoader } = useApp();
       const [currentBoarder, setCurrentBoarder] =useState([])
 
-      const [bookingStatus, setBookingStatus] = useState('In Progress')
+      const [bookingStatus, setBookingStatus] = useState('Booked')
       const [boardingState, setBoardingState] = useState('')
  
 

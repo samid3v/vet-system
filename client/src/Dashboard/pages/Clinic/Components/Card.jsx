@@ -16,7 +16,7 @@ const Card = ({variant, icon, title, value, onClick, active=false}) => {
           }
         };
   return (
-     <div onClick={onClick} className={`p-6 cursor-pointer mx-auto w-56 rounded-xl shadow-md ${getColorClasses()}`}>
+     <div onClick={onClick} className={`p-6 cursor-pointer w-56 rounded-xl shadow-md ${getColorClasses()}`}>
       <div className="flex items-center">
         <div className="flex-shrink-0 mr-4 text-3xl">{icon}</div>
         <div>
