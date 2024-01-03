@@ -26,7 +26,7 @@ const Sidebar = () => {
                          <MdPets className='text-xl'/>
                     </div>
 
-                    <div className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
+                    <div onClick={()=>navigate("./clinic")} className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
                          <MdOutlineLocalHospital className='text-xl'/>
                     </div>
                     
