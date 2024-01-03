@@ -13,6 +13,8 @@ import ViewBoarding from './pages/Boarding/View'
 import Treatment from './pages/Treatment'
 import AllTreatment from './pages/Treatment/All'
 import ViewTreatment from './pages/Treatment/View'
+import Clinic from './pages/Clinic'
+import AllClinics from './pages/Clinic/All'
 
 function App() {
 
@@ -35,6 +37,10 @@ function App() {
             <Route path='treatment' element={<Treatment/>} >
               <Route index element={<AllTreatment/>} />
               <Route path=':id/view' element={<ViewTreatment/>} />
+            </Route>
+            <Route path='clinic' element={<Clinic/>} >
+              <Route index element={<AllClinics/>} />
+              {/* <Route path=':id/view' element={<ViewTreatment/>} /> */}
             </Route>
           </Route>
         </Routes>    
