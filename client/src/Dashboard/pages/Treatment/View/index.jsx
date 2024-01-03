@@ -1,5 +1,5 @@
 import React from 'react'
-import BoarderInfo from './Components/BoarderInfo'
+import TreatmentInfo from './Components/TreatmentInfo'
 import { useParams } from 'react-router-dom'
 
 const ViewTreatment = () => {
@@ -7,7 +7,7 @@ const ViewTreatment = () => {
      
   return (
     <div className='bg-white p-4 rounded-md'>
-       <BoarderInfo id={id} />
+       <TreatmentInfo id={id} />
     </div>
   )
 }
