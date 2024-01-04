@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Modal from '../../../../components/Modal';
 import { useApp } from '../../../../hooks/useApp';
-import { useBoarding } from '../../Hooks';
+import { useClinic } from '../../Hooks';
 import { toast } from 'react-toastify';
 import api from '../../../../helpers/axiosInstance';
 import boardingUrl from '../../../../urls/boarding';
@@ -9,7 +9,7 @@ import boardingUrl from '../../../../urls/boarding';
 const AddBoarder = ({handleClose}) => {
 
   const { setShowLoader,setModalOpen } = useApp();
-  const { patients, refreshBoarders, refreshStats } = useBoarding()
+  const { patients, refreshBoarders, refreshStats } = useClinic()
   const [formData, setFormData] = useState({
     patient_id:'', 
     start_date:'', 

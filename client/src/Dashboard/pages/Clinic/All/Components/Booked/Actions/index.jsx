@@ -5,7 +5,7 @@ import { FaEye } from "react-icons/fa";
 import DeleteModal from '../../../../../../components/DeleteModal';
 import api from '../../../../../../helpers/axiosInstance';
 import { toast } from 'react-toastify';
-import { useBoarding } from '../../../../Hooks';
+import { useClinic } from '../../../../Hooks';
 import { useApp } from '../../../../../../hooks/useApp';
 import BasicModal from '../../../../../../components/Modal';
 import boardingUrl from '../../../../../../urls/boarding';
@@ -18,7 +18,7 @@ const Actions = ({doc}) => {
   const navigate = useNavigate()
 
   const [openDelete, setOpenDelete] = useState(false)
-  const {refreshBoarders, setCurrentId,bookingStatus, setCurrentBoarder, searchTerm, refreshStats, updateSearchResults} = useBoarding()
+  const {refreshBoarders, setCurrentId,bookingStatus, setCurrentBoarder, searchTerm, refreshStats, updateSearchResults} = useClinic()
 
   const [open, setOpen] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);

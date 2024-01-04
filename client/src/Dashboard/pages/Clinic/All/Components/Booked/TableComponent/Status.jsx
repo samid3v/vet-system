@@ -1,9 +1,9 @@
 import React from 'react'
-import { useBoarding } from '../../../../Hooks';
+import { useClinic } from '../../../../Hooks';
 
 const Status = ({status, setMenuDisabled,id}) => {
 
-     const {boardingState, setBoardingState, setStatusId} = useBoarding()
+     const {boardingState, setBoardingState, setStatusId} = useClinic()
 
      const containerClasses = `bg-white absolute px-1 py-2 shadow-lg ${
           status === 'In Progress' ? 'right-24 top-14' : 'right-30 top-12'

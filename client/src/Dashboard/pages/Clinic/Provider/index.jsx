@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { useApp } from '../../../hooks/useApp';
 import BoardingContext from '../context';
 import boardingUrl from '../../../urls/boarding';
+import ClinicContext from '../context';
 
 
 const BoardingProvider = ({children}) => {
@@ -239,7 +240,7 @@ const getBoardingStats = async (page, pageSize) =>{
  
 }
   return (
-    <BoardingContext.Provider value={{
+    <ClinicContext.Provider value={{
      totalPages, 
      setTotalPages,
      currentPage, 
@@ -269,7 +270,7 @@ const getBoardingStats = async (page, pageSize) =>{
       {/* <DeleteModal/> */}
 
           {children}
-    </BoardingContext.Provider>
+    </ClinicContext.Provider>
   )
 }
 

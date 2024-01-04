@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useApp } from '../../../../../hooks/useApp'
-import { useBoarding } from '../../../Hooks'
+import { useClinic } from '../../../Hooks'
 import patientUrl from '../../../../../urls/patients'
 import api from '../../../../../helpers/axiosInstance'
 import { GiCancel } from 'react-icons/gi'
@@ -14,7 +14,7 @@ import {DateTime} from 'luxon'
 
 const EditBoarder = ({handleClose}) => {
      const { setShowLoader  } = useApp()
-     const { currentBoarder, refreshBoarders, currentId, patients } = useBoarding()
+     const { currentBoarder, refreshBoarders, currentId, patients } = useClinic()
      const [formData, setFormData] = useState({
       patient_id:'', 
       start_date:'', 

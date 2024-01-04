@@ -3,11 +3,11 @@ import Pagination from '@mui/material/Pagination';
 
 import THeader from './TableHeader';
 import TBody from './TableBody';
-import { useBoarding } from '../../../../Hooks';
+import { useClinic } from '../../../../Hooks';
 
 const LargeDevice = () => {
 
-  const {patients, totalPages, currentPage, setCurrentPage} = useBoarding()
+  const {patients, totalPages, currentPage, setCurrentPage} = useClinic()
 
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);

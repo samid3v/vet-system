@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import BoardingContext from "../context";
+import ClinicContext from "../context";
 
-export function useBoarding() {
-     return useContext(BoardingContext);
+export function useClinic() {
+     return useContext(ClinicContext);
 }

@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const BoardingContext = createContext()
+const ClinicContext = createContext()
 
-export default BoardingContext
+export default ClinicContext

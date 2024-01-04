@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { useApp } from '../../../../../hooks/useApp';
 import LargeDevice from './TableComponent/LargeDevice';
 import BasicModal from '../../../../../components/Modal';
-import { useBoarding } from '../../../Hooks';
+import { useClinic } from '../../../Hooks';
 import AddBoarder from '../AddBoarder';
 
 const BookingTable = () => {
 
   const {setModalOpen, setModalMessage, isModalOpen, modalMessage} = useApp();
-  const {searchTerm, setSearchTerm} = useBoarding()
+  const {searchTerm, setSearchTerm} = useClinic()
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
