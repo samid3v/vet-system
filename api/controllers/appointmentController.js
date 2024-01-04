@@ -3,12 +3,62 @@ import Patient from '../server/models/patientModel.js';
 import Appointment from '../server/models/appointmentsModel.js';
 import User from '../server/models/userModel.js';
 
-export const getAllAppointments = asyncHandler(async(req, res) => {
-    const appointments = await Appointment.find()
-    .populate('patient_id') 
-    .populate('by', '-password');
 
-    res.status(200).json(appointments)
+export const getStatusStats = asyncHandler(async(req, res) => {
+  const statusCounts = await Appointment.aggregate([
+    {
+      $group: {
+        _id: '$status',
+        count: { $sum: 1 },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        status: '$_id',
+        count: 1,
+      },
+    },
+  ]);
+
+  const result = statusCounts.reduce((acc, { status, count }) => {
+    acc[status] = count;
+    return acc;
+  }, {});
+
+  res.json(result);
+
+})
+
+export const getAllAppointments = asyncHandler(async(req, res) => {
+    
+    const status = req.query.status
+  const page = parseInt(req.query.page) || 1; // default to page 1 if not provided
+  const pageSize = parseInt(req.query.pageSize) || 10; // default to 10 items per page if not provided
+
+  const skip = (page - 1) * pageSize;
+
+  const totalBoarders = await Patient.countDocuments();
+  const totalPages = Math.ceil(totalBoarders / pageSize);
+
+  const boaders = await Appointment.find({ status: status })
+  .populate(
+    {path:"patient_id", populate: {
+    path: 'owner',
+  },})
+  .populate('vet')
+  .sort({ createdAt: -1 })
+  .skip(skip)
+  .limit(pageSize);
+
+  res.status(200).json({
+    page,
+    pageSize,
+    totalBoarders,
+    totalPages,
+    data:boaders
+  })
+
 })
 
 export const addAppointment = asyncHandler(async(req, res) => {
