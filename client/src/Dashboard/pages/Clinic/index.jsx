@@ -1,13 +1,13 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import BoardingProvider from './Provider'
+import ClinicProvider from './Provider'
 
 const Clinic = () => {
   
   return (
-    <BoardingProvider >
+    <ClinicProvider >
         <Outlet/>
-    </BoardingProvider>
+    </ClinicProvider>
   )
 }
 

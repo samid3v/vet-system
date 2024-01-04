@@ -3,7 +3,7 @@ import Actions from '../Actions'
 import { CiMenuKebab } from "react-icons/ci";
 import Status from './Status';
 
-const TRow = ({boarder, index}) => {
+const TRow = ({clinic, index}) => {
 
   const [menuDisabled, setMenuDisabled] = useState(false)
   
@@ -24,25 +24,24 @@ const TRow = ({boarder, index}) => {
   return (
     
     <tr key={index} className={` relative ${ index % 2 === 0 ? 'bg-gray-100' : ''  }`}>
-        <td className="p-3 border-b">{index+1}</td>
-        <td className="p-3 border-b">{boarder?.patient_id?.name}</td>
-        <td className="p-3 border-b">{boarder?.patient_id?.owner?.name}</td>
-        <td className="p-3 border-b">{humateDateFormat(boarder?.start_date)}</td>
-        <td className="p-3 border-b">{humateDateFormat(boarder?.end_date)}</td>
+        <td className="p-3 border-b">{clinic?.patient_id?.name}</td>
+        <td className="p-3 border-b">{clinic?.vet?.name}</td>
+        <td className="p-3 border-b">{humateDateFormat(clinic?.date)}</td>
+        <td className="p-3 border-b">{ clinic?.reason }</td>
         <td className="p-3 border-b flex justify-start gap-5 items-center  ">
-          {boarder?.status || '---'}
-          {(boarder?.status === 'In Progress' || boarder?.status == 'Booked') && 
+          {clinic?.status || '---'}
+          {(clinic?.status === 'In Progress' || clinic?.status == 'Booked') && 
           (
             <>
               <CiMenuKebab onClick={()=> setMenuDisabled(!menuDisabled)} className='text-xl font-semibold'/>
-              {menuDisabled && <Status id={boarder._id} status={boarder?.status} setMenuDisabled={setMenuDisabled}/>}
+              {menuDisabled && <Status id={clinic._id} status={clinic?.status} setMenuDisabled={setMenuDisabled}/>}
             </>
           )
           }
           
          </td>
           
-       { boarder?.status !== 'Canceled' && <td className="p-3 border-b"><Actions doc={boarder}/></td>}
+       { clinic?.status !== 'Canceled' && <td className="p-3 border-b"><Actions doc={clinic}/></td>}
       </tr>
   )
 }

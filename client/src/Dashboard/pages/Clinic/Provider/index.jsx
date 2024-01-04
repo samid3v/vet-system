@@ -6,15 +6,16 @@ import { useApp } from '../../../hooks/useApp';
 import BoardingContext from '../context';
 import boardingUrl from '../../../urls/boarding';
 import ClinicContext from '../context';
+import clinicUrl from '../../../urls/clinic';
 
 
-const BoardingProvider = ({children}) => {
+const ClinicProvider = ({children}) => {
      const [currentPage, setCurrentPage] = useState(1)
      const [currentId, setCurrentId] = useState(0)
      const [statusId, setStatusId] = useState(null)
      const [totalPages, setTotalPages] = useState(0)
      const [patients, setPatients] = useState([])
-      const [boarders, setBoarders] = useState([]);
+      const [clinics, setClinics] = useState([]);
       const [searchTerm, setSearchTerm] = useState('');
       const [stats, setStats] = useState([])
       const { setShowLoader } = useApp();
@@ -25,7 +26,7 @@ const BoardingProvider = ({children}) => {
  
 
 useEffect(()=>{
-      getAllBoarders(currentPage,10)
+      getAllAppointments(currentPage,10)
       getBoardingStats()
       getPatients()
    },[])
@@ -33,17 +34,17 @@ useEffect(()=>{
    useEffect(()=>{
     if (searchTerm.length<3) {
       
-      getAllBoarders(currentPage,10)
+      getAllAppointments(currentPage,10)
     }
 
 },[searchTerm])
 
    useEffect(()=>{
-    getAllBoarders(currentPage,10)
+    getAllAppointments(currentPage,10)
  },[currentPage])
 
  useEffect(()=>{
-  getAllBoarders(currentPage,10)
+  getAllAppointments(currentPage,10)
 },[bookingStatus])
 
    useEffect(()=>{
@@ -88,8 +89,8 @@ useEffect(()=>{
     }
   };
 
-  const refreshBoarders = () => {
-    getAllBoarders(currentPage,10)
+  const refreshclinics = () => {
+    getAllAppointments(currentPage,10)
   }
   
   const updateSearchResults = async () => {
@@ -127,11 +128,11 @@ useEffect(()=>{
   },[boardingState, statusId])
   
 
-  const getAllBoarders = async (page, pageSize) =>{
+  const getAllAppointments = async (page, pageSize) =>{
      try{
       setShowLoader(true);
 
-    const response = await api.get(boardingUrl.get_all.url, {
+    const response = await api.get(clinicUrl.get_all.url, {
       params: { 
         page, 
         pageSize,
@@ -143,7 +144,7 @@ useEffect(()=>{
 
      
 
-      setBoarders(data);
+      setClinics(data);
       console.log(data)
       setTotalPages(totalPages)
     } else {
@@ -198,7 +199,7 @@ const updateBoardingStatus = async () =>{
  if (response.status === 201) {
   setCurrentId(null)
   refreshStats()
-  refreshBoarders()
+  refreshclinics()
  } else {
    toast.error('Failed to fetch patients');
  }
@@ -248,11 +249,11 @@ const getBoardingStats = async (page, pageSize) =>{
      patients,
      currentId, 
      setCurrentId,
-     boarders, 
+     clinics, 
      searchTerm, 
      setSearchTerm,
      updateSearchResults,
-     refreshBoarders,
+     refreshclinics,
      bookingStatus, 
      setBookingStatus,
      stats, 
@@ -274,4 +275,4 @@ const getBoardingStats = async (page, pageSize) =>{
   )
 }
 
-export default BoardingProvider
+export default ClinicProvider

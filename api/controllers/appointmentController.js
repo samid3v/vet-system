@@ -38,15 +38,15 @@ export const getAllAppointments = asyncHandler(async(req, res) => {
 
   const skip = (page - 1) * pageSize;
 
-  const totalBoarders = await Patient.countDocuments();
-  const totalPages = Math.ceil(totalBoarders / pageSize);
+  const totalAppointments = await Appointment.countDocuments();
+  const totalPages = Math.ceil(totalAppointments / pageSize);
 
-  const boaders = await Appointment.find({ status: status })
+  const appointments = await Appointment.find({ status: status })
   .populate(
     {path:"patient_id", populate: {
     path: 'owner',
   },})
-  .populate('vet')
+  .populate('by')
   .sort({ createdAt: -1 })
   .skip(skip)
   .limit(pageSize);
@@ -54,9 +54,9 @@ export const getAllAppointments = asyncHandler(async(req, res) => {
   res.status(200).json({
     page,
     pageSize,
-    totalBoarders,
+    totalAppointments,
     totalPages,
-    data:boaders
+    data:appointments
   })
 
 })
