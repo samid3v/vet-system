@@ -9,7 +9,7 @@ import { useBoarding } from '../../Hooks';
 const BookingCards = () => {
   const { bookingStatus,setBookingStatus, stats  } = useBoarding()
   return (
-    <div className='my-4 flex items-center justify-between flex-nowrap'>
+    <div className='my-4 flex items-center justify-start gap-20 flex-nowrap'>
       <Card onClick={()=>setBookingStatus('Booked')} active={bookingStatus=='Booked'? true:false} variant={'Booked'} value={stats?.Booked || 0} title={'Booked'} icon={<LuPencilLine/>} />
       <Card onClick={()=>setBookingStatus('Completed')} active={bookingStatus=='Completed'? true:false} variant={'Completed'} value={stats?.Completed || 0} title={'Completed'} icon={<MdIncompleteCircle/>} />
       <Card onClick={()=>setBookingStatus('Canceled')} active={bookingStatus=='Canceled'? true:false} variant={'Canceled'} value={stats?.Canceled || 0} title={'Canceled'} icon={<MdOutlineFreeCancellation/>} />
