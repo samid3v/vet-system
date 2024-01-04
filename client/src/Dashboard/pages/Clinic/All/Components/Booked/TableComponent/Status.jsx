@@ -5,9 +5,8 @@ const Status = ({status, setMenuDisabled,id}) => {
 
      const {boardingState, setBoardingState, setStatusId} = useClinic()
 
-     const containerClasses = `bg-white absolute px-1 py-2 shadow-lg ${
-          status === 'In Progress' ? 'right-24 top-14' : 'right-30 top-12'
-        } transition-all duration-300 ease-in-out`;
+     const containerClasses = `bg-white absolute px-1 py-2 shadow-lg right-20 -top-6
+        transition-all duration-300 ease-in-out`;
 
      const statusBtnFn = (currentState)=>{
           setMenuDisabled(false)
@@ -22,7 +21,6 @@ const Status = ({status, setMenuDisabled,id}) => {
           status === 'Booked' && (
                <>
                     <li onClick={()=>statusBtnFn('Canceled')} className='hover:bg-gray-100 rounded-md py-1 px-2 cursor-pointer'>Cancel</li>
-                    <li onClick={()=>statusBtnFn('In Progress')} className='hover:bg-gray-100 rounded-md py-1 px-2 cursor-pointer'>In Progress</li>
                </>
           )
        }
