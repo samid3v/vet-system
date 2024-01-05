@@ -6,7 +6,7 @@ const AppointmentSchema = new mongoose.Schema({
         ref: 'Patients',
         required:true,
     },
-    by:{
+    vet:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users',
         required:true,
