@@ -8,13 +8,13 @@ const clinicUrl = {
      get_single_boarder:{
           url:`/boarding/get-boarder-by-id`
      },
-     delete_boarder:{
-          url:`/boarding/delete-boarder`
+     delete_clinic:{
+          url:`/appointments/delete-appointment`
      },
      add_clinic:{
           url:`/appointments/add-appointment`
      },
-     edit_boarding_status:{
+     edit_clinic_status:{
           url:`/appointments/edit-clinic-status`
      },
      edit_boarding:{

@@ -238,7 +238,7 @@ const refreshStats =()=>{
   getClinicStats()
 }
 
-const getClinicStats = async (page, pageSize) =>{
+const getClinicStats = async () =>{
      try{
 
     const response = await api.get(clinicUrl.get_stats.url)

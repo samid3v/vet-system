@@ -66,6 +66,12 @@ export const getAllAppointments = asyncHandler(async(req, res) => {
 export const addAppointment = asyncHandler(async(req, res) => {
     const {patient_id, by,reason,date, amount, notes,status, description} = req.body
 
+    if (!patient_id || !reason || !amount || !date) {
+      const error = new Error("Check required form fields");
+        error.statusCode = 404;
+        throw error;
+    }
+
     const patient = await Patient.findOne({ _id:patient_id });
     if (!patient) {
         const error = new Error("Patient doesnt exist");
@@ -101,7 +107,7 @@ export const addAppointment = asyncHandler(async(req, res) => {
         if (output) {
           const data = {
             module_id: output._id,
-            module_name:'Appointment',
+            module_name:'Appointments',
             amount:amount,
             payment_bal:amount,
             description:description,
@@ -235,7 +241,7 @@ export const getAppointmentById = asyncHandler(async (req, res) => {
                 throw error;
             }
 
-            const payExist = await Payment.findOne({ module_id: id, module_name: 'Appointment' });
+            const payExist = await Payment.findOne({ module_id: id, module_name: 'Appointments' });
             if (!payExist) {
                 const error = new Error('Payment Record Not Found');
                 error.statusCode = 404;
@@ -244,7 +250,7 @@ export const getAppointmentById = asyncHandler(async (req, res) => {
 
             const deletedBoarder = await clinicExist.deleteOne();
             if (deletedBoarder) {
-                const deletePay = await Payment.deleteOne({ module_id: id, module_name: 'Boarding' });
+                const deletePay = await Payment.deleteOne({ module_id: id, module_name: 'Appointments' });
                 if (deletePay) {
 
                     const deleteT = await Transaction.deleteMany({ payment_id: payExist._id });

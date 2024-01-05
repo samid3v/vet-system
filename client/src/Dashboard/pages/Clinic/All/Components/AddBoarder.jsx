@@ -41,7 +41,7 @@ const AddBoarder = ({handleClose}) => {
 
     console.log(formData)
     
-    if (!formData.reason || !formData.patient || !formData.amount || !formData.date) {
+    if (!formData.reason || !formData.patient_id || !formData.amount || !formData.date) {
       toast.error('Check required fields.');
       return;
     }

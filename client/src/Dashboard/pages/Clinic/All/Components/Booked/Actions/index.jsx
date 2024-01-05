@@ -11,6 +11,7 @@ import BasicModal from '../../../../../../components/Modal';
 import boardingUrl from '../../../../../../urls/boarding';
 import EditBoarder from '../EditBoarder';
 import { useNavigate } from 'react-router-dom';
+import clinicUrl from '../../../../../../urls/clinic';
 
 
 const Actions = ({doc}) => {
@@ -18,7 +19,7 @@ const Actions = ({doc}) => {
   const navigate = useNavigate()
 
   const [openDelete, setOpenDelete] = useState(false)
-  const {refreshBoarders, setCurrentId,bookingStatus, setCurrentBoarder, searchTerm, refreshStats, updateSearchResults} = useClinic()
+  const {refreshclinics, setCurrentId,bookingStatus, setCurrentBoarder, searchTerm, refreshStats, updateSearchResults} = useClinic()
 
   const [open, setOpen] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -37,7 +38,7 @@ const Actions = ({doc}) => {
 
   const deleteDoc = async () =>{
     try {
-      const response = await api.delete(boardingUrl.delete_boarder.url, {
+      const response = await api.delete(clinicUrl.delete_clinic.url, {
         params: {id:doc._id },
       });
   
@@ -47,12 +48,12 @@ const Actions = ({doc}) => {
           updateSearchResults()
   
         }else{
-          refreshBoarders()
+          refreshclinics()
           refreshStats()
         }
-        toast.success('Boarder Record Deleted Successfully')
+        toast.success('Appointment Record Deleted Successfully')
       } else {
-        toast.error('Failed to fetch Customer');
+        toast.error('Failed to fetch Appointment');
       }
     } catch (error) {
       toast.error(error.response);
