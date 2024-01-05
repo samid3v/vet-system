@@ -3,6 +3,7 @@ import Patient from '../server/models/patientModel.js';
 import Appointment from '../server/models/appointmentsModel.js';
 import User from '../server/models/userModel.js';
 import Payment from '../server/models/paymentModel.js';
+import Transaction from '../server/models/transactionModel.js';
 
 
 export const getStatusStats = asyncHandler(async(req, res) => {
@@ -223,19 +224,43 @@ export const getAppointmentById = asyncHandler(async (req, res) => {
   });
 
   export const deleteAppointment = asyncHandler(async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.query;
 
     if (id) {
-        const deleteAppointment = await Appointment.findByIdAndDelete(id);
+        try {
+            const clinicExist = await Appointment.findById(id);
+            if (!clinicExist) {
+                const error = new Error('Appointment Not Found');
+                error.statusCode = 404;
+                throw error;
+            }
 
-        if (!deleteAppointment) {
-            const error = new Error('Appointment Status Failed To Update');
-            error.statusCode = 404;
-            throw error;
+            const payExist = await Payment.findOne({ module_id: id, module_name: 'Appointment' });
+            if (!payExist) {
+                const error = new Error('Payment Record Not Found');
+                error.statusCode = 404;
+                throw error;
+            }
+
+            const deletedBoarder = await clinicExist.deleteOne();
+            if (deletedBoarder) {
+                const deletePay = await Payment.deleteOne({ module_id: id, module_name: 'Boarding' });
+                if (deletePay) {
+
+                    const deleteT = await Transaction.deleteMany({ payment_id: payExist._id });
+                    if (deleteT) {
+                        res.status(201).json({ message: 'Appointment record deleted successfully' });
+                    } else {
+                        throw new Error('Failed to delete related Transaction records');
+                    }
+                } else {
+                    throw new Error('Failed to delete related Payment record');
+                }
+            }
+        } catch (error) {
+            res.status(error.statusCode || 500).json({ message: error.message || 'Internal Server Error' });
         }
-
-        res.status(201).json({ message: 'Appointment deleted successfully' });
-    }else{
+    } else {
         const error = new Error('Invalid Request');
         error.statusCode = 400;
         throw error;
