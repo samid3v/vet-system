@@ -64,21 +64,21 @@ export const getAllAppointments = asyncHandler(async(req, res) => {
 })
 
 export const addAppointment = asyncHandler(async(req, res) => {
-    const {patient_id, by,reason,date, amount, notes,status, description} = req.body
+    const {patient, vet,reason,date, amount, notes,status, description} = req.body
 
-    if (!patient_id || !reason || !amount || !date) {
+    if (!patient || !reason || !amount || !date) {
       const error = new Error("Check required form fields");
         error.statusCode = 404;
         throw error;
     }
 
-    const patient = await Patient.findOne({ _id:patient_id });
-    if (!patient) {
+    const patientExist = await Patient.findOne({ _id:patient_id });
+    if (!patientExist) {
         const error = new Error("Patient doesnt exist");
         error.statusCode = 404;
         throw error;
      }
-    if (by) {
+    if (vet) {
       const user = await User.findOne({ _id:by });
       if (!user) {
          const error = new Error("Vet doesnt exist");
@@ -102,7 +102,7 @@ export const addAppointment = asyncHandler(async(req, res) => {
 
     if (patient_id || by || reason || date ) {
         
-        const newAppointment = new Appointment({patient_id, by,reason,date, notes,status});
+        const newAppointment = new Appointment({patient, vet,reason,date, notes,status});
         const output= await newAppointment.save();
         if (output) {
           const data = {
