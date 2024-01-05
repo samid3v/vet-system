@@ -3,14 +3,14 @@ import { useClinic } from '../../../../Hooks';
 
 const Status = ({status, setMenuDisabled,id}) => {
 
-     const {boardingState, setBoardingState, setStatusId} = useClinic()
+     const {clinicState, setClinicState, setStatusId} = useClinic()
 
      const containerClasses = `bg-white absolute px-1 py-2 shadow-lg right-20 -top-6
         transition-all duration-300 ease-in-out`;
 
      const statusBtnFn = (currentState)=>{
           setMenuDisabled(false)
-          setBoardingState(currentState)
+          setClinicState(currentState)
           setStatusId(id)
      }
  

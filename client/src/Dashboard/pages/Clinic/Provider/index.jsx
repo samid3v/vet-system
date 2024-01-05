@@ -24,7 +24,7 @@ const ClinicProvider = ({children}) => {
       const [users, setUsers] = useState([])
 
       const [bookingStatus, setBookingStatus] = useState('Booked')
-      const [boardingState, setBoardingState] = useState('')
+      const [clinicState, setClinicState] = useState('')
  
 
 useEffect(()=>{
@@ -123,11 +123,11 @@ useEffect(()=>{
   };
 
   useEffect(()=>{
-    if (statusId!==null && boardingState!=='') {
+    if (statusId!==null && clinicState!=='') {
       
       updateClinicStatus()
     }
-  },[boardingState, statusId])
+  },[clinicState, statusId])
   
 
   const getAllAppointments = async (page, pageSize) =>{
@@ -209,7 +209,7 @@ const updateClinicStatus = async () =>{
  const response = await api.put(clinicUrl.edit_clinic_status.url,null, {
    params: { 
      id:statusId,
-     status:boardingState
+     status:clinicState
   
    }
  })
@@ -281,8 +281,8 @@ const refreshInfo = () => {
      stats, 
      setStats,
      refreshStats,
-     boardingState, 
-     setBoardingState,
+     clinicState, 
+     setClinicState,
      currentBoarder, 
      setCurrentBoarder,
      statusId, 
