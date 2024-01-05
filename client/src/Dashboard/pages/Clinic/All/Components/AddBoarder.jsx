@@ -5,20 +5,26 @@ import { useClinic } from '../../Hooks';
 import { toast } from 'react-toastify';
 import api from '../../../../helpers/axiosInstance';
 import boardingUrl from '../../../../urls/boarding';
+import clinicUrl from '../../../../urls/clinic';
 
 const AddBoarder = ({handleClose}) => {
 
   const { setShowLoader,setModalOpen } = useApp();
-  const { patients, refreshBoarders, refreshStats } = useClinic()
+  const { patients, refreshclinics, refreshStats, refreshInfo, users } = useClinic()
   const [formData, setFormData] = useState({
     patient_id:'', 
-    start_date:'', 
-    end_date:'', 
+    by:'', 
+    reason:'', 
     notes:'', 
-    status:'', 
+    date:'', 
     amount:'', 
+    status:'', 
     description:''
   });
+
+  useEffect(()=>{
+    refreshInfo()
+  },[])
   
 
   const handleInputChange = (e) => {
@@ -29,16 +35,18 @@ const AddBoarder = ({handleClose}) => {
     }));
   };
 
-  const handleAddBoarder = async (e) => {
+  const addClinicFn = async (e) => {
         
     e.preventDefault()
+
+    console.log(formData)
     
-    if (!formData.start_date || !formData.end_date || !formData.amount) {
+    if (!formData.reason || !formData.patient || !formData.amount || !formData.date) {
       toast.error('Check required fields.');
       return;
     }
 
-    if (formData.patient_id === 'select') {
+    if (formData.patient === '') {
       toast.error('Select Patient Name fields.');
       return;
     }
@@ -47,29 +55,30 @@ const AddBoarder = ({handleClose}) => {
     try {
       setShowLoader(true);
       
-      const response = await api.post(boardingUrl.add_boarding.url, formData,{
+      const response = await api.post(clinicUrl.add_clinic.url, formData,{
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
       if (response.status === 201) {
-        refreshBoarders();
+        refreshclinics();
         refreshStats();
         handleClose();
         setFormData({
           patient_id:'', 
-          start_date:'', 
-          end_date:'', 
+          by:'', 
+          reason:'', 
           notes:'', 
-          status:'', 
+          date:'', 
           amount:'', 
+          status:'', 
           description:''
         })
-      toast.success('Boarding Record added successfully!');
+      toast.success('Appointment Record added successfully!');
 
       } else {
-        console.error('Failed to add Boarding Record');
+        console.error('Failed to add Appointment Record');
       }
     } catch (error) {
       toast.error(error.response.data.error);
@@ -81,46 +90,51 @@ const AddBoarder = ({handleClose}) => {
 
   return (
     <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
-      <h3 className='text-xl font-semibold'>Add Boarding</h3>
-      <form onSubmit={ handleAddBoarder }>
+      <h3 className='text-xl font-semibold'>Add Appointment</h3>
+      <form onSubmit={ addClinicFn }>
         <div className='flex justify-between items-center gap-2 my-2 '>
-          <div className="w-full">
-            <label htmlFor="start_date">Start Date</label>
+        <div className="w-full">
+            <label htmlFor="reason">Appointment Reason</label>
               <input
                 className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
-                placeholder='start date...'
-                type="datetime-local"
-                name="start_date"
-                id="start_date"
-                value={formData.start_date}
+                placeholder='Appointment Reason...'
+                type="text"
+                name="reason"
+                id="reason"
+                value={formData.reason}
                 onChange={handleInputChange}
               />
           </div>
           <div className="w-full">
-            <label htmlFor="end_date">End Date</label>
-              <input
-                className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
-                placeholder='end date...'
-                type="datetime-local"
-                name="end_date"
-                id="end_date"
-                value={formData.end_date}
-                onChange={handleInputChange}
-              />
-          </div>
-          <div className="w-full">
-            <label htmlFor="species">Patient Name</label>
+            <label htmlFor="species">Vet Name</label>
               <select
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
-                placeholder='county...'
+                name="by"
+                id="by"
+                value={formData.by}
+                onChange={handleInputChange}
+              >
+                  <option value="">Select Vet </option>
+                  { users && (users.map((user, index)=>(
+                      <option key={index} value={user._id}>{user?.name || '---'}</option>
+
+                    )))
+                  }
+              </select>
+          </div>
+          <div className="w-full">
+            <label htmlFor="patient">Patient Name</label>
+              <select
+                className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
+                
                 name="patient_id"
                 id="patient_id"
                 value={formData.patient_id}
                 onChange={handleInputChange}
               >
-                  <option value="select">Select Patient </option>
+                  <option value="">Select Patient </option>
                   { patients && (patients.map((patient, index)=>(
-                      <option key={index} value={patient._id}>{patient.name}</option>
+                      <option key={index} value={patient?._id}>{patient?.name}</option>
 
                     )))
                   }
@@ -136,7 +150,19 @@ const AddBoarder = ({handleClose}) => {
                 type="number"
                 name="amount"
                 id="amount"
+                min={0}
                 value={formData.amount}
+                onChange={handleInputChange}
+              />
+          </div>
+          <div className="w-full">
+            <label htmlFor="date">Appointment Date</label>
+              <input
+                className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
+                type="date"
+                name="date"
+                id="date"
+                value={formData.date}
                 onChange={handleInputChange}
               />
           </div>
@@ -154,19 +180,6 @@ const AddBoarder = ({handleClose}) => {
             className="form-radio text-blue-500 focus:ring-0 focus:outline-none"
           />
           <span className="ml-2">Completed</span>
-        </label>
-
-        <label className="flex items-center">
-          <input
-            type="radio"
-            name="status"
-            id="in_progress"
-            value="In Progress"
-            checked={formData.status === 'In Progress'}
-            onChange={handleInputChange}
-            className="form-radio text-red-500 focus:ring-0 focus:outline-none"
-          />
-          <span className="ml-2">In Progress</span>
         </label>
         <label className="flex items-center">
           <input
@@ -219,7 +232,7 @@ const AddBoarder = ({handleClose}) => {
         </div>
         <div className='flex justify-between items-center my-3'>
           <button type='button' onClick={handleClose} className='bg-gray-300 w-[80px] py-2 px-3 rounded-lg'>Close</button>
-          <button type='submit' className='bg-primary py-2 px-3 rounded-lg'>Add Boarding</button>
+          <button type='submit' className='bg-primary py-2 px-3 rounded-lg'>Add Appointment</button>
         </div>
       </form>
     </div>

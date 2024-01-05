@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 import Patient from '../server/models/patientModel.js';
 import Appointment from '../server/models/appointmentsModel.js';
 import User from '../server/models/userModel.js';
+import Payment from '../server/models/paymentModel.js';
 
 
 export const getStatusStats = asyncHandler(async(req, res) => {
@@ -62,7 +63,7 @@ export const getAllAppointments = asyncHandler(async(req, res) => {
 })
 
 export const addAppointment = asyncHandler(async(req, res) => {
-    const {patient_id, by,reason,date, notes,status} = req.body
+    const {patient_id, by,reason,date, amount, notes,status, description} = req.body
 
     const patient = await Patient.findOne({ _id:patient_id });
     if (!patient) {
@@ -70,14 +71,15 @@ export const addAppointment = asyncHandler(async(req, res) => {
         error.statusCode = 404;
         throw error;
      }
-
-    const user = await User.findOne({ _id:by });
-     if (!user) {
-        const error = new Error("User doesnt exist");
-            error.statusCode = 404;
-            throw error;
-     }
-
+    if (by) {
+      const user = await User.findOne({ _id:by });
+      if (!user) {
+         const error = new Error("Vet doesnt exist");
+             error.statusCode = 404;
+             throw error;
+      }
+    }
+   
      const existingAppointment = await Appointment.findOne({
         patient_id,
         date
@@ -96,7 +98,19 @@ export const addAppointment = asyncHandler(async(req, res) => {
         const newAppointment = new Appointment({patient_id, by,reason,date, notes,status});
         const output= await newAppointment.save();
         if (output) {
+          const data = {
+            module_id: output._id,
+            module_name:'Appointment',
+            amount:amount,
+            payment_bal:amount,
+            description:description,
+          }
+          const newPay = new Payment(data);
+          const paymentOutput= await newPay.save();
+          if (paymentOutput) {
             res.status(201).json({message:"Appointment Added Successfully"})
+            
+          }
         }else{
             const error = new Error("something wrong happenned, try again");
             error.statusCode = 400;

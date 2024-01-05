@@ -11,8 +11,8 @@ const clinicUrl = {
      delete_boarder:{
           url:`/boarding/delete-boarder`
      },
-     add_boarding:{
-          url:`/boarding/add-boarder`
+     add_clinic:{
+          url:`/appointments/add-appointment`
      },
      edit_boarding_status:{
           url:`/appointments/edit-clinic-status`

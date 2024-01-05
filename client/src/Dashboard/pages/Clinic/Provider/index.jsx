@@ -7,6 +7,7 @@ import BoardingContext from '../context';
 import boardingUrl from '../../../urls/boarding';
 import ClinicContext from '../context';
 import clinicUrl from '../../../urls/clinic';
+import random from '../../../urls/random';
 
 
 const ClinicProvider = ({children}) => {
@@ -20,6 +21,7 @@ const ClinicProvider = ({children}) => {
       const [stats, setStats] = useState([])
       const { setShowLoader } = useApp();
       const [currentBoarder, setCurrentBoarder] =useState([])
+      const [users, setUsers] = useState([])
 
       const [bookingStatus, setBookingStatus] = useState('Booked')
       const [boardingState, setBoardingState] = useState('')
@@ -164,14 +166,32 @@ useEffect(()=>{
 const getPatients = async () =>{
   try{
 
- const response = await api.get(boardingUrl.get_patient.url)
+ const response = await api.get(random.get_all_patients.url)
  if (response.status === 200) {
 
   
    setPatients(response.data)
-   console.log(response.data)
  } else {
    toast.error('Failed to fetch patients');
+ }
+ 
+ }catch(error){
+     console.log(error)
+ }
+
+ 
+
+}
+const getUsers = async () =>{
+  try{
+
+ const response = await api.get(random.get_all_users.url)
+ if (response.status === 200) {
+
+  
+   setUsers(response.data)
+ } else {
+   toast.error('Failed to fetch users');
  }
  
  }catch(error){
@@ -235,10 +255,13 @@ const getClinicStats = async (page, pageSize) =>{
     }catch(error){
         toast.error(error.response.data.error)
     }
-
     
- 
 }
+
+const refreshInfo = () => {
+  getPatients()
+  getUsers()
+} 
   return (
     <ClinicContext.Provider value={{
      totalPages, 
@@ -263,7 +286,9 @@ const getClinicStats = async (page, pageSize) =>{
      currentBoarder, 
      setCurrentBoarder,
      statusId, 
-     setStatusId
+     setStatusId,
+     refreshInfo,
+     users
      
     }}>
       {/* <Modal/> */}
