@@ -27,7 +27,7 @@ const ClinicProvider = ({children}) => {
 
 useEffect(()=>{
       getAllAppointments(currentPage,10)
-      getBoardingStats()
+      getClinicStats()
       getPatients()
    },[])
 
@@ -123,7 +123,7 @@ useEffect(()=>{
   useEffect(()=>{
     if (statusId!==null && boardingState!=='') {
       
-      updateBoardingStatus()
+      updateClinicStatus()
     }
   },[boardingState, statusId])
   
@@ -182,12 +182,11 @@ const getPatients = async () =>{
 
 }
 
-const updateBoardingStatus = async () =>{
-  console.log(boardingState)
+const updateClinicStatus = async () =>{
   try{
    setShowLoader(true);
 
- const response = await api.put(boardingUrl.edit_boarding_status.url,null, {
+ const response = await api.put(clinicUrl.edit_clinic_status.url,null, {
    params: { 
      id:statusId,
      status:boardingState
@@ -216,13 +215,13 @@ const updateBoardingStatus = async () =>{
 }
 
 const refreshStats =()=>{
-  getBoardingStats()
+  getClinicStats()
 }
 
-const getBoardingStats = async (page, pageSize) =>{
+const getClinicStats = async (page, pageSize) =>{
      try{
 
-    const response = await api.get(boardingUrl.get_stats.url)
+    const response = await api.get(clinicUrl.get_stats.url)
     if (response.status === 200) {
       // const { data, totalPages } = response.data;
 
@@ -230,11 +229,11 @@ const getBoardingStats = async (page, pageSize) =>{
       setStats(response.data)
       console.log(response.data)
     } else {
-      console.error('Failed to fetch patients');
+      toast.error('Failed to Update appointments Status');
     }
     
     }catch(error){
-        console.log(error)
+        toast.error(error.response.data.error)
     }
 
     

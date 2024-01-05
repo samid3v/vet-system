@@ -30,7 +30,7 @@ const TRow = ({clinic, index}) => {
         <td className="p-3 border-b">{ clinic?.reason }</td>
         <td className="p-3 border-b flex justify-start gap-5 items-center  ">
           {clinic?.status || '---'}
-          {(clinic?.status === 'In Progress' || clinic?.status == 'Booked') && 
+          {(clinic?.status == 'Booked') && 
           (
             <>
               <CiMenuKebab onClick={()=> setMenuDisabled(!menuDisabled)} className='text-xl font-semibold'/>

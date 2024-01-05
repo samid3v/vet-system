@@ -168,6 +168,46 @@ export const getAppointmentById = asyncHandler(async (req, res) => {
     
   });
 
+  export const editAppointmentStatus = asyncHandler(async (req, res) => {
+    const { id, status } = req.query;
+
+    if (!id) {
+      const error = new Error("Id Not Added");
+      error.statusCode = 404;
+      throw error;
+   }
+
+    if (!status) {
+        const error = new Error("Status Not Added");
+        error.statusCode = 404;
+        throw error;
+     }
+
+     const clinicExist = Appointment.findById(id)
+
+     if (!clinicExist) {
+      const error = new Error("Appointment Not Found");
+        error.statusCode = 404;
+        throw error;
+     }
+  
+    
+     const updatedClinicStatus = await Appointment.findByIdAndUpdate(
+      id,
+      { status },
+      { runValidators: true, new: true }
+    );
+
+    if (updatedClinicStatus) {
+      return res.status(201).json({ message: 'Appointment Status updated successfully' });
+    }else{
+        const error = new Error('Appointment Info Not Added');
+        error.statusCode = 400;
+        throw error;
+    }
+    
+  });
+
   export const deleteAppointment = asyncHandler(async (req, res) => {
     const { id } = req.params;
 
@@ -175,7 +215,7 @@ export const getAppointmentById = asyncHandler(async (req, res) => {
         const deleteAppointment = await Appointment.findByIdAndDelete(id);
 
         if (!deleteAppointment) {
-            const error = new Error('Appointment Not Found');
+            const error = new Error('Appointment Status Failed To Update');
             error.statusCode = 404;
             throw error;
         }

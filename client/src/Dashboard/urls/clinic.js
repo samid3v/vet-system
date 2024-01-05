@@ -3,7 +3,7 @@ const clinicUrl = {
           url:`/appointments/all`
      },
      get_stats:{
-          url:`/boarding/stats`
+          url:`/appointments/stats`
      },
      get_single_boarder:{
           url:`/boarding/get-boarder-by-id`
@@ -15,7 +15,7 @@ const clinicUrl = {
           url:`/boarding/add-boarder`
      },
      edit_boarding_status:{
-          url:`/boarding/edit-boarder-status`
+          url:`/appointments/edit-clinic-status`
      },
      edit_boarding:{
           url:`/boarding/edit-boarder`
