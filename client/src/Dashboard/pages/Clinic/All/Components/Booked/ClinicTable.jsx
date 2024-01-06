@@ -3,9 +3,9 @@ import { useApp } from '../../../../../hooks/useApp';
 import LargeDevice from './TableComponent/LargeDevice';
 import BasicModal from '../../../../../components/Modal';
 import { useClinic } from '../../../Hooks';
-import AddBoarder from '../AddBoarder';
+import AddClinic from '../AddClinic';
 
-const BookingTable = () => {
+const ClinicTable = () => {
 
   const {setModalOpen, setModalMessage, isModalOpen, modalMessage} = useApp();
   const {searchTerm, setSearchTerm} = useClinic()
@@ -22,9 +22,9 @@ const BookingTable = () => {
         <button onClick={handleOpen} type="button" className='rounded-lg text-neutral w-40 bg-primary px-3 py-2'>Add Boarding</button>
       </div>
       <LargeDevice />
-      <BasicModal open={open} element={<AddBoarder handleClose={handleClose}/>}/>
+      <BasicModal open={open} element={<AddClinic handleClose={handleClose}/>}/>
     </div>
   )
 }
 
-export default BookingTable
+export default ClinicTable

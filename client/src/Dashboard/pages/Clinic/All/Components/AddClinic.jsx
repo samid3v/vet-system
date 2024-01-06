@@ -7,13 +7,13 @@ import api from '../../../../helpers/axiosInstance';
 import boardingUrl from '../../../../urls/boarding';
 import clinicUrl from '../../../../urls/clinic';
 
-const AddBoarder = ({handleClose}) => {
+const AddClinic = ({handleClose}) => {
 
   const { setShowLoader,setModalOpen } = useApp();
   const { patients, refreshclinics, refreshStats, refreshInfo, users } = useClinic()
   const [formData, setFormData] = useState({
-    patient_id:'', 
-    by:'', 
+    patient:'', 
+    vet:'', 
     reason:'', 
     notes:'', 
     date:'', 
@@ -41,7 +41,7 @@ const AddBoarder = ({handleClose}) => {
 
     console.log(formData)
     
-    if (!formData.reason || !formData.patient_id || !formData.amount || !formData.date) {
+    if (!formData.reason || !formData.patient || !formData.amount || !formData.date) {
       toast.error('Check required fields.');
       return;
     }
@@ -66,8 +66,8 @@ const AddBoarder = ({handleClose}) => {
         refreshStats();
         handleClose();
         setFormData({
-          patient_id:'', 
-          by:'', 
+          patient:'', 
+          vet:'', 
           reason:'', 
           notes:'', 
           date:'', 
@@ -109,9 +109,9 @@ const AddBoarder = ({handleClose}) => {
             <label htmlFor="species">Vet Name</label>
               <select
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
-                name="by"
-                id="by"
-                value={formData.by}
+                name="vet"
+                id="vet"
+                value={formData.vet}
                 onChange={handleInputChange}
               >
                   <option value="">Select Vet </option>
@@ -127,9 +127,9 @@ const AddBoarder = ({handleClose}) => {
               <select
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
                 
-                name="patient_id"
-                id="patient_id"
-                value={formData.patient_id}
+                name="patient"
+                id="patient"
+                value={formData.patient}
                 onChange={handleInputChange}
               >
                   <option value="">Select Patient </option>
@@ -239,4 +239,4 @@ const AddBoarder = ({handleClose}) => {
   );
 };
 
-export default AddBoarder;
+export default AddClinic;

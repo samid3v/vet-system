@@ -45,10 +45,10 @@ export const getAllAppointments = asyncHandler(async(req, res) => {
 
   const appointments = await Appointment.find({ status: status })
   .populate(
-    {path:"patient_id", populate: {
+    {path:"patient", populate: {
     path: 'owner',
   },})
-  .populate('by')
+  .populate('vet')
   .sort({ createdAt: -1 })
   .skip(skip)
   .limit(pageSize);
@@ -72,14 +72,14 @@ export const addAppointment = asyncHandler(async(req, res) => {
         throw error;
     }
 
-    const patientExist = await Patient.findOne({ _id:patient_id });
+    const patientExist = await Patient.findOne({ _id:patient });
     if (!patientExist) {
         const error = new Error("Patient doesnt exist");
         error.statusCode = 404;
         throw error;
      }
     if (vet) {
-      const user = await User.findOne({ _id:by });
+      const user = await User.findOne({ _id:vet });
       if (!user) {
          const error = new Error("Vet doesnt exist");
              error.statusCode = 404;
@@ -88,7 +88,7 @@ export const addAppointment = asyncHandler(async(req, res) => {
     }
    
      const existingAppointment = await Appointment.findOne({
-        patient_id,
+        patient,
         date
       });
 
@@ -100,7 +100,7 @@ export const addAppointment = asyncHandler(async(req, res) => {
 
     
 
-    if (patient_id || by || reason || date ) {
+    if (patient || vet || reason || date ) {
         
         const newAppointment = new Appointment({patient, vet,reason,date, notes,status});
         const output= await newAppointment.save();
@@ -136,8 +136,8 @@ export const getAppointmentById = asyncHandler(async (req, res) => {
   
     if (id) {
       const appointment = await Appointment.findById(id)
-      .populate('patient_id')
-      .populate('by', '-password');
+      .populate('patient')
+      .populate('vet', '-password');
   
       if (appointment) {
         res.status(200).json(appointment);
@@ -157,7 +157,7 @@ export const getAppointmentById = asyncHandler(async (req, res) => {
     const { id } = req.params;
   
     const updateData = req.body; // Request body should contain the updated patient data
-    const patient = await Patient.findOne({ _id:updateData.patient_id });
+    const patient = await Patient.findOne({ _id:updateData.patient });
     if (!patient) {
         const error = new Error("Patient doesnt exist");
         error.statusCode = 404;

@@ -6,7 +6,7 @@ import { MdIncompleteCircle } from "react-icons/md";
 import { MdOutlineFreeCancellation } from "react-icons/md"
 import { useClinic } from '../../Hooks';
 
-const BookingCards = () => {
+const ClinicCards = () => {
   const { bookingStatus,setBookingStatus, stats  } = useClinic()
   return (
     <div className='my-4 flex items-center justify-start gap-20 flex-nowrap'>
@@ -17,4 +17,4 @@ const BookingCards = () => {
   )
 }
 
-export default BookingCards
+export default ClinicCards
