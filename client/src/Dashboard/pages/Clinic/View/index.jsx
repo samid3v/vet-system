@@ -1,15 +1,15 @@
 import React from 'react'
-import BoarderInfo from './Components/BoarderInfo'
+import ClinicInfo from './Components/ClinicInfo'
 import { useParams } from 'react-router-dom'
 
-const ViewBoarding = () => {
+const ViewClinic = () => {
      const {id} = useParams()
      
   return (
     <div className='bg-white p-4 rounded-md'>
-       <BoarderInfo id={id} />
+       <ClinicInfo id={id} />
     </div>
   )
 }
 
-export default ViewBoarding
+export default ViewClinic

@@ -16,13 +16,14 @@ const EditBoarder = ({handleClose}) => {
      const { setShowLoader  } = useApp()
      const { currentBoarder, refreshBoarders, currentId, patients } = useClinic()
      const [formData, setFormData] = useState({
-      patient_id:'', 
-      start_date:'', 
-      end_date:'', 
-      notes:'', 
-      status:'', 
-      amount:'', 
-      description:''
+        patient:'', 
+        vet:'', 
+        reason:'', 
+        notes:'', 
+        date:'', 
+        amount:'', 
+        status:'', 
+        description:''
     });
 
      useEffect(() => {
@@ -89,18 +90,19 @@ const EditBoarder = ({handleClose}) => {
           refreshBoarders();
           handleClose();
           setFormData({
-            patient_id:'', 
-            start_date:'', 
-            end_date:'', 
+            patient:'', 
+            vet:'', 
+            reason:'', 
             notes:'', 
-            pay_id:'', 
+            date:'', 
             amount:'', 
+            status:'', 
             description:''
           })
-        toast.success('Boarding Updated successfully!');
+        toast.success('Appointment Updated successfully!');
   
         } else {
-          console.error('Failed to add Boarding');
+          console.error('Failed to add Appointment');
         }
       } catch (error) {
         toast.error(error.response.data.error);
@@ -112,56 +114,59 @@ const EditBoarder = ({handleClose}) => {
    
      return (
       <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
-      <h3 className='text-xl font-semibold'>Edit Boarding</h3>
+      <h3 className='text-xl font-semibold'>Edit Appointment</h3>
      
       <form onSubmit={ handleEditBoarder }>
       <div className='flex justify-between items-center gap-2 my-2 '>
-          <div className="w-full">
-            <label htmlFor="start_date">Start Date</label>
-              <input
-                className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
-                placeholder='start date...'
-                type="datetime-local"
-                name="start_date"
-                id="start_date"
-                value={formData.start_date}
-                onChange={handleInputChange}
-              />
-          </div>
-          <div className="w-full">
-            <label htmlFor="end_date">End Date</label>
-              <input
-                className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
-                placeholder='end date...'
-                type="datetime-local"
-                name="end_date"
-                id="end_date"
-                value={formData.end_date}
-                onChange={handleInputChange}
-              />
-          </div>
-          
-        </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
         <div className="w-full">
-            <label htmlFor="species">Patient Name</label>
+            <label htmlFor="reason">Appointment Reason</label>
+              <input
+                className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
+                placeholder='Appointment Reason...'
+                type="text"
+                name="reason"
+                id="reason"
+                value={formData.reason}
+                onChange={handleInputChange}
+              />
+          </div>
+          <div className="w-full">
+            <label htmlFor="species">Vet Name</label>
               <select
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
-                placeholder='county...'
-                name="patient_id"
-                id="patient_id"
-                value={formData.patient_id}
+                name="vet"
+                id="vet"
+                value={formData.vet}
                 onChange={handleInputChange}
-                disabled
               >
-                  <option value="select">Select Patient </option>
-                  { patients && (patients.map((patient, index)=>(
-                      <option key={index} value={patient._id}>{patient.name}</option>
+                  <option value="">Select Vet </option>
+                  { users && (users.map((user, index)=>(
+                      <option key={index} value={user._id}>{user?.name || '---'}</option>
 
                     )))
                   }
               </select>
           </div>
+          <div className="w-full">
+            <label htmlFor="patient">Patient Name</label>
+              <select
+                className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
+                
+                name="patient"
+                id="patient"
+                value={formData.patient}
+                onChange={handleInputChange}
+              >
+                  <option value="">Select Patient </option>
+                  { patients && (patients.map((patient, index)=>(
+                      <option key={index} value={patient?._id}>{patient?.name}</option>
+
+                    )))
+                  }
+              </select>
+          </div>
+        </div>
+        <div className='flex justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="amount">Amount</label>
               <input
@@ -170,16 +175,57 @@ const EditBoarder = ({handleClose}) => {
                 type="number"
                 name="amount"
                 id="amount"
+                min={0}
                 value={formData.amount}
                 onChange={handleInputChange}
               />
           </div>
-         
+          <div className="w-full">
+            <label htmlFor="date">Appointment Date</label>
+              <input
+                className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
+                type="date"
+                name="date"
+                id="date"
+                value={formData.date}
+                onChange={handleInputChange}
+              />
+          </div>
+          <div className="w-full">
+      <label htmlFor="status">Status</label>
+      <div className="flex space-x-4">
+        <label className="flex items-center">
+          <input
+            type="radio"
+            name="status"
+            id="completed"
+            value="Completed"
+            checked={formData.status === 'Completed'}
+            onChange={handleInputChange}
+            className="form-radio text-blue-500 focus:ring-0 focus:outline-none"
+          />
+          <span className="ml-2">Completed</span>
+        </label>
+        <label className="flex items-center">
+          <input
+            type="radio"
+            name="status"
+            id="booked"
+            value="Booked"
+            checked={formData.status === 'Booked'}
+            onChange={handleInputChange}
+            className="form-radio text-red-500 focus:ring-0 focus:outline-none"
+          />
+          <span className="ml-2">Booked</span>
+        </label>
+      </div>
+    </div>
+          
         </div>
         <div className='flex justify-between items-center gap-2 my-2 '>
           
           <div className="w-full">
-            <label htmlFor="species">Boarding Notes</label>
+            <label htmlFor="species">Appointment Notes</label>
               <textarea
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
                 placeholder='Boarding Notes...'

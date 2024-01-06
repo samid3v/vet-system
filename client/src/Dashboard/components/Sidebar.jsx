@@ -7,6 +7,7 @@ import { MdOutlineLocalHospital } from "react-icons/md"
 import { HiOutlineDocumentReport } from "react-icons/hi"
 import { FaUsers } from "react-icons/fa";
 import { IoHomeOutline } from "react-icons/io5";
+import { FaUserDoctor } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
@@ -35,6 +36,9 @@ const Sidebar = () => {
                     </div>
 
                     <div onClick={()=>navigate("./treatment")} className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
+                         <FaUserDoctor className='text-xl'/>
+                    </div>
+                    <div onClick={()=>navigate("./vaccine")} className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>
                          <PiSyringeDuotone className='text-xl'/>
                     </div>
                     <div className='hover:bg-secondary  p-3 hover:border-l-2 hover:border-l-primary'>

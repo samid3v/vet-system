@@ -1,6 +1,6 @@
 import React from 'react'
-import ClinicCards from './Components/Booked/ClinicCards'
-import ClinicTable from './Components/ClinicTable'
+import ClinicCards from './Components/ClinicCards'
+import ClinicTable from './Components/Booked/ClinicTable'
 
 const AllClinics = () => {
 

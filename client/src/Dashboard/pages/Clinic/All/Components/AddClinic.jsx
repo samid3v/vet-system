@@ -200,7 +200,7 @@ const AddClinic = ({handleClose}) => {
         <div className='flex justify-between items-center gap-2 my-2 '>
           
           <div className="w-full">
-            <label htmlFor="species">Boarding Notes</label>
+            <label htmlFor="species">Appointment Notes</label>
               <textarea
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
                 placeholder='Boarding Notes...'
