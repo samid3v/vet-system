@@ -9,7 +9,7 @@ import { useClinic } from '../../../../Hooks';
 import { useApp } from '../../../../../../hooks/useApp';
 import BasicModal from '../../../../../../components/Modal';
 import boardingUrl from '../../../../../../urls/boarding';
-import EditBoarder from '../EditBoarder';
+import EditClinic from '../EditClinic';
 import { useNavigate } from 'react-router-dom';
 import clinicUrl from '../../../../../../urls/clinic';
 
@@ -75,7 +75,7 @@ const Actions = ({doc}) => {
 
      }
      <DeleteModal open={openDelete} handleClose={()=>setOpenDelete(false)} deleteFunc={deleteDoc} />
-     <BasicModal open={openEditModal} element={<EditBoarder handleClose={handleCloseEditModal}/>}/>
+     <BasicModal open={openEditModal} element={<EditClinic handleClose={handleCloseEditModal}/>}/>
     
     </div>
   )

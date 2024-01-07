@@ -4,6 +4,7 @@ import Appointment from '../server/models/appointmentsModel.js';
 import User from '../server/models/userModel.js';
 import Payment from '../server/models/paymentModel.js';
 import Transaction from '../server/models/transactionModel.js';
+import mongoose from 'mongoose';
 
 
 export const getStatusStats = asyncHandler(async(req, res) => {
@@ -154,35 +155,82 @@ export const getAppointmentById = asyncHandler(async (req, res) => {
   });
 
   export const editAppointment = asyncHandler(async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.query;
+    const {pay_id,  reason, notes, amount, date,description, patient, vet} = req.body
   
-    const updateData = req.body; // Request body should contain the updated patient data
-    const patient = await Patient.findOne({ _id:updateData.patient });
-    if (!patient) {
-        const error = new Error("Patient doesnt exist");
-        error.statusCode = 404;
-        throw error;
-     }
+    if (!reason || !amount || !patient ) {
+      const error = new Error("Check Required Inputs");
+      error.statusCode = 400;
+      throw error;
+   }
 
-    const user = await User.findOne({ _id:updateData.by });
-     if (!user) {
-        const error = new Error("User doesnt exist");
-            error.statusCode = 404;
-            throw error;
-     }
-    // Ensure that "name" and "owner" fields are required
-    if (!updateData.patient_id || !updateData.by || !updateData.reason || !updateData.date) {
-        const error = new Error('Check Required Fields');
-        error.statusCode = 400;
-        throw error;
+   const patientExist = await Patient.findOne({ _id:patient });
+   if (!patientExist) {
+       const error = new Error("Patient doesnt exist");
+       error.statusCode = 404;
+       throw error;
     }
 
-    const updatedAppointment = await Appointment.findByIdAndUpdate(id, updateData, { new: true });
+    const payExist = await Payment.findOne({ _id:pay_id });
+   if (!payExist) {
+       const error = new Error("Payment doesnt exist");
+       error.statusCode = 404;
+       throw error;
+    }
+
+    if (vet) {
+      const vetExist = await User.findOne({ _id:vet });
+      if (!vetExist) {
+          const error = new Error("Vet doesnt exist");
+          error.statusCode = 404;
+          throw error;
+       }
+    }
+
+    const transactions = await Transaction.find({ payment_id: pay_id });
+
+    const totalPayment = transactions.reduce((acc, transaction) => {
+      return acc + transaction.amount_paid;
+    }, 0);
+
+    if (totalPayment>amount) {
+          const error = new Error("Amount is less the amount paid ");
+          error.statusCode = 404;
+          throw error;
+    }
+    let payment_bal = 0
+    let status = payExist.status
+
+    if (totalPayment==amount) {
+      status= 'Completed'
+    }
+
+    if (payExist.amount>amount) {
+       payment_bal = payExist.payment_bal-(payExist.amount - amount)
+    }else{
+       payment_bal = payExist.payment_bal
+    }
+    const updatedAppointment = await Appointment.findByIdAndUpdate(id, {
+      reason,
+      date,
+      notes,
+      patient,
+      vet
+    }, { new: true });
 
     if (updatedAppointment) {
-      return res.status(201).json({ message: 'Appointment updated successfully' });
+          const updatePay = await Payment.findByIdAndUpdate(pay_id, {
+          amount,
+          payment_bal,
+          status,
+          description,
+        },{ new: true } );
+          if (updatePay) {
+            return res.status(201).json({ message: 'Treatment updated successfully' });
+
+          }
     }else{
-        const error = new Error('Appointment Not Found');
+        const error = new Error('something wrong happenned, try again');
         error.statusCode = 400;
         throw error;
     }

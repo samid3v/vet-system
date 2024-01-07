@@ -180,7 +180,7 @@ export const getBoarderById = asyncHandler(async (req, res) => {
   export const editBoarder = asyncHandler(async (req, res) => {
     const { id } = req.query;
 
-    const {patient_id, pay_id, start_date, status, end_date, notes, amount, description } = req.body
+    const {patient_id, pay_id, start_date, end_date, notes, amount, description } = req.body
 
     const patient = await Patient.findOne({ _id:patient_id });
     if (!patient) {
@@ -195,6 +195,41 @@ export const getBoarderById = asyncHandler(async (req, res) => {
       throw error;
    }
 
+   const patientExist = await Patient.findOne({ _id:patient });
+   if (!patientExist) {
+       const error = new Error("Patient doesnt exist");
+       error.statusCode = 404;
+       throw error;
+    }
+
+    const payExist = await Payment.findOne({ _id:pay_id });
+   if (!payExist) {
+       const error = new Error("Payment doesnt exist");
+       error.statusCode = 404;
+       throw error;
+    }
+
+    const transactions = await Transaction.find({ payment_id: pay_id });
+
+    const totalPayment = transactions.reduce((acc, transaction) => {
+      return acc + transaction.amount_paid;
+    }, 0);
+
+    if (totalPayment>amount) {
+          const error = new Error("Amount is less the amount paid ");
+          error.statusCode = 404;
+          throw error;
+    }
+    let payment_bal = payExist.payment_bal
+    let status = payExist.status
+
+    if (totalPayment==amount) {
+      status= 'Completed'
+    }
+
+    if (payExist.amount>amount) {
+       payment_bal = payExist.payment_bal-(payExist.amount - amount)
+    }
    
     const updateBoarder = await Boarding.findByIdAndUpdate(id,{
       patient_id, 
@@ -208,6 +243,8 @@ export const getBoarderById = asyncHandler(async (req, res) => {
          
           const updatePay = await Payment.findByIdAndUpdate(pay_id, {
             amount,
+            payment_bal,
+            status,
             description,
           },{ new: true } );
             if (updatePay) {

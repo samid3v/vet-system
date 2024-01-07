@@ -17,8 +17,8 @@ const clinicUrl = {
      edit_clinic_status:{
           url:`/appointments/edit-clinic-status`
      },
-     edit_boarding:{
-          url:`/boarding/edit-boarder`
+     edit_clinic:{
+          url:`/appointments/edit-appointment`
      },
      get_patient:{
           url:`/boarding/get-patients`

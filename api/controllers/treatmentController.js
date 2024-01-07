@@ -121,6 +121,28 @@ export const getTreatmentById = asyncHandler(async (req, res) => {
        }
     }
 
+    const transactions = await Transaction.find({ payment_id: pay_id });
+
+    const totalPayment = transactions.reduce((acc, transaction) => {
+      return acc + transaction.amount_paid;
+    }, 0);
+
+    if (totalPayment>amount) {
+          const error = new Error("Amount is less the amount paid ");
+          error.statusCode = 404;
+          throw error;
+    }
+    let payment_bal = payExist.payment_bal
+    let status = payExist.status
+
+    if (totalPayment==amount) {
+      status= 'Completed'
+    }
+
+    if (payExist.amount>amount) {
+       payment_bal = payExist.payment_bal-(payExist.amount - amount)
+    }
+
     const updatedAppointment = await Treatment.findByIdAndUpdate(id, {
       name,
       date,
@@ -132,6 +154,8 @@ export const getTreatmentById = asyncHandler(async (req, res) => {
     if (updatedAppointment) {
           const updatePay = await Payment.findByIdAndUpdate(pay_id, {
           amount,
+          payment_bal,
+          status,
           description,
         },{ new: true } );
           if (updatePay) {
@@ -144,24 +168,6 @@ export const getTreatmentById = asyncHandler(async (req, res) => {
         throw error;
     }
 
-    // if (updateBoarder) {
-    //   console.log(updateBoarder)
-       
-    //     const updatePay = await Payment.findByIdAndUpdate(pay_id, {
-    //       amount,
-    //       description,
-    //     },{ new: true } );
-    //       if (updatePay) {
-    //         res.status(201).json({ message: "Boarding Updated Successfully", updatePay });
-            
-    //       }
-    
-        
-    // }else{
-    //     const error = new Error("something wrong happenned, try again");
-    //     error.statusCode = 400;
-    //     throw error;
-    // }
     
   });
 

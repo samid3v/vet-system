@@ -11,10 +11,12 @@ import customersUrl from '../../../../../urls/customers'
 import boardingUrl from '../../../../../urls/boarding'
 import moment from "moment-timezone";
 import {DateTime} from 'luxon'
+import random from '../../../../../urls/random'
+import clinicUrl from '../../../../../urls/clinic'
 
-const EditBoarder = ({handleClose}) => {
+const EditClinic = ({handleClose}) => {
      const { setShowLoader  } = useApp()
-     const { currentBoarder, refreshBoarders, currentId, patients } = useClinic()
+     const { currentBoarder, refreshInfo, refreshclinics, currentId, patients, users } = useClinic()
      const [formData, setFormData] = useState({
         patient:'', 
         vet:'', 
@@ -22,20 +24,22 @@ const EditBoarder = ({handleClose}) => {
         notes:'', 
         date:'', 
         amount:'', 
-        status:'', 
-        description:''
+        description:'',
+        pay_id:''
     });
 
+    useEffect(()=>{
+      refreshInfo()
+    },[])
+    
      useEffect(() => {
     if (currentBoarder && Object.keys(currentBoarder).length > 0) {
 
-      const startDateTime = DateTime.fromISO(currentBoarder?.module_id?.start_date || '---', { zone: 'Africa/Nairobi' }).toJSDate();
-      const endDateTime = DateTime.fromISO(currentBoarder?.module_id?.end_date || '---', { zone: 'Africa/Nairobi' }).toJSDate();
-      
       setFormData({
-        patient_id: currentBoarder?.module_id?.patient_id || '---',
-        start_date: moment.tz(currentBoarder?.module_id?.start_date, 'Africa/Nairobi').format('YYYY-MM-DD HH:mm:ss'),
-        end_date: moment.tz(currentBoarder?.module_id?.end_date, 'Africa/Nairobi').format('YYYY-MM-DD HH:mm:ss'),
+        patient: currentBoarder?.module_id?.patient._id ,
+        vet: currentBoarder?.module_id?.vet._id ,
+        reason: currentBoarder?.module_id?.reason ,
+        date: moment.tz(currentBoarder?.module_id?.end_date, 'Africa/Nairobi').format('YYYY-MM-DD'),
         notes: currentBoarder?.module_id?.notes || '---',
         pay_id: currentBoarder?._id || '---',
         amount: currentBoarder?.amount || '',
@@ -61,15 +65,15 @@ const EditBoarder = ({handleClose}) => {
        }));
      };
    
-     const handleEditBoarder = async (e) => {
+     const editClinicFn = async (e) => {
         
       e.preventDefault()
-      if (!formData.start_date || !formData.end_date || !formData.amount) {
+      if (!formData.reason || !formData.patient || !formData.amount || !formData.date) {
         toast.error('Check required fields.');
         return;
       }
   
-      if (formData.patient_id === 'select') {
+      if (formData.patient === '') {
         toast.error('Select Patient Name fields.');
         return;
       }
@@ -78,7 +82,7 @@ const EditBoarder = ({handleClose}) => {
         setShowLoader(true);
         console.log(formData)
         
-        const response = await api.put(boardingUrl.edit_boarding.url, formData,{
+        const response = await api.put(clinicUrl.edit_clinic.url, formData,{
           headers: {
             'Content-Type': 'application/json',
           },
@@ -87,7 +91,7 @@ const EditBoarder = ({handleClose}) => {
         });
   
         if (response.status === 201) {
-          refreshBoarders();
+          refreshclinics();
           handleClose();
           setFormData({
             patient:'', 
@@ -96,8 +100,8 @@ const EditBoarder = ({handleClose}) => {
             notes:'', 
             date:'', 
             amount:'', 
-            status:'', 
-            description:''
+            description:'',
+            pay_id:''
           })
         toast.success('Appointment Updated successfully!');
   
@@ -116,7 +120,7 @@ const EditBoarder = ({handleClose}) => {
       <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
       <h3 className='text-xl font-semibold'>Edit Appointment</h3>
      
-      <form onSubmit={ handleEditBoarder }>
+      <form onSubmit={ editClinicFn }>
       <div className='flex justify-between items-center gap-2 my-2 '>
         <div className="w-full">
             <label htmlFor="reason">Appointment Reason</label>
@@ -191,35 +195,7 @@ const EditBoarder = ({handleClose}) => {
                 onChange={handleInputChange}
               />
           </div>
-          <div className="w-full">
-      <label htmlFor="status">Status</label>
-      <div className="flex space-x-4">
-        <label className="flex items-center">
-          <input
-            type="radio"
-            name="status"
-            id="completed"
-            value="Completed"
-            checked={formData.status === 'Completed'}
-            onChange={handleInputChange}
-            className="form-radio text-blue-500 focus:ring-0 focus:outline-none"
-          />
-          <span className="ml-2">Completed</span>
-        </label>
-        <label className="flex items-center">
-          <input
-            type="radio"
-            name="status"
-            id="booked"
-            value="Booked"
-            checked={formData.status === 'Booked'}
-            onChange={handleInputChange}
-            className="form-radio text-red-500 focus:ring-0 focus:outline-none"
-          />
-          <span className="ml-2">Booked</span>
-        </label>
-      </div>
-    </div>
+          
           
         </div>
         <div className='flex justify-between items-center gap-2 my-2 '>
@@ -264,4 +240,4 @@ const EditBoarder = ({handleClose}) => {
      );
 }
 
-export default EditBoarder
+export default EditClinic

@@ -73,8 +73,11 @@ useEffect(()=>{
       setShowLoader(true)
 
       if (currentId !== 0) {
-        const response = await api.get(boardingUrl.get_single_boarder.url, {
-          params: { id: currentId },
+        const response = await api.get(random.get_single_model.url, {
+          params: { 
+            id: currentId,
+            model:'Appointments'
+           },
         });
   
         if (response.status === 200) {
@@ -85,7 +88,7 @@ useEffect(()=>{
         }
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.response.data.error);
     } finally {
       setShowLoader(false);
     }
