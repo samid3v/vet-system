@@ -16,6 +16,9 @@ import ViewTreatment from './pages/Treatment/View'
 import Clinic from './pages/Clinic'
 import AllClinics from './pages/Clinic/All'
 import ViewClinic from './pages/Clinic/View'
+import Vaccine from './pages/Vaccine'
+import AllVaccines from './pages/Vaccine/Pages/All'
+import ViewVaccine from './pages/Vaccine/Pages/View'
 
 function App() {
 
@@ -42,6 +45,10 @@ function App() {
             <Route path='clinic' element={<Clinic/>} >
               <Route index element={<AllClinics/>} />
               <Route path=':id/view' element={<ViewClinic/>} />
+            </Route>
+            <Route path='vaccine' element={<Vaccine/>} >
+              <Route index element={<AllVaccines/>} />
+              <Route path=':id/view' element={<ViewVaccine/>} />
             </Route>
           </Route>
         </Routes>    
