@@ -1,12 +1,12 @@
 import express from "express"
-import { addTreatment, deleteTreatment, editTreatment, getAllTreatments, getTreatmentById } from "../controllers/treatmentController.js"
+import { addVaccine, deleteVaccine, editVaccine, getAllVaccines } from "../controllers/vaccineController.js"
 
 const vaccineRouter = express.Router()
 
-vaccineRouter.get("/all", getAllTreatments)
-vaccineRouter.post("/add-treatment", addTreatment)
-vaccineRouter.get("/get-treatment-by-id", getTreatmentById)
-vaccineRouter.put("/edit-treatment", editTreatment)
-vaccineRouter.delete("/delete-treatment", deleteTreatment)
+vaccineRouter.get("/all", getAllVaccines)
+vaccineRouter.post("/add-vaccine", addVaccine)
+// vaccineRouter.get("/get-treatment-by-id", getTreatmentById)
+vaccineRouter.put("/edit-vaccine", editVaccine)
+vaccineRouter.delete("/delete-vaccine", deleteVaccine)
 
 export default vaccineRouter

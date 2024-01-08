@@ -37,7 +37,7 @@ export const getAllVaccines = asyncHandler(async(req, res) => {
    }
 })
 
-export const addTreatment = asyncHandler(async(req, res) => {
+export const addVaccine = asyncHandler(async(req, res) => {
     const {name, notes, total_doses, amount, description, patient} = req.body
 
     if (!name || !patient || !amount || !patient ) {
@@ -86,7 +86,7 @@ export const addTreatment = asyncHandler(async(req, res) => {
 })
 
 
-  export const editTreatment = asyncHandler(async (req, res) => {
+  export const editVaccine = asyncHandler(async (req, res) => {
     const { id } = req.query;
     const {pay_id,  name, notes, total_doses, amount, description, patient} = req.body
   
@@ -159,7 +159,7 @@ export const addTreatment = asyncHandler(async(req, res) => {
     
   });
 
-  export const deleteTreatment = asyncHandler(async (req, res) => {
+  export const deleteVaccine = asyncHandler(async (req, res) => {
     const { id } = req.query;
 
     if (id) {
