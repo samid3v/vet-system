@@ -14,7 +14,7 @@ const AddVaccine = ({handleClose}) => {
 
   const { setShowLoader,setModalOpen } = useApp();
   const [maxDate, setMaxDate] = useState('')
-  const { refreshTreatments } = useVaccine()
+  const { refreshVaccines } = useVaccine()
   const [formData, setFormData] = useState({
     name:'', 
     patient:'', 
@@ -68,7 +68,7 @@ const AddVaccine = ({handleClose}) => {
       });
 
       if (response.status === 201) {
-        refreshTreatments();
+        refreshVaccines();
         handleClose();
         setFormData({
           name:'', 

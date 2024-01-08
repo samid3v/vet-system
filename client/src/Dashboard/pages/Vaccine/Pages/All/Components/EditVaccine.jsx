@@ -12,58 +12,46 @@ import boardingUrl from '../../../../../urls/boarding'
 import moment from "moment-timezone";
 import {DateTime} from 'luxon'
 import treatmentUrl from '../../../../../urls/treatment'
+import vaccineUrl from '../../../../../urls/vaccine'
 
 const EditVaccine = ({handleClose}) => {
      const { setShowLoader  } = useApp()
-     const { currentTreatment, setCurrentId, setCurrentTreatment, refreshTreatments, refreshInfo, currentId, patients, users } = useVaccine()
+     const { currentVaccine, setCurrentId, setCurrentVaccine, refreshVaccines, refreshInfo, currentId, patients, users } = useVaccine()
      const [formData, setFormData] = useState({
-      name:'', 
-      patient:'', 
-      vet:'', 
-      notes:'', 
-      date:'', 
-      amount:'',
-      pay_id: '',
-      description:''
+        name:'', 
+        patient:'', 
+        notes:'', 
+        total_doses:'',
+        amount:'', 
+        description:''
     });
-    const [maxDate, setMaxDate] = useState('')
-
 
     useEffect(()=>{
       refreshInfo()
-      getFormattedToday()
     },[])
 
-    const getFormattedToday = () => {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = (today.getMonth() + 1).toString().padStart(2, '0');
-      const day = today.getDate().toString().padStart(2, '0');
-      setMaxDate(`${year}-${month}-${day}`);
-    };
+   
 
      useEffect(() => {
-    if (currentTreatment && Object.keys(currentTreatment).length > 0) {
+    if (currentVaccine && Object.keys(currentVaccine).length > 0) {
 
       
       setFormData({
-        patient: currentTreatment?.module_id?.patient_id || '---',
-        name: currentTreatment?.module_id?.name || '---',
-        patient: currentTreatment?.module_id?.patient?._id || '---',
-        vet: currentTreatment?.module_id?.vet?._id || '---',
-        date: moment(currentTreatment?.module_id?.date).format('YYYY-MM-DD'),
-        notes: currentTreatment?.module_id?.notes || '---',
-        pay_id: currentTreatment?._id || '---',
-        amount: currentTreatment?.amount || '---',
-        description: currentTreatment?.description || '---',
+        patient: currentVaccine?.module_id?.patient?._id || '---',
+        name: currentVaccine?.module_id?.name || '---',
+        total_doses: currentVaccine?.module_id?.total_doses || '---',
+        notes: currentVaccine?.module_id?.notes || '---',
+        pay_id: currentVaccine?._id || '---',
+        amount: currentVaccine?.amount || '---',
+        description: currentVaccine?.description || '---',
       });
     }
-  }, [currentTreatment]);
+  }, [currentVaccine]);
 
  
       
 
-  if (!currentTreatment || Object.keys(currentTreatment).length === 0) {
+  if (!currentVaccine || Object.keys(currentVaccine).length === 0) {
     return (
          <div></div>
     );
@@ -80,7 +68,7 @@ const EditVaccine = ({handleClose}) => {
      const handleEditVaccine = async (e) => {
         
       e.preventDefault()
-      if (!formData.name || !formData.patient || !formData.amount || !formData.date) {
+      if (!formData.name || !formData.patient || !formData.amount || !formData.total_doses) {
         toast.error('Check required fields.');
         return;
       }
@@ -94,7 +82,7 @@ const EditVaccine = ({handleClose}) => {
         setShowLoader(true);
         console.log(formData)
         
-        const response = await api.put(treatmentUrl.edit_treatment.url, formData,{
+        const response = await api.put(vaccineUrl.edit_vaccine.url, formData,{
           headers: {
             'Content-Type': 'application/json',
           },
@@ -105,24 +93,22 @@ const EditVaccine = ({handleClose}) => {
         });
   
         if (response.status === 201) {
-          refreshTreatments();
+          refreshVaccines();
           handleClose();
-          setCurrentTreatment([])
+          setCurrentVaccine([])
           setCurrentId(0)
           setFormData({
             name:'', 
             patient:'', 
-            vet:'', 
             notes:'', 
-            date:'', 
-            amount:'',
-            pay_id: '',
+            total_doses:'',
+            amount:'', 
             description:''
           })
-        toast.success('Treatment Updated successfully!');
+        toast.success(response.data.message);
   
         } else {
-          console.error('Failed to update Treatment');
+          console.error('Failed to update Vaccine');
         }
       } catch (error) {
         toast.error(error.response.data.error);
@@ -139,10 +125,10 @@ const EditVaccine = ({handleClose}) => {
       <form onSubmit={ handleEditVaccine }>
       <div className='flex justify-between items-center gap-2 my-2 '>
           <div className="w-full">
-            <label htmlFor="start_date">Treatment Name</label>
+            <label htmlFor="start_date">Vaccine Name</label>
               <input
                 className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
-                placeholder='Treatment Name...'
+                placeholder='Vaccine Name...'
                 type="text"
                 name="name"
                 id="name"
@@ -151,23 +137,33 @@ const EditVaccine = ({handleClose}) => {
               />
           </div>
           <div className="w-full">
-            <label htmlFor="species">Vet Name</label>
-              <select
-                className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
-                name="vet"
-                id="vet"
-                value={formData.vet}
+          <label htmlFor="start_date">Vaccine Number</label>
+              <input
+                className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
+                placeholder='Number of Vaccines...'
+                type="number"
+                name="total_doses"
+                id="total_doses"
+                value={formData.total_doses}
                 onChange={handleInputChange}
-              >
-                  <option value="">Select Vet </option>
-                  { users && (users.map((user, index)=>(
-                      <option key={index} value={user._id}>{user?.name || '---'}</option>
-
-                    )))
-                  }
-              </select>
+              />
           </div>
           
+          
+        </div>
+        <div className='flex justify-between items-center gap-2 my-2 '>
+          <div className="w-full">
+            <label htmlFor="amount">Amount</label>
+              <input
+                className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
+                placeholder='Amount...'
+                type="number"
+                name="amount"
+                id="amount"
+                value={formData.amount}
+                onChange={handleInputChange}
+              />
+          </div>
           <div className="w-full">
             <label htmlFor="patient">Patient Name</label>
               <select
@@ -186,38 +182,12 @@ const EditVaccine = ({handleClose}) => {
                   }
               </select>
           </div>
-        </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
-          <div className="w-full">
-            <label htmlFor="amount">Amount</label>
-              <input
-                className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
-                placeholder='Amount...'
-                type="number"
-                name="amount"
-                id="amount"
-                value={formData.amount}
-                onChange={handleInputChange}
-              />
-          </div>
-          <div className="w-full">
-            <label htmlFor="date">Treatment Date</label>
-              <input
-                className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
-                type="date"
-                name="date"
-                id="date"
-                max={maxDate}
-                value={formData.date}
-                onChange={handleInputChange}
-              />
-          </div>
           
         </div>
         <div className='flex justify-between items-center gap-2 my-2 '>
           
           <div className="w-full">
-            <label htmlFor="species">Boarding Notes</label>
+            <label htmlFor="species">Vaccine Notes</label>
               <textarea
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
                 placeholder='Boarding Notes...'

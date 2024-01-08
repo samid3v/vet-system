@@ -3,9 +3,7 @@ import api from '../../../helpers/axiosInstance';
 import customersUrl from '../../../urls/customers';
 import { toast } from 'react-toastify';
 import { useApp } from '../../../hooks/useApp';
-import boardingUrl from '../../../urls/boarding';
 import VaccineContext from '../context';
-import treatmentUrl from '../../../urls/treatment';
 import random from '../../../urls/random';
 import vaccineUrl from '../../../urls/vaccine';
 
@@ -15,35 +13,35 @@ const VaccineProvider = ({children}) => {
      const [currentId, setCurrentId] = useState(0)
      const [statusId, setStatusId] = useState(null)
      const [totalPages, setTotalPages] = useState(0)
-      const [treaments, setTreatments] = useState([]);
+      const [vaccines, setVaccines] = useState([]);
       const [searchTerm, setSearchTerm] = useState('');
       const { setShowLoader } = useApp();
-      const [currentTreatment, setCurrentTreatment] =useState([])
+      const [currentVaccine, setCurrentVaccine] =useState([])
       const [patients, setPatients] = useState([])
       const [users, setUsers] = useState([])
 
  
 
 useEffect(()=>{
-      getAllTreatments(currentPage,10)
+      getAllVaccines(currentPage,10)
    },[])
 
    useEffect(()=>{
     if (searchTerm.length<3) {
       
-      getAllTreatments(currentPage,10)
+      getAllVaccines(currentPage,10)
     }
 
 },[searchTerm])
 
    useEffect(()=>{
-    getAllTreatments(currentPage,10)
+    getAllVaccines(currentPage,10)
  },[currentPage])
 
  
    useEffect(()=>{
      if (currentId!==0) {
-      getSingleTreatment()
+      getSingleVaccine()
      }
    },[currentId])
 
@@ -60,7 +58,7 @@ useEffect(()=>{
   
 
  
-  const getSingleTreatment = async () => {
+  const getSingleVaccine = async () => {
     try {
       setShowLoader(true)
 
@@ -68,13 +66,13 @@ useEffect(()=>{
         const response = await api.get(random.get_single_model.url, {
           params: { 
             id: currentId,
-            model:'Treatments'
+            model:'Vaccines'
            },
         });
   
         if (response.status === 200) {
           console.log(response.data)
-          setCurrentTreatment(response.data);
+          setCurrentVaccine(response.data);
         } else {
           toast.error('Failed to fetch patient');
         }
@@ -87,8 +85,8 @@ useEffect(()=>{
     }
   };
 
-  const refreshTreatments = () => {
-    getAllTreatments(currentPage,10)
+  const refreshVaccines = () => {
+    getAllVaccines(currentPage,10)
   }
   
   const updateSearchResults = async () => {
@@ -120,7 +118,7 @@ useEffect(()=>{
 
    
 
-  const getAllTreatments = async (page, pageSize) =>{
+  const getAllVaccines = async (page, pageSize) =>{
      try{
       setShowLoader(true);
 
@@ -135,7 +133,7 @@ useEffect(()=>{
 
      
 
-      setTreatments(data);
+      setVaccines(data);
       console.log(data)
       setTotalPages(totalPages)
     } else {
@@ -206,13 +204,13 @@ const refreshInfo = () => {
      setCurrentPage,
      currentId, 
      setCurrentId,
-     treaments, 
+     vaccines, 
      searchTerm, 
      setSearchTerm,
      updateSearchResults,
-     refreshTreatments,
-     currentTreatment, 
-     setCurrentTreatment,
+     refreshVaccines,
+     currentVaccine, 
+     setCurrentVaccine,
      statusId, 
      setStatusId,
      patients,

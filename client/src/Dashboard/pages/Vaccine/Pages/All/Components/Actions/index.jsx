@@ -18,14 +18,14 @@ const Actions = ({doc}) => {
   const navigate = useNavigate()
 
   const [openDelete, setOpenDelete] = useState(false)
-  const {refreshTreatments, setCurrentId, setCurrentTreatment, searchTerm, updateSearchResults} = useVaccine()
+  const {refreshVaccines, setCurrentId, setCurrentVaccine, searchTerm, updateSearchResults} = useVaccine()
 
   const [open, setOpen] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
 
   const handleCloseEditModal = () => {
     setOpenEditModal(false)
-    setCurrentTreatment([])
+    setCurrentVaccine([])
     setCurrentId(0)
    }
 
@@ -47,7 +47,7 @@ const Actions = ({doc}) => {
           updateSearchResults()
   
         }else{
-          refreshTreatments()
+          refreshVaccines()
         }
         toast.success('Vaccine Record Deleted Successfully')
       } else {

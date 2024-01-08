@@ -53,7 +53,8 @@ export const getAllPatients = asyncHandler(async(req, res) => {
      path: 'module_id',
      model: model, 
      populate: {
-         path: 'vet'
+         path: 'vet',
+         strictPopulate: false
        }
    })
    
