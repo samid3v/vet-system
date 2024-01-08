@@ -24,9 +24,9 @@ const TRow = ({treatment, index}) => {
     
     <tr key={index} className={` relative ${ index % 2 === 0 ? 'bg-gray-100' : ''  }`}>
         <td className="p-3 border-b">{treatment?.name}</td>
-        <td className="p-3 border-b">{treatment?.patient?.patient?.name}</td>
-        <td className="p-3 border-b">{treatment?.vet?.name}</td>
-        <td className="p-3 border-b">{humateDateFormat(treatment?.date)}</td>
+        <td className="p-3 border-b">{treatment?.patient?.name}</td>
+        <td className="p-3 border-b">{treatment?.total_doses}</td>
+        <td className="p-3 border-b">{treatment?.doses_administered}</td>
         <td className="p-3 border-b">{treatment?.notes}</td>
 
         <td className="p-3 border-b flex justify-start gap-5 items-center  "><Actions doc={treatment}/></td>

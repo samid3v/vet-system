@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const vaccinationSchema = new mongoose.Schema({
   patient: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Patient', 
+    ref: 'Patients', 
     required: true,
   },
   name: {
@@ -17,6 +17,11 @@ const vaccinationSchema = new mongoose.Schema({
   doses_administered: {
     type: Number,
     default: 0
+  },
+  status: {
+    type: String,
+    enum: ['Pending', 'In Progress', 'Completed'],
+    default: 'Pending',
   },
   notes: {
     type: String,

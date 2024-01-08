@@ -10,6 +10,7 @@ import BasicModal from '../../../../../../components/Modal';
 import { useNavigate } from 'react-router-dom';
 import treatmentUrl from '../../../../../../urls/treatment';
 import EditVaccine from '../EditVaccine';
+import vaccineUrl from '../../../../../../urls/vaccine';
 
 
 const Actions = ({doc}) => {
@@ -36,7 +37,7 @@ const Actions = ({doc}) => {
 
   const deleteDoc = async () =>{
     try {
-      const response = await api.delete(treatmentUrl.delete_transaction.url, {
+      const response = await api.delete(vaccineUrl.delete_vaccine.url, {
         params: {id:doc._id },
       });
   
@@ -48,9 +49,9 @@ const Actions = ({doc}) => {
         }else{
           refreshTreatments()
         }
-        toast.success('Treatment Record Deleted Successfully')
+        toast.success('Vaccine Record Deleted Successfully')
       } else {
-        toast.error('Failed to fetch Treatment');
+        toast.error('Failed to fetch Vaccine');
       }
     } catch (error) {
       // toast.error(error.response.data.error);

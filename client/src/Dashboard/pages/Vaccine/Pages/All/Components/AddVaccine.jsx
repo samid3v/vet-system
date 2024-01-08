@@ -61,7 +61,7 @@ const AddVaccine = ({handleClose}) => {
     try {
       setShowLoader(true);
       
-      const response = await api.post(vaccineUrl.add_treatment.url, formData,{
+      const response = await api.post(vaccineUrl.add_vaccine.url, formData,{
         headers: {
           'Content-Type': 'application/json',
         },

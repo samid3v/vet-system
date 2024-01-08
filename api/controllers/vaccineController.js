@@ -1,5 +1,5 @@
 import asyncHandler from 'express-async-handler';
-import Treatment from '../server/models/treatmentModel.js';
+import vaccine from '../server/models/vaccineModel.js';
 import Payment from '../server/models/paymentModel.js';
 import Transaction from '../server/models/transactionModel.js';
 import User from '../server/models/userModel.js';
@@ -16,7 +16,7 @@ export const getAllVaccines = asyncHandler(async(req, res) => {
 
   const totalDocs = await Vaccine.countDocuments();
   const totalPages = Math.ceil(totalDocs / pageSize);
-   const vaccines = await Treatment.find().populate("patient")
+   const vaccines = await Vaccine.find().populate("patient")
    .sort({ createdAt: -1 })
    .skip(skip)
    .limit(pageSize);
@@ -58,6 +58,7 @@ export const addVaccine = asyncHandler(async(req, res) => {
           patient,
           name,
           total_doses,
+          status:'Pending',
           notes,
         });
          
@@ -164,35 +165,38 @@ export const addVaccine = asyncHandler(async(req, res) => {
 
     if (id) {
         try {
-            const treatmentExist = await Vaccine.findById(id);
+            const vaccineExist = await Vaccine.findById(id);
 
-            if (!treatmentExist) {
+            if (!vaccineExist) {
                 const error = new Error('Vaccine Not Found');
                 error.statusCode = 404;
                 throw error;
             }
 
-            const payExist = await Payment.findOne({ module_id: id, module_name: 'Vaccine' });
+            const payExist = await Payment.findOne({ module_id: id, module_name: 'Vaccines' });
+            console.log(payExist)
 
             if (payExist !== null) {
-                const deleteTreatment = await treatmentExist.deleteOne();
+                const deleteVaccine = await vaccineExist.deleteOne();
 
-                if (deleteTreatment) {
+                if (deleteVaccine) {
+                    
+
+                    const deletePay = await payExist.deleteOne();
+                    console.log(deletePay)
+                    if (!deletePay) {
+                        throw new Error('Failed to delete related Payment record');
+                    }
                     const transactionsExist = await Transaction.exists({ payment_id: payExist._id });
+                    const doseExist = await Dose.exists({ vaccine: payExist._id });
 
-                    if (transactionsExist) {
+                    if (transactionsExist || doseExist) {
                         const deleteT = await Transaction.deleteMany({ payment_id: payExist._id });
-                        const deleteD = await Dose.deleteMany({ vaccine: payExist._id });
+                        const deleteD = await Dose.deleteMany({ vaccine: vaccineExist._id });
 
                         if (!deleteT || !deleteD) {
                             throw new Error('Failed to delete related Tables records');
                         }
-                    }
-
-                    // Delete Payment record
-                    const deletePay = await payExist.deleteOne();
-                    if (!deletePay) {
-                        throw new Error('Failed to delete related Payment record');
                     }
 
                     res.status(201).json({ message: 'Vaccine record deleted successfully' });
@@ -200,9 +204,9 @@ export const addVaccine = asyncHandler(async(req, res) => {
                     throw new Error('Failed to delete Vaccine record');
                 }
             } else {
-                const deleteTreatment = await treatmentExist.deleteOne();
-                if (!deleteTreatment) {
-                    throw new Error('Failed to delete Treatment record');
+                const deletevaccine = await vaccineExist.deleteOne();
+                if (!deletevaccine) {
+                    throw new Error('Failed to delete vaccine record');
                 }
 
                 res.status(201).json({ message: 'Vaccine record deleted successfully (no Payment)' });
