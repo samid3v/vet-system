@@ -133,6 +133,10 @@ export const addVaccine = asyncHandler(async(req, res) => {
        payment_bal = payExist.payment_bal-(payExist.amount - amount)
     }
 
+    if (payExist.amount<amount) {
+      payment_bal = payExist.payment_bal+(amount - payExist.amount)
+   }
+
     const updatedAppointment = await Vaccine.findByIdAndUpdate(id, {
       name,
       total_doses,

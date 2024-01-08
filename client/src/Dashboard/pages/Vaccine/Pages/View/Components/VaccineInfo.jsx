@@ -10,6 +10,7 @@ import AddPayment from './AddPayment'
 import LargeDevice from './TableComponent/LargeDevice'
 import trasactionUrl from '../../../../../urls/transaction'
 import random from '../../../../../urls/random'
+import DosesTable from './DosesTable'
 
 const VaccineInfo = ({id}) => {
      const [loading, setLoading] = useState()
@@ -41,7 +42,7 @@ const VaccineInfo = ({id}) => {
           const response = await api.get(random.get_single_model.url, {
             params: { 
               id: id,
-              model:'Treatments'
+              model:'Vaccines'
              },
           });
     
@@ -100,7 +101,7 @@ const VaccineInfo = ({id}) => {
 
   return (
     <>
-     <div className='flex justify-between w-[90%] mx-auto '>
+     <div className='flex justify-start gap-10  '>
           <div>
                <h3 className='font-semibold text-lg text-gray-600'>Owner Info</h3>
                <div>
@@ -113,21 +114,18 @@ const VaccineInfo = ({id}) => {
                     <p className='text-md text-gray-600 font-semibold'>Name: <span className='text-gray-500'>{treatment?.module_id?.patient?.name}</span></p>
                </div>
           </div>
-          <div>
-               <h3 className='font-semibold text-lg text-gray-600'>Vet Info</h3>
-               <div>
-                    <p className='text-md text-gray-600 font-semibold'>Name: <span className='text-gray-500'>{treatment?.module_id?.vet?.name}</span></p>
-               </div>
-          </div>
+          
           
      </div>
-     <div className='flex flex-col gap-2 w-[90%] mx-auto my-6'>
-          <h3 className='font-semibold text-lg text-gray-600'>treatment Info</h3>
+     <div className='flex justify-start gap-8 my-6 flex-col lg:flex-row '>
+
+     <div className='flex flex-col gap-2 '>
+          <h3 className='font-semibold text-lg text-gray-600'>Vaccine Info</h3>
           <div>
-               <p className='text-md text-gray-600 font-semibold'>Treatment Name: <span className='text-gray-500'>{dateFormat(treatment?.module_id?.name)}</span></p>
+               <p className='text-md text-gray-600 font-semibold'>Vaccine Name: <span className='text-gray-500'>{treatment?.module_id?.name}</span></p>
           </div>
           <div>
-               <p className='text-md text-gray-600 font-semibold'>Date: <span className='text-gray-500'>{dateFormat(treatment?.module_id?.date)}</span></p>
+               <p className='text-md text-gray-600 font-semibold'>Total Doses: <span className='text-gray-500'>{treatment?.module_id?.total_doses}</span></p>
           </div>
           <div>
                <p className='text-md text-gray-600 font-semibold'>Notes: <span className='text-gray-500'>{treatment?.module_id?.notes}</span></p>
@@ -142,6 +140,8 @@ const VaccineInfo = ({id}) => {
           <div>
                <p className='text-md text-gray-600 font-semibold'>Status: <span className={`text-black text-sm font-normal ${treatment.status==='Pending'? 'bg-yellow-600':'bg-green-600'} rounded-2xl px-3 py-1`}>{treatment?.status}</span></p>
           </div>
+     </div>
+     <DosesTable />
      </div>
      <div>
           <div className='flex justify-end items-center'>
