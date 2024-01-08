@@ -4,6 +4,7 @@ import Payment from '../server/models/paymentModel.js';
 import Transaction from '../server/models/transactionModel.js';
 import User from '../server/models/userModel.js';
 import Patient from '../server/models/patientModel.js';
+import Vaccine from '../server/models/vaccineModel.js';
 
 export const getAllTreatments = asyncHandler(async(req, res) => {
 
@@ -36,7 +37,7 @@ export const getAllTreatments = asyncHandler(async(req, res) => {
 })
 
 export const addTreatment = asyncHandler(async(req, res) => {
-    const {name, notes, amount, date,description, patient, vet} = req.body
+    const {name, notes, total_doses, amount, doses_administered,description, patient, vet} = req.body
 
     if (!name || !patient || !amount || !patient ) {
         const error = new Error("Check Required Inputs");
@@ -45,23 +46,31 @@ export const addTreatment = asyncHandler(async(req, res) => {
      }
 
      const patientExist = await Patient.findOne({ _id:patient });
-   if (!patientExist) {
-       const error = new Error("Patient doesnt exist");
-       error.statusCode = 404;
-       throw error;
-    }
-
-    if (vet) {
-      const vetExist = await User.findOne({ _id:vet });
-      if (!vetExist) {
-          const error = new Error("Vet doesnt exist");
+     if (!patientExist) {
+          const error = new Error("Patient doesnt exist");
           error.statusCode = 404;
           throw error;
        }
-    }
+   
+       if (vet) {
+         const vetExist = await User.findOne({ _id:vet });
+         if (!vetExist) {
+             const error = new Error("Vet doesnt exist");
+             error.statusCode = 404;
+             throw error;
+          }
+       }
+     const vaccine = new Vaccine({
+          patient,
+          name,
+          total_doses,
+          vet,
+          notes,
+          administrations: [], 
+        });
+         
         
-      const newTreatment = new Treatment({name, notes, patient, date, vet});
-      const output= await newTreatment.save();
+      const output= await vaccine.save();
       if (output) {
         const data = {
           module_id: output._id,

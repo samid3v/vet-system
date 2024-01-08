@@ -1,31 +1,28 @@
 import mongoose from "mongoose";
 
 const vaccinationSchema = new mongoose.Schema({
-    animal: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Patient', // Reference to the animal receiving the vaccination
-      required: true,
-    },
-    vaccineName: {
-      type: String,
-      required: true,
-    },
-    dateAdministered: {
-      type: Date,
-      required: true,
-    },
-    nextDueDate: {
-      type: Date,
-    },
-    vetAdministered: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User', // Reference to the vet who administered the vaccine
-    },
-    notes: {
-      type: String,
-    },
-  }, { timestamps: true });
-  
-  const Vaccine = mongoose.model('Vaccination', vaccinationSchema);
-  
-  module.exports = Vaccine;
+  patient: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Patient', 
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  total_doses: {
+    type: Number,
+    required: true,
+  },
+  doses_administered: {
+    type: Number,
+    default: 0
+  },
+  notes: {
+    type: String,
+  },
+}, { timestamps: true });
+
+const Vaccine = mongoose.model('Vaccines', vaccinationSchema);
+
+export default Vaccine;
