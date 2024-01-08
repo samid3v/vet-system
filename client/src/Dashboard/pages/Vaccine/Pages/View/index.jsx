@@ -1,5 +1,5 @@
 import React from 'react'
-import TreatmentInfo from './Components/TreatmentInfo'
+import TreatmentInfo from './Components/VaccineInfo'
 import { useParams } from 'react-router-dom'
 
 const ViewVaccine = () => {

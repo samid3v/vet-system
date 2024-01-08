@@ -3,11 +3,11 @@ import Pagination from '@mui/material/Pagination';
 
 import THeader from './TableHeader';
 import TBody from './TableBody';
-import { useTreatment } from '../../../../Hooks';
+import { useVaccine } from '../../../../Hooks';
 
 const LargeDevice = () => {
 
-  const {patients, totalPages, currentPage, setCurrentPage} = useTreatment()
+  const {patients, totalPages, currentPage, setCurrentPage} = useVaccine()
 
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);

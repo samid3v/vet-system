@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useTreatment } from '../../../Hooks'
+import { useVaccine } from '../../../Hooks'
 import treatmentUrl from '../../../../../urls/treatment'
 import { toast } from 'react-toastify'
 import { useApp } from '../../../../../hooks/useApp'
@@ -11,7 +11,7 @@ import LargeDevice from './TableComponent/LargeDevice'
 import trasactionUrl from '../../../../../urls/transaction'
 import random from '../../../../../urls/random'
 
-const TreatmentInfo = ({id}) => {
+const VaccineInfo = ({id}) => {
      const [loading, setLoading] = useState()
      const [treatment, setTreatment] = useState([])
      const [transactions, setTransactions] = useState([])
@@ -156,4 +156,4 @@ const TreatmentInfo = ({id}) => {
   )
 }
 
-export default TreatmentInfo
+export default VaccineInfo
