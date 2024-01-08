@@ -7,6 +7,7 @@ import boardingUrl from '../../../urls/boarding';
 import VaccineContext from '../context';
 import treatmentUrl from '../../../urls/treatment';
 import random from '../../../urls/random';
+import vaccineUrl from '../../../urls/vaccine';
 
 
 const VaccineProvider = ({children}) => {
@@ -123,7 +124,7 @@ useEffect(()=>{
      try{
       setShowLoader(true);
 
-    const response = await api.get(treatmentUrl.get_all.url, {
+    const response = await api.get(vaccineUrl.get_all.url, {
       params: { 
         page, 
         pageSize,
@@ -138,11 +139,11 @@ useEffect(()=>{
       console.log(data)
       setTotalPages(totalPages)
     } else {
-      console.error('Failed to fetch patients');
+      console.error('Failed to fetch Vaccines');
     }
     
     }catch(error){
-        toast.error(error.message)
+        toast.error(error.response.data.error)
 
     }finally {
       setShowLoader(false);

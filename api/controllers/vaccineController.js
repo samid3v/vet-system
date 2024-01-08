@@ -66,7 +66,7 @@ export const addVaccine = asyncHandler(async(req, res) => {
       if (output) {
         const data = {
           module_id: output._id,
-          module_name:'Vaccine',
+          module_name:'Vaccines',
           amount:amount,
           payment_bal:amount,
           description:description,

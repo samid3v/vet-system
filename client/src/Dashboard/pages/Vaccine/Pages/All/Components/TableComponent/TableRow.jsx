@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Actions from '../Actions'
 import { CiMenuKebab } from "react-icons/ci";
-import Status from './Status';
 
 const TRow = ({treatment, index}) => {
 

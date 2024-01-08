@@ -3,13 +3,13 @@ const vaccineUrl = {
           url:`/vaccines/all`
      },
      delete_transaction:{
-          url:`/vaccines/delete-treatment`
+          url:`/vaccines/delete-vaccine`
      },
      add_treatment:{
-          url:`/vaccines/add-treatment`
+          url:`/vaccines/add-vaccine`
      },
      edit_treatment:{
-          url:`/vaccines/edit-treatment`
+          url:`/vaccines/edit-vaccine`
      },
 }
 
