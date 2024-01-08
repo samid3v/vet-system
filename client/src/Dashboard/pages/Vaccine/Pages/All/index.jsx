@@ -1,12 +1,12 @@
 import React from 'react'
-import TreatmentTable from './Components/BoardingTable'
+import VaccineTable from './Components/VaccineTable'
 
 const AllVaccines = () => {
 
   return (
     <>
       <div className='bg-white  '>
-        <TreatmentTable/>
+        <VaccineTable/>
       </div>
     </>
   )

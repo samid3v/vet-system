@@ -3,9 +3,9 @@ import { useApp } from '../../../../../hooks/useApp';
 import LargeDevice from './TableComponent/LargeDevice';
 import BasicModal from '../../../../../components/Modal';
 import { useVaccine } from '../../../Hooks';
-import AddTreatment from './AddTreatment';
+import AddVaccine from './AddVaccine';
 
-const TreatmentTable = () => {
+const VaccineTable = () => {
 
   const {setModalOpen, setModalMessage, isModalOpen, modalMessage} = useApp();
   const {searchTerm, setSearchTerm} = useVaccine()
@@ -22,9 +22,9 @@ const TreatmentTable = () => {
         <button onClick={handleOpen} type="button" className='rounded-lg text-neutral w-40 bg-primary px-3 py-2'>Add Treatment</button>
       </div>
       <LargeDevice />
-      <BasicModal open={open} element={<AddTreatment handleClose={handleClose}/>}/>
+      <BasicModal open={open} element={<AddVaccine handleClose={handleClose}/>}/>
     </div>
   )
 }
 
-export default TreatmentTable
+export default VaccineTable

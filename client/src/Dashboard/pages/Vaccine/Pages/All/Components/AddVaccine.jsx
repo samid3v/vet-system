@@ -8,7 +8,7 @@ import boardingUrl from '../../../../../urls/boarding';
 import random from '../../../../../urls/random';
 import treatmentUrl from '../../../../../urls/treatment';
 
-const AddTreatment = ({handleClose}) => {
+const AddVaccine = ({handleClose}) => {
 
 
   const { setShowLoader,setModalOpen } = useApp();
@@ -50,7 +50,7 @@ const AddTreatment = ({handleClose}) => {
     setMaxDate(`${year}-${month}-${day}`);
   };
   
-  const handleAddTreatment = async (e) => {
+  const handleAddVaccine = async (e) => {
         
     e.preventDefault()
     
@@ -104,7 +104,7 @@ const AddTreatment = ({handleClose}) => {
   return (
     <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
       <h3 className='text-xl font-semibold'>Add Treatment</h3>
-      <form onSubmit={ handleAddTreatment }>
+      <form onSubmit={ handleAddVaccine }>
         <div className='flex justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="start_date">Treatment Name</label>
@@ -225,4 +225,4 @@ const AddTreatment = ({handleClose}) => {
   );
 };
 
-export default AddTreatment;
+export default AddVaccine;

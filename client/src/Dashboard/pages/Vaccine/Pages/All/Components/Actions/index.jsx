@@ -7,10 +7,9 @@ import api from '../../../../../../helpers/axiosInstance';
 import { toast } from 'react-toastify';
 import { useVaccine } from '../../../../Hooks';
 import BasicModal from '../../../../../../components/Modal';
-import boardingUrl from '../../../../../../urls/boarding';
-import EditTreatment from '../EditTreatment';
 import { useNavigate } from 'react-router-dom';
 import treatmentUrl from '../../../../../../urls/treatment';
+import EditVaccine from '../EditVaccine';
 
 
 const Actions = ({doc}) => {
@@ -68,7 +67,7 @@ const Actions = ({doc}) => {
         
      
      <DeleteModal open={openDelete} handleClose={()=>setOpenDelete(false)} deleteFunc={deleteDoc} />
-     <BasicModal open={openEditModal} element={<EditTreatment handleClose={handleCloseEditModal}/>}/>
+     <BasicModal open={openEditModal} element={<EditVaccine handleClose={handleCloseEditModal}/>}/>
     
     </div>
   )

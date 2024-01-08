@@ -13,7 +13,7 @@ import moment from "moment-timezone";
 import {DateTime} from 'luxon'
 import treatmentUrl from '../../../../../urls/treatment'
 
-const EditTreatment = ({handleClose}) => {
+const EditVaccine = ({handleClose}) => {
      const { setShowLoader  } = useApp()
      const { currentTreatment, setCurrentId, setCurrentTreatment, refreshTreatments, refreshInfo, currentId, patients, users } = useVaccine()
      const [formData, setFormData] = useState({
@@ -77,7 +77,7 @@ const EditTreatment = ({handleClose}) => {
        }));
      };
    
-     const handleEditTreatment = async (e) => {
+     const handleEditVaccine = async (e) => {
         
       e.preventDefault()
       if (!formData.name || !formData.patient || !formData.amount || !formData.date) {
@@ -136,7 +136,7 @@ const EditTreatment = ({handleClose}) => {
       <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
       <h3 className='text-xl font-semibold'>Edit Treatment</h3>
      
-      <form onSubmit={ handleEditTreatment }>
+      <form onSubmit={ handleEditVaccine }>
       <div className='flex justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="start_date">Treatment Name</label>
@@ -257,4 +257,4 @@ const EditTreatment = ({handleClose}) => {
      );
 }
 
-export default EditTreatment
+export default EditVaccine
