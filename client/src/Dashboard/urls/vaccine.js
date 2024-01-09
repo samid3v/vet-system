@@ -14,6 +14,9 @@ const vaccineUrl = {
      all_doses:{
           url:`/doses/all`
      },
+     add_dose:{
+          url:`/doses/add-dose`
+     },
 }
 
 export default vaccineUrl

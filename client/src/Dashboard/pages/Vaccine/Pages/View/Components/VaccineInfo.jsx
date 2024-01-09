@@ -11,12 +11,14 @@ import LargeDevice from './TableComponent/LargeDevice'
 import trasactionUrl from '../../../../../urls/transaction'
 import random from '../../../../../urls/random'
 import DosesTable from './DosesTable'
+import vaccineUrl from '../../../../../urls/vaccine'
 
 const VaccineInfo = ({id}) => {
      const [loading, setLoading] = useState()
      const [treatment, setTreatment] = useState([])
      const [transactions, setTransactions] = useState([])
      const [transactId, setTransactId] = useState(0)
+     const [dosesId, setDosesId] = useState(0)
      const { setShowLoader } = useApp();
 
      const [open, setOpen] = useState(false);
@@ -33,6 +35,12 @@ const VaccineInfo = ({id}) => {
           
         }
      },[transactId])
+     useEffect(()=>{
+      if (dosesId!==0) {
+        getDosesFn()
+        
+      }
+   },[dosesId])
 
      const getSingleTreatment = async () => {
       try {
@@ -50,6 +58,7 @@ const VaccineInfo = ({id}) => {
             console.log(response.data)
             setTreatment(response.data);
             setTransactId(response.data._id)
+            setDosesId(response.data.module_id?._id)
           } else {
             toast.error('Failed to fetch patient');
           }
@@ -81,6 +90,25 @@ const VaccineInfo = ({id}) => {
             toast.error(error.message);
           } finally {
             setShowLoader(false);
+          }
+        };
+
+        const getDosesFn = async () => {
+          try {
+      
+              const response = await api.get(vaccineUrl.all_doses.url, {
+               params: { id: dosesId },
+              });
+        
+              if (response.status === 200) {
+                console.log('doses info',response.data)
+                setTransactions(response.data);
+              } else {
+                toast.error('Failed to fetch Doses');
+              }
+           
+          } catch (error) {
+            toast.error(error.message);
           }
         };
 
