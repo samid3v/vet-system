@@ -20,7 +20,7 @@ export const getAllDosesById = asyncHandler(async(req, res) =>{
 export const addDosesFn = asyncHandler(async (req, res)=>{
      const {date, vet, administered, vaccine} = req.body
 
-     if (!date || !vet ) {
+     if (!date || !vet || !vaccine ) {
           const error = new Error("Check required fields");
           error.statusCode = 400;
           throw error;
@@ -28,6 +28,13 @@ export const addDosesFn = asyncHandler(async (req, res)=>{
 
      const vaccineExist = await Vaccine.findById({_id:vaccine})
      const vetExist = await User.findById({_id:vet})
+     const doseExist = await Dose.findOne({vaccine:vaccine, date:date})
+
+     if (doseExist) {
+          const error = new Error("Vaccine Dose record already added");
+          error.statusCode = 400;
+          throw error;
+     }
 
      if (!vaccineExist) {
           const error = new Error("Vaccine Not Found");
@@ -41,10 +48,26 @@ export const addDosesFn = asyncHandler(async (req, res)=>{
           throw error;
      }
 
+     let incrementDose = vaccineExist.doses_administered+1
+     let status = 'In Progress'
+
+     if (vaccineExist.total_doses===vaccineExist.doses_administered) {
+          const error = new Error("Maximum Doses Reached");
+          error.statusCode = 400;
+          throw error;
+     }
+
+     if (administered) {
+          if (vaccineExist.total_doses===incrementDose) {
+               status = 'Completed'
+          }
+     }
+
      const dose = new Vaccine({
           date, 
           vet, 
-          administered, 
+          doses_administered:incrementDose, 
+          status,
           vaccine
      });
          
