@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useVaccine } from '../../../Hooks'
-import treatmentUrl from '../../../../../urls/treatment'
+import vaccineUrl from '../../../../../urls/vaccine'
 import { toast } from 'react-toastify'
 import { useApp } from '../../../../../hooks/useApp'
 import api from '../../../../../helpers/axiosInstance'
@@ -12,10 +12,11 @@ import trasactionUrl from '../../../../../urls/transaction'
 import random from '../../../../../urls/random'
 import DosesTable from './DosesTable'
 import vaccineUrl from '../../../../../urls/vaccine'
+import AddDose from './AddDose'
 
 const VaccineInfo = ({id}) => {
      const [loading, setLoading] = useState()
-     const [treatment, setTreatment] = useState([])
+     const [vaccine, setVaccine] = useState([])
      const [transactions, setTransactions] = useState([])
      const [transactId, setTransactId] = useState(0)
      const [dosesId, setDosesId] = useState(0)
@@ -26,7 +27,7 @@ const VaccineInfo = ({id}) => {
      const handleClose = () => setOpen(false);
 
      useEffect(()=>{
-        getSingleTreatment()        
+        getSinglevaccine()        
      },[])
 
      useEffect(()=>{
@@ -42,7 +43,7 @@ const VaccineInfo = ({id}) => {
       }
    },[dosesId])
 
-     const getSingleTreatment = async () => {
+     const getSinglevaccine = async () => {
       try {
         setShowLoader(true)
   
@@ -56,7 +57,7 @@ const VaccineInfo = ({id}) => {
     
           if (response.status === 200) {
             console.log(response.data)
-            setTreatment(response.data);
+            setVaccine(response.data);
             setTransactId(response.data._id)
             setDosesId(response.data.module_id?._id)
           } else {
@@ -76,7 +77,7 @@ const VaccineInfo = ({id}) => {
             setShowLoader(true)
       
               const response = await api.get(trasactionUrl.get_all.url, {
-               params: { pay_id: treatment._id },
+               params: { pay_id: vaccine._id },
               });
         
               if (response.status === 200) {
@@ -113,7 +114,7 @@ const VaccineInfo = ({id}) => {
         };
 
         const refreshData = () =>{
-          getSingleTreatment()
+          getSinglevaccine()
           getTransactionInfo()
         }
 
@@ -133,13 +134,13 @@ const VaccineInfo = ({id}) => {
           <div>
                <h3 className='font-semibold text-lg text-gray-600'>Owner Info</h3>
                <div>
-                    <p className='text-md text-gray-600 font-semibold'>Name: <span className='text-gray-500'>{treatment?.module_id?.patient?.owner?.name}</span></p>
+                    <p className='text-md text-gray-600 font-semibold'>Name: <span className='text-gray-500'>{vaccine?.module_id?.patient?.owner?.name}</span></p>
                </div>
           </div>
           <div>
                <h3 className='text-center font-semibold text-lg text-gray-600'>Patient Info</h3>
                <div>
-                    <p className='text-md text-gray-600 font-semibold'>Name: <span className='text-gray-500'>{treatment?.module_id?.patient?.name}</span></p>
+                    <p className='text-md text-gray-600 font-semibold'>Name: <span className='text-gray-500'>{vaccine?.module_id?.patient?.name}</span></p>
                </div>
           </div>
           
@@ -150,34 +151,35 @@ const VaccineInfo = ({id}) => {
      <div className='flex flex-col gap-2 '>
           <h3 className='font-semibold text-lg text-gray-600'>Vaccine Info</h3>
           <div>
-               <p className='text-md text-gray-600 font-semibold'>Vaccine Name: <span className='text-gray-500'>{treatment?.module_id?.name}</span></p>
+               <p className='text-md text-gray-600 font-semibold'>Vaccine Name: <span className='text-gray-500'>{vaccine?.module_id?.name}</span></p>
           </div>
           <div>
-               <p className='text-md text-gray-600 font-semibold'>Total Doses: <span className='text-gray-500'>{treatment?.module_id?.total_doses}</span></p>
+               <p className='text-md text-gray-600 font-semibold'>Total Doses: <span className='text-gray-500'>{vaccine?.module_id?.total_doses}</span></p>
           </div>
           <div>
-               <p className='text-md text-gray-600 font-semibold'>Notes: <span className='text-gray-500'>{treatment?.module_id?.notes}</span></p>
+               <p className='text-md text-gray-600 font-semibold'>Notes: <span className='text-gray-500'>{vaccine?.module_id?.notes}</span></p>
           </div>
           <div>
-               <p className='text-md text-gray-600 font-semibold'>Amount: <span className='text-gray-500'>{treatment?.amount}</span></p>
+               <p className='text-md text-gray-600 font-semibold'>Amount: <span className='text-gray-500'>{vaccine?.amount}</span></p>
           </div>
           
           <div>
-               <p className='text-md text-gray-600 font-semibold'>Balance: <span className='text-gray-500'>{treatment?.payment_bal}</span></p>
+               <p className='text-md text-gray-600 font-semibold'>Balance: <span className='text-gray-500'>{vaccine?.payment_bal}</span></p>
           </div>
           <div>
-               <p className='text-md text-gray-600 font-semibold'>Status: <span className={`text-black text-sm font-normal ${treatment.status==='Pending'? 'bg-yellow-600':'bg-green-600'} rounded-2xl px-3 py-1`}>{treatment?.status}</span></p>
+               <p className='text-md text-gray-600 font-semibold'>Status: <span className={`text-black text-sm font-normal ${vaccine.status==='Pending'? 'bg-yellow-600':'bg-green-600'} rounded-2xl px-3 py-1`}>{vaccine?.status}</span></p>
           </div>
      </div>
-     <DosesTable />
+     <DosesTable refreshData={refreshData} id={vaccine?.module_id?._id} />
      </div>
      <div>
           <div className='flex justify-end items-center'>
-            {treatment?.status ==='Pending' && (
+            {vaccine?.status ==='Pending' && (
                <button onClick={handleOpen} type="button" className='rounded-lg text-neutral w-40 bg-primary px-3 py-2'>Add Payment</button>
             )}
+
           </div>
-      <BasicModal open={open} element={<AddPayment refreshData={refreshData} id={treatment?._id} handleClose={handleClose}/>}/>
+          <BasicModal open={open} element={<AddPayment refreshData={refreshData} id={vaccine?._id} handleClose={handleClose}/>}/>
      <LargeDevice transactions={transactions} refreshData={refreshData} />
      </div>
     </>

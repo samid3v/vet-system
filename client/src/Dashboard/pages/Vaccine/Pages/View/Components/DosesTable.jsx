@@ -1,8 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
+import BasicModal from '../../../../../components/Modal';
+import AddDose from './AddDose';
 
-const DosesTable = () => {
+const DosesTable = ({ id, refreshData}) => {
+
+     const [open, setOpen] = useState(false);
+     const handleOpen = () => setOpen(true);
+     const handleClose = () => setOpen(false);
   return (
      <div class="overflow-x-auto">
+               <button onClick={handleOpen} type="button" className='rounded-lg text-neutral w-40 bg-primary px-3 py-2'>Add Dose</button>
+               <BasicModal open={open} element={<AddDose refreshData={refreshData} id={id} handleClose={handleClose}/>}/>
+
           <table class="min-w-full border border-gray-300 divide-y divide-gray-300">
                <thead>
                <tr>
