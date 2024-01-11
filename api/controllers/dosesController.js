@@ -92,3 +92,23 @@ export const addDosesFn = asyncHandler(async (req, res)=>{
 
 
 })
+
+export const deleteDoseFn = asyncHandler(async (req, res) => {
+     const { id } = req.query;
+   
+     if (id) {
+       const deleteDose = await Dose.findByIdAndRemove(id);
+   
+       if (!deleteDose) {
+         const error = new Error("Vaccine Dose Not Found");
+         error.statusCode = 404;
+         throw error;
+       }
+   
+       res.status(201).json({ message: "Vaccine dose deleted successfully" });
+     } else {
+       const error = new Error("Invalid Request");
+       error.statusCode = 400;
+       throw error;
+     }
+   });

@@ -1,15 +1,21 @@
 import React, { useState } from 'react'
 import { BsTrash } from "react-icons/bs";
+import {FaRegEdit} from 'react-icons/fa'
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import DeleteModal from '../../../../../../components/DeleteModal';
 import trasactionUrl from '../../../../../../urls/transaction';
 import api from '../../../../../../helpers/axiosInstance';
+import BasicModal from '../../../../../../components/Modal';
+import EditDose from '../EditDose';
+import vaccineUrl from '../../../../../../urls/vaccine';
 
 
 const DoseActions = ({doc, refreshData}) => {
 
   const navigate = useNavigate()
+
+  console.log(doc)
 
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDelete, setOpenDelete] = useState(false)
@@ -28,22 +34,21 @@ const DoseActions = ({doc, refreshData}) => {
   
   const deleteDoc = async () =>{
     try {
-      const response = await api.delete(trasactionUrl.delete_transaction.url, {
+      const response = await api.delete(vaccineUrl.delete_dose.url, {
         params: {
           id:doc._id,
-          pay_id: doc.payment_id._id
          },
       });
   
-      if (response.status === 200) {
+      if (response.status === 201) {
         setOpenDelete(false)
         refreshData()
-        toast.success('Transaction Record Deleted Successfully')
+        toast.success('Vaccine Dose Record Deleted Successfully')
       } else {
-        toast.error('Failed to delete Transaction');
+        toast.error('Failed to delete Dose');
       }
     } catch (error) {
-      toast.error(error.response);
+      toast.error(error.response.data.error);
   
       
     }
@@ -56,7 +61,7 @@ const DoseActions = ({doc, refreshData}) => {
         
      
      <DeleteModal open={openDelete} handleClose={()=>setOpenDelete(false)} deleteFunc={deleteDoc} />
-     <BasicModal open={openEditModal} element={<EditBoarder handleClose={handleCloseEditModal}/>}/>
+     <BasicModal open={openEditModal} element={<EditDose refreshData={refreshData} id={doc._id} handleClose={handleCloseEditModal}/>}/>
     
     </div>
   )

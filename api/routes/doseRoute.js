@@ -1,5 +1,5 @@
 import express from "express"
-import { addDosesFn, getAllDosesById } from "../controllers/dosesController.js"
+import { addDosesFn, deleteDoseFn, getAllDosesById } from "../controllers/dosesController.js"
 
 const doseRouter = express.Router()
 
@@ -9,6 +9,6 @@ doseRouter.post("/add-dose", addDosesFn)
 // doseRouter.get("/get-patients", getPatients)
 // doseRouter.put("/edit-boarder", editBoarder)
 // doseRouter.put("/edit-boarder-status", editBoarderStatus)
-// doseRouter.delete("/delete-boarder", deleteBoarder)
+doseRouter.delete("/delete-dose", deleteDoseFn)
 
 export default doseRouter

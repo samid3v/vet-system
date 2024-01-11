@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import BasicModal from '../../../../../components/Modal';
 import AddDose from './AddDose';
+import DoseActions from './Actions/dindex';
 
 const DosesTable = ({ id, refreshData, docs}) => {
 
@@ -45,7 +46,7 @@ const DosesTable = ({ id, refreshData, docs}) => {
                     <td class="py-2 px-4">
                          <p className={`${doc?.administered? 'bg-green-500':'bg-orange-500'} text-center px-3 rounded-xl`}>{doc?.administered? 'Administered':'Pending'}</p>
                     </td>
-                    <td class="py-2 px-4">action</td>
+                    <td class="py-2 px-4"><DoseActions refreshData={refreshData} doc={doc}/></td>
                </tr>
                ))}
                </tbody>
