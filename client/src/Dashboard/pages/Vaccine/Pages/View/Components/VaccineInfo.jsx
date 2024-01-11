@@ -11,12 +11,11 @@ import LargeDevice from './TableComponent/LargeDevice'
 import trasactionUrl from '../../../../../urls/transaction'
 import random from '../../../../../urls/random'
 import DosesTable from './DosesTable'
-import vaccineUrl from '../../../../../urls/vaccine'
-import AddDose from './AddDose'
 
 const VaccineInfo = ({id}) => {
      const [loading, setLoading] = useState()
      const [vaccine, setVaccine] = useState([])
+     const [dose, setDose] = useState([])
      const [transactions, setTransactions] = useState([])
      const [transactId, setTransactId] = useState(0)
      const [dosesId, setDosesId] = useState(0)
@@ -103,7 +102,7 @@ const VaccineInfo = ({id}) => {
         
               if (response.status === 200) {
                 console.log('doses info',response.data)
-                setTransactions(response.data);
+                setDose(response.data);
               } else {
                 toast.error('Failed to fetch Doses');
               }
@@ -116,6 +115,7 @@ const VaccineInfo = ({id}) => {
         const refreshData = () =>{
           getSinglevaccine()
           getTransactionInfo()
+          getDosesFn()
         }
 
         const dateFormat = (dateString) =>{
@@ -170,7 +170,7 @@ const VaccineInfo = ({id}) => {
                <p className='text-md text-gray-600 font-semibold'>Status: <span className={`text-black text-sm font-normal ${vaccine.status==='Pending'? 'bg-yellow-600':'bg-green-600'} rounded-2xl px-3 py-1`}>{vaccine?.status}</span></p>
           </div>
      </div>
-     <DosesTable refreshData={refreshData} id={vaccine?.module_id?._id} />
+     <DosesTable docs={dose} refreshData={refreshData} id={vaccine?.module_id?._id} />
      </div>
      <div>
           <div className='flex justify-end items-center'>

@@ -16,7 +16,7 @@ const doseSchema = new mongoose.Schema({
      },
      vet: {
        type: mongoose.Schema.Types.ObjectId,
-       ref: 'User', 
+       ref: 'Users', 
      },
    });
    

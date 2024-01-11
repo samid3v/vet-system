@@ -8,6 +8,8 @@ export const getAllDosesById = asyncHandler(async(req, res) =>{
      const {id} = req.query
 
      const doses = await Dose.find({vaccine:id})
+     .populate('vet')
+     console.log(doses)
      if (!doses) {
           const error = new Error("Error fetching dose info");
           error.statusCode = 400;
@@ -63,20 +65,30 @@ export const addDosesFn = asyncHandler(async (req, res)=>{
           }
      }
 
-     const dose = new Vaccine({
+     const dose = new Dose({
           date, 
           vet, 
-          doses_administered:incrementDose, 
-          status,
+          administered,
           vaccine
      });
-         
-        
-      const output= await dose.save();
+     const output= await dose.save();
 
-      if (output) {
-          res.status(201).json({message:'Dose added successfully'})
-      }
+
+     if (output) {
+          const updateVaccine = await Vaccine.findByIdAndUpdate(
+               vaccine
+          ,{
+               doses_administered:incrementDose, 
+               status,
+          }, { new: true } )
+
+          if (updateVaccine) {
+               res.status(201).json({message:'Dose added successfully'})
+               
+          }
+
+
+     }
 
 
 })

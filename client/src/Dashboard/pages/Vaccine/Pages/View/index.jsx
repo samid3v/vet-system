@@ -1,13 +1,13 @@
 import React from 'react'
-import TreatmentInfo from './Components/VaccineInfo'
 import { useParams } from 'react-router-dom'
+import VaccineInfo from './Components/VaccineInfo'
 
 const ViewVaccine = () => {
      const {id} = useParams()
      
   return (
     <div className='bg-white p-4 rounded-md'>
-       <TreatmentInfo id={id} />
+       <VaccineInfo id={id} />
     </div>
   )
 }

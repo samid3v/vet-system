@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useApp } from '../../../../../hooks/useApp';
 import api from '../../../../../helpers/axiosInstance';
-import boardingUrl from '../../../../../urls/boarding';
 import { toast } from 'react-toastify';
-import trasactionUrl from '../../../../../urls/transaction';
 import { useVaccine } from '../../../Hooks';
+import vaccineUrl from '../../../../../urls/vaccine';
 
 const AddDose = ({handleClose, id, refreshData}) => {
 
   const { setShowLoader,setModalOpen } = useApp();
   const { users, refreshInfo } = useVaccine()
-
+  const [showAdministered, setShowAdministered] = useState(false)
 
   const [formData, setFormData] = useState({
     vaccine:'', 
@@ -22,62 +21,71 @@ const AddDose = ({handleClose, id, refreshData}) => {
   useEffect(()=>{
     refreshInfo()
   },[])
+
+  useEffect(()=>{
+    const today = getCurrentDate()
+    if (formData.date) {
+      if (today>formData.date) {
+        setShowAdministered(true)
+      }else{
+        setShowAdministered(false)
+
+      }
+    }
+  },[formData.date])
+
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(today.getDate()).padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  };
   
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    const { name, value, type, checked } = e.target;
+  
+    if (type === 'checkbox') {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: checked,
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
+  
 
   const addDoseFn = async (e) => {
         
     e.preventDefault()
 
-    formData.payment_id = id
+    formData.vaccine = id
     
 
-    if (!formData.amount_paid || !formData.payment_date || !formData.payment_id) {
+    if (!formData.date || !formData.vaccine || !formData.vet) {
       toast.error('Check required fields.');
       return;
     }
-
-    if (formData.payment_type === 'Mpesa') {
-      if (!formData.mpesa_transaction_id) {
-        formData.bank_name=""
-        formData.bank_transaction_reference=""
-        toast.error('Mpesa transaction number is required');
-        return;        
-      }
-    }
-
-    if (formData.payment_type === 'Cash') {
-        formData.bank_name=""
-        formData.mpesa_transaction_id=""
-        formData.bank_transaction_reference=""
-    }
-
-    if (formData.payment_type === 'Bank') {
-      if (!formData.bank_transaction_reference || !formData.bank_name) {
-        formData.mpesa_transaction_id=""
-        toast.error('Bank Details are required');
-        return;        
-      }
-    }
-
+    
+    
     console.log(formData)
     try {
       setShowLoader(true);
       
-      const response = await api.post(trasactionUrl.add_transaction.url, formData,{
+      const response = await api.post(vaccineUrl.add_dose.url, formData,{
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
       if (response.status === 201) {
+        handleClose()
         refreshData();
         setFormData({
           vaccine:'', 
@@ -105,7 +113,7 @@ const AddDose = ({handleClose, id, refreshData}) => {
         <div className='flex justify-start gap-5 items-center my-4 '>
           
           <div className="w-full">
-            <label htmlFor="payment_date">Payment Date</label>
+            <label htmlFor="date">Vaccine Date</label>
               <input
                 className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
                 placeholder='payment date...'
@@ -117,7 +125,7 @@ const AddDose = ({handleClose, id, refreshData}) => {
               />
           </div>
           <div className="w-full">
-            <label htmlFor="species">Vet Name</label>
+            <label htmlFor="vet">Vet Name</label>
               <select
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
                 name="vet"
@@ -133,20 +141,23 @@ const AddDose = ({handleClose, id, refreshData}) => {
                   }
               </select>
           </div>
-          <div className="w-full">
-            <label className="flex mt-5 ">
+
+          {showAdministered && (
+            <div className="w-full">
+            <label htmlFor='administered' className="flex mt-5 ">
               <input
                 type="checkbox"
                 name="administered"
                 id="administered"
-                value={formData.administered}
                 checked={formData.administered}
                 onChange={handleInputChange}
-                className="form-radio text-blue-500 focus:ring-0 focus:outline-none"
+                className="text-blue-500 focus:ring-0 focus:outline-none"
               />
               <span className="ml-2">Administered</span>
             </label>
           </div>
+          )}
+          
           
         </div>
         
