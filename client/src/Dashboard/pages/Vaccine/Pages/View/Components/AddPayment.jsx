@@ -9,6 +9,7 @@ const AddPayment = ({handleClose, id, refreshData}) => {
 
   const { setShowLoader,setModalOpen } = useApp();
 
+
   const [formData, setFormData] = useState({
     payment_id:'', 
     mpesa_transaction_id:'', 
@@ -18,6 +19,20 @@ const AddPayment = ({handleClose, id, refreshData}) => {
     bank_name:'',
     payment_date:''
   });
+
+  const [maxDate, setMaxDate] = useState('')
+
+  useEffect(()=>{
+    getFormattedToday()
+  },[])
+
+  const getFormattedToday = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    setMaxDate(`${year}-${month}-${day}`);
+  };
   
 
   const handleInputChange = (e) => {
@@ -122,7 +137,8 @@ const AddPayment = ({handleClose, id, refreshData}) => {
               <input
                 className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
                 placeholder='payment date...'
-                type="datetime-local"
+                type="date"
+                max={maxDate}
                 name="payment_date"
                 id="payment_date"
                 value={formData.payment_date}
