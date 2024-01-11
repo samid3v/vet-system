@@ -50,20 +50,15 @@ export const addDosesFn = asyncHandler(async (req, res)=>{
           throw error;
      }
 
-     let incrementDose = vaccineExist.doses_administered+1
-     let status = 'In Progress'
+     const allDoses = await Dose.find({vaccine})
 
-     if (vaccineExist.total_doses===vaccineExist.doses_administered) {
+     if (vaccineExist.total_doses===allDoses.length) {
           const error = new Error("Maximum Doses Reached");
           error.statusCode = 400;
           throw error;
      }
-
-     if (administered) {
-          if (vaccineExist.total_doses===incrementDose) {
-               status = 'Completed'
-          }
-     }
+    
+     let status = vaccineExist.status
 
      const dose = new Dose({
           date, 
@@ -75,18 +70,113 @@ export const addDosesFn = asyncHandler(async (req, res)=>{
 
 
      if (output) {
-          const updateVaccine = await Vaccine.findByIdAndUpdate(
-               vaccine
-          ,{
-               doses_administered:incrementDose, 
-               status,
-          }, { new: true } )
-
-          if (updateVaccine) {
-               res.status(201).json({message:'Dose added successfully'})
-               
+          const findDoses = await Dose.find({vaccine, administered:true})
+          if (vaccineExist.total_doses===findDoses.length) {
+               status = 'Completed'
           }
+          if (findDoses.length>0) {
+               status = 'In Progress'
+          }
+          if (findDoses) {
+               const updateVaccine = await Vaccine.findByIdAndUpdate(
+                    vaccine
+               ,{
+                    doses_administered:findDoses.length, 
+                    status,
+               }, { new: true } )
+          }
+               res.status(201).json({message:'Dose added successfully'})
 
+     }
+
+
+})
+
+export const getSingleDoseFn = asyncHandler(async (req, res) => {
+     const { id } = req.query;
+   
+     if (!id) {
+       const error = new Error("Dose id is Required");
+       error.statusCode = 404;
+       throw error;
+        
+     }
+
+     const dose = await Dose.findById(id);
+
+     if (!dose) {
+          const error = new Error("Dose not found");
+          error.statusCode = 404;
+          throw error;
+       }
+
+     res.status(200).json(dose);
+
+   });
+
+ 
+
+export const editDosesFn = asyncHandler(async (req, res)=>{
+     const {date,id, vet, administered, vaccine} = req.body
+
+     if (!date || !vet || !vaccine || !id ) {
+          const error = new Error("Check required fields");
+          error.statusCode = 400;
+          throw error;
+     }
+
+     const vaccineExist = await Vaccine.findById({_id:vaccine})
+     const vetExist = await User.findById({_id:vet})
+     const doseExist = await Dose.findById(id)
+
+     let status = vaccineExist.status
+
+
+     if (!doseExist) {
+          const error = new Error("Vaccine Dose record Not Found");
+          error.statusCode = 400;
+          throw error;
+     }
+
+     if (!vaccineExist) {
+          const error = new Error("Vaccine Not Found");
+          error.statusCode = 400;
+          throw error;
+     }
+
+     if (!vetExist) {
+          const error = new Error("Vet Not Found");
+          error.statusCode = 400;
+          throw error;
+     }
+
+     const dose = await Dose.findByIdAndUpdate(id,{
+          date, 
+          vet, 
+          administered,
+          vaccine
+     },
+     {new:true}
+     );
+
+
+     if (dose) {
+          const findDoses = await Dose.find({vaccine, administered:true})
+          if (vaccineExist.total_doses===findDoses.length) {
+               status = 'Completed'
+          }
+          if (findDoses.length>0) {
+               status = 'In Progress'
+          }
+          if (findDoses) {
+               const updateVaccine = await Vaccine.findByIdAndUpdate(
+                    vaccine
+               ,{
+                    doses_administered:findDoses.length, 
+                    status,
+               }, { new: true } )
+          }
+               res.status(201).json({message:'Dose Record Updated successfully'})
 
      }
 
@@ -104,8 +194,37 @@ export const deleteDoseFn = asyncHandler(async (req, res) => {
          error.statusCode = 404;
          throw error;
        }
+
+       console.log('delete dose',deleteDose)
+
+       if (deleteDose) {
+          const vaccine = await Vaccine.findOne({_id:deleteDose.vaccine})
+
+          let status = vaccine.status
+
+          const findDoses = await Dose.find({vaccine:deleteDose.vaccine, administered:true})
+          if (findDoses.length===0) {
+               status = 'Pending'
+          }
+          
+           await Vaccine.findByIdAndUpdate(
+               vaccine._id,
+
+               {
+                    doses_administered:findDoses.length,
+                    status
+               },
+               {new:true}
+               
+               )
+
+               
+               res.status(201).json({ message: "Vaccine dose deleted successfully" });
+                    
+
+          // const allDose = await Dose.find({vaccine:deleteDose.vaccine})
+       }
    
-       res.status(201).json({ message: "Vaccine dose deleted successfully" });
      } else {
        const error = new Error("Invalid Request");
        error.statusCode = 400;

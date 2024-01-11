@@ -157,6 +157,9 @@ const VaccineInfo = ({id}) => {
                <p className='text-md text-gray-600 font-semibold'>Total Doses: <span className='text-gray-500'>{vaccine?.module_id?.total_doses}</span></p>
           </div>
           <div>
+               <p className='text-md text-gray-600 font-semibold'> Vaccine Status: <span className={`text-black text-sm font-normal ${vaccine?.module_id?.status==='Pending'? 'bg-yellow-600':'bg-green-600'} rounded-2xl px-3 py-1`}>{vaccine?.module_id?.status}</span></p>
+          </div>
+          <div>
                <p className='text-md text-gray-600 font-semibold'>Notes: <span className='text-gray-500'>{vaccine?.module_id?.notes}</span></p>
           </div>
           <div>
@@ -167,7 +170,7 @@ const VaccineInfo = ({id}) => {
                <p className='text-md text-gray-600 font-semibold'>Balance: <span className='text-gray-500'>{vaccine?.payment_bal}</span></p>
           </div>
           <div>
-               <p className='text-md text-gray-600 font-semibold'>Status: <span className={`text-black text-sm font-normal ${vaccine.status==='Pending'? 'bg-yellow-600':'bg-green-600'} rounded-2xl px-3 py-1`}>{vaccine?.status}</span></p>
+               <p className='text-md text-gray-600 font-semibold'> Payment Status: <span className={`text-black text-sm font-normal ${vaccine.status==='Pending'? 'bg-yellow-600':'bg-green-600'} rounded-2xl px-3 py-1`}>{vaccine?.status}</span></p>
           </div>
      </div>
      <DosesTable docs={dose} refreshData={refreshData} id={vaccine?.module_id?._id} />

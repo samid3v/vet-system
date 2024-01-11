@@ -8,9 +8,7 @@ const DosesTable = ({ id, refreshData, docs}) => {
      const [open, setOpen] = useState(false);
      const handleOpen = () => setOpen(true);
      const handleClose = () => setOpen(false);
-     if (docs.length===0) {
-          return <div>loading...</div>
-     }
+     
 
      const humateDateFormat = (dateString) =>{
           const formattedDate = new Date(dateString).toLocaleString('en-US', {
@@ -39,7 +37,7 @@ const DosesTable = ({ id, refreshData, docs}) => {
                </tr>
                </thead>
                <tbody>
-               {docs.map((doc, index)=>(
+               {docs.length>0? docs.map((doc, index)=>(
                     <tr>
                     <td class="py-2 px-4">{humateDateFormat(doc?.date)}</td>
                     <td class="py-2 px-4">{doc?.vet.name}</td>
@@ -48,7 +46,10 @@ const DosesTable = ({ id, refreshData, docs}) => {
                     </td>
                     <td class="py-2 px-4"><DoseActions refreshData={refreshData} doc={doc}/></td>
                </tr>
-               ))}
+               )): <tr>
+                    <td className='text-center py-3 font-semibold text-lg' colSpan={4}>No Data</td>
+               </tr>
+               }
                </tbody>
           </table>
      </div>

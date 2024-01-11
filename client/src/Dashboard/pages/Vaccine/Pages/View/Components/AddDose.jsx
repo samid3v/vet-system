@@ -9,7 +9,7 @@ const AddDose = ({handleClose, id, refreshData}) => {
 
   const { setShowLoader,setModalOpen } = useApp();
   const { users, refreshInfo } = useVaccine()
-  const [showAdministered, setShowAdministered] = useState(false)
+  const [showAdministered, setShowAdministered] = useState(true)
 
   const [formData, setFormData] = useState({
     vaccine:'', 
@@ -26,9 +26,9 @@ const AddDose = ({handleClose, id, refreshData}) => {
     const today = getCurrentDate()
     if (formData.date) {
       if (today>formData.date) {
-        setShowAdministered(true)
-      }else{
         setShowAdministered(false)
+      }else{
+        setShowAdministered(true)
 
       }
     }
@@ -142,13 +142,14 @@ const AddDose = ({handleClose, id, refreshData}) => {
               </select>
           </div>
 
-          {showAdministered && (
+          
             <div className="w-full">
             <label htmlFor='administered' className="flex mt-5 ">
               <input
                 type="checkbox"
                 name="administered"
                 id="administered"
+                disabled={showAdministered}
                 checked={formData.administered}
                 onChange={handleInputChange}
                 className="text-blue-500 focus:ring-0 focus:outline-none"
@@ -156,7 +157,6 @@ const AddDose = ({handleClose, id, refreshData}) => {
               <span className="ml-2">Administered</span>
             </label>
           </div>
-          )}
           
           
         </div>
