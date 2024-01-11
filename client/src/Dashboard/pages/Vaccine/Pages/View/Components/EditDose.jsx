@@ -4,14 +4,21 @@ import api from '../../../../../helpers/axiosInstance';
 import { toast } from 'react-toastify';
 import { useVaccine } from '../../../Hooks';
 import vaccineUrl from '../../../../../urls/vaccine';
+import moment from "moment-timezone";
+
 
 const EditDose = ({handleClose, id, refreshData}) => {
 
   const { setShowLoader,setModalOpen } = useApp();
   const { users, refreshInfo } = useVaccine()
   const [showAdministered, setShowAdministered] = useState(false)
+  const [dose, setDose] = useState([])
+  const [doseId, setDoseId] = useState(0)
+
+
 
   const [formData, setFormData] = useState({
+    id:'', 
     vaccine:'', 
     vet:'', 
     date:'', 
@@ -20,20 +27,62 @@ const EditDose = ({handleClose, id, refreshData}) => {
 
   useEffect(()=>{
     refreshInfo()
+    setDoseId(id)
+    
   },[])
+
+
+  useEffect(()=>{
+     if (doseId!==0) {
+          getDoseFn()
+     }
+   },[doseId])
+
+  const getDoseFn = async () => {
+     try {
+          setShowLoader(true)
+         const response = await api.get(vaccineUrl.single_dose.url, {
+          params: { id: id },
+         });
+   
+         if (response.status === 200) {
+           console.log('dose s info',response.data)
+           setDose(response.data);
+         } else {
+           toast.error('Failed to fetch Dose Infp');
+         }
+      
+     } catch (error) {
+       toast.error(error.message);
+     }finally{
+          setShowLoader(false)
+     }
+   };
 
   useEffect(()=>{
     const today = getCurrentDate()
     if (formData.date) {
-      if (today>formData.date) {
+      if (today>=formData.date) {
         setShowAdministered(true)
       }else{
         setShowAdministered(false)
+        formData.administered= false
 
       }
     }
-  },[formData.date])
+  },[formData.date, dose])
 
+  useEffect(()=>{
+     setFormData({
+          id:doseId,
+          vaccine:dose?.vaccine, 
+          vet:dose?.vet, 
+          date: moment(dose?.date).format('YYYY-MM-DD'), 
+          administered:dose?.administered,
+     })
+   },[dose])
+
+  
   const getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -65,9 +114,6 @@ const EditDose = ({handleClose, id, refreshData}) => {
         
     e.preventDefault()
 
-    formData.vaccine = id
-    
-
     if (!formData.date || !formData.vaccine || !formData.vet) {
       toast.error('Check required fields.');
       return;
@@ -78,16 +124,19 @@ const EditDose = ({handleClose, id, refreshData}) => {
     try {
       setShowLoader(true);
       
-      const response = await api.post(vaccineUrl.add_dose.url, formData,{
+      const response = await api.put(vaccineUrl.edit_dose.url, formData,{
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
+      console.log(response)
+
       if (response.status === 201) {
         handleClose()
         refreshData();
         setFormData({
+          id:'',
           vaccine:'', 
           vet:'', 
           date:'', 
@@ -106,9 +155,14 @@ const EditDose = ({handleClose, id, refreshData}) => {
     
   };
 
+  const closeModalFn = () =>{
+     handleClose()
+     setDoseId(0)
+     setDose([])
+  }
   return (
     <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
-      <h3 className='text-xl font-semibold'>Add Dose</h3>
+      <h3 className='text-xl font-semibold'>Edit Dose</h3>
       <form onSubmit={ EditDoseFn }>
         <div className='flex justify-start gap-5 items-center my-4 '>
           
@@ -116,11 +170,11 @@ const EditDose = ({handleClose, id, refreshData}) => {
             <label htmlFor="date">Vaccine Date</label>
               <input
                 className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
-                placeholder='payment date...'
+                
                 type="date"
                 name="date"
                 id="date"
-                value={formData.payment_date}
+                value={formData.date}
                 onChange={handleInputChange}
               />
           </div>
@@ -162,8 +216,8 @@ const EditDose = ({handleClose, id, refreshData}) => {
         </div>
         
         <div className='flex justify-between items-center my-3'>
-          <button type='button' onClick={handleClose} className='bg-gray-300 w-[80px] py-2 px-3 rounded-lg'>Close</button>
-          <button type='submit' className='bg-primary py-2 px-3 rounded-lg'>Add Dose</button>
+          <button type='button' onClick={closeModalFn} className='bg-gray-300 w-[80px] py-2 px-3 rounded-lg'>Close</button>
+          <button type='submit' className='bg-primary py-2 px-3 rounded-lg'>Edit Dose</button>
         </div>
       </form>
     </div>

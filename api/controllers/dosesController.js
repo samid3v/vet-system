@@ -119,6 +119,8 @@ export const getSingleDoseFn = asyncHandler(async (req, res) => {
 export const editDosesFn = asyncHandler(async (req, res)=>{
      const {date,id, vet, administered, vaccine} = req.body
 
+      console.log('edit doses')
+
      if (!date || !vet || !vaccine || !id ) {
           const error = new Error("Check required fields");
           error.statusCode = 400;
@@ -167,6 +169,9 @@ export const editDosesFn = asyncHandler(async (req, res)=>{
           }
           if (findDoses.length>0) {
                status = 'In Progress'
+          }
+          if (findDoses.length===0) {
+               status = 'Pending'
           }
           if (findDoses) {
                const updateVaccine = await Vaccine.findByIdAndUpdate(

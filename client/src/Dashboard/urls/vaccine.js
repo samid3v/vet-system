@@ -24,7 +24,7 @@ const vaccineUrl = {
           url:`/doses/edit-dose`
      },
      single_dose:{
-          url:`/dose/edit-dose`
+          url:`/doses/get-single-dose`
      },
 }
 

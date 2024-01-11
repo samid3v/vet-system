@@ -15,8 +15,6 @@ const DoseActions = ({doc, refreshData}) => {
 
   const navigate = useNavigate()
 
-  console.log(doc)
-
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDelete, setOpenDelete] = useState(false)
 
@@ -28,7 +26,7 @@ const DoseActions = ({doc, refreshData}) => {
  
    const handleOpenEdit = () => {
      setOpenEditModal(true)
-     setCurrentId(doc._id)
+    //  setCurrentId(doc._id)
  
    };
   
