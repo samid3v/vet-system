@@ -28,6 +28,18 @@ export const getAllPatients = asyncHandler(async(req, res) => {
      res.status(200).json(users)
  })
 
+ export const getAllCustomers = asyncHandler(async(req, res) => {
+  const users = await User.find({ role:  'customer' });
+
+  if (!users) {
+       const error = new Error("Error Retrieving Patients");
+       error.statusCode = 400;
+       throw error;
+  }
+
+  res.status(200).json(users)
+})
+
  export const getModelById = asyncHandler(async (req, res) => {
      const { id } = req.query;
      const { model } = req.query;
