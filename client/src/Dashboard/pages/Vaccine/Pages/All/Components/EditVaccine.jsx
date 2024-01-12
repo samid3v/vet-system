@@ -220,7 +220,7 @@ const EditVaccine = ({handleClose}) => {
         </div>
         <div className='flex justify-between items-center my-3'>
           <button type='button' onClick={handleClose} className='bg-gray-300 w-[80px] py-2 px-3 rounded-lg'>Close</button>
-          <button type='submit' className='bg-primary py-2 px-3 rounded-lg'>Edit Treatment</button>
+          <button type='submit' className='bg-primary py-2 px-3 rounded-lg'>Edit Vaccine</button>
         </div>
       </form>
     </div>
