@@ -6,6 +6,7 @@ import customersUrl from '../../../urls/customers';
 import { toast } from 'react-toastify';
 import { useApp } from '../../../hooks/useApp';
 import Fuse from 'fuse.js'
+import random from '../../../urls/random';
 
 
 const PatientProvider = ({children}) => {
@@ -138,7 +139,7 @@ const PatientProvider = ({children}) => {
 
   const getAllCustomers = async () =>{
      
-    await api.get(customersUrl.get_all.url).then((response) => {
+    await api.get(random.get_all_users.url).then((response) => {
       if (response.status !== 200) {
         throw new Error('Failed to fetch patients');
       }
