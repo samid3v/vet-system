@@ -11,6 +11,9 @@ const random = {
      get_single_model:{
           url:`/random/model-by-id`
      },
+     get_all_customersl:{
+          url:`/random/all-customers`
+     },
 }
 
 export default random

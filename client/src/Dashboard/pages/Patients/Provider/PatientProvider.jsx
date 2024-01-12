@@ -139,7 +139,7 @@ const PatientProvider = ({children}) => {
 
   const getAllCustomers = async () =>{
      
-    await api.get(random.get_all_users.url).then((response) => {
+    await api.get(random.get_all_customersl.url).then((response) => {
       if (response.status !== 200) {
         throw new Error('Failed to fetch patients');
       }
