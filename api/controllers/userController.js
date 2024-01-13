@@ -23,7 +23,7 @@ export const userLogin = asyncHandler(async (req, res) => {
           return
           
           }
-        const passwordMatch = await bcrypt.compare(password, user.password);
+        const passwordMatch =  bcrypt.compare(password, user.password);
 
         if ( passwordMatch) {
           const token = jwt.sign({ username }, 'your-secret-key', { expiresIn: '1h' });
@@ -48,9 +48,9 @@ export const userLogin = asyncHandler(async (req, res) => {
 })
 
 export const userSignUp = asyncHandler(async (req, res) => {
-    const { username, email, password, role } = req.body;
+    const { username, email, password, role, phone } = req.body;
     
-    if (username == "" || email == "" || role == "" || password=="" ) {
+    if (username == "" || email == "" || phone == "" || password=="" ) {
       const error = new Error("check your inputs");
       error.statusCode = 400;
       throw error;
@@ -64,12 +64,17 @@ export const userSignUp = asyncHandler(async (req, res) => {
       }
   
       // Create a new user with the hashed password
-      const newUser = new User({ username, email, password, role });
+      const newUser = new User({ email,  phone, role });
       const output= await newUser.save();
   
       if (output){
-  
-        res.status(201).json({ message: 'User registered successfully'});
+
+        const addCredentials = new Credential({username, password})
+        const saveLogin = await addCredentials.save()
+        if (saveLogin) {
+          
+          res.status(201).json({ message: 'User registered successfully'});
+        }
       }else{
         const error = new Error("something wrong happenned, try again");
         error.statusCode = 400;

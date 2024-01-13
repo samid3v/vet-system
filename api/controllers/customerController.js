@@ -162,7 +162,7 @@ export const editCustomer = asyncHandler(async (req, res) => {
 
   
 
-  const existingPhone = await User.findOne({ phone });
+  const existingPhone = await User.findOne({ phone, _id: { $ne: id } });
   const existingMail = await User.findOne({ email, _id: { $ne: id } });
 
   if (existingPhone) {

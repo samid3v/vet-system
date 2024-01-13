@@ -26,38 +26,14 @@ const UserSchema = new mongoose.Schema({
     county:String,
     sub_county:String,
     ward:String,
-    isAdmin: {
-      type: Boolean,
-      default: false,
-    },
     isSuperAdmin: {
       type: Boolean,
       default: false,
-    },
-    password:{
-        type: String,
-        required: function () {
-          return this.role !== 'customer';
-        },
     },
     profile:String
     
 },{timestamps:true})
 
-
-UserSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next();
-  
-    try {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(this.password, salt);
-      this.password = hashedPassword;
-      next();
-    } catch (error) {
-      error.statusCode = 400;
-      throw error;
-    }
-  });
 
   UserSchema.pre('deleteOne', async function (next) {
     const owner = this._id;

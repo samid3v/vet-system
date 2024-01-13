@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt"
-import Patient from "./patientModel.js";
 
 const CredentialSchema = new mongoose.Schema({
   
-    email:{
+    username:{
       type: String,
       unique:true,
       required: true,
