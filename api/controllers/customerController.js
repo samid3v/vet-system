@@ -59,6 +59,7 @@ export const AddCustomer = asyncHandler(async (req, res) => {
 
   const existingPhone = await User.findOne({ phone });
   const existingMail = await User.findOne({ email });
+  // const usernameExist = await User.findOne({ email });
 
   if (existingPhone) {
     const error = new Error("Phone already exists");

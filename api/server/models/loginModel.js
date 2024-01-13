@@ -1,0 +1,36 @@
+import mongoose from "mongoose";
+import bcrypt from "bcrypt"
+import Patient from "./patientModel.js";
+
+const CredentialSchema = new mongoose.Schema({
+  
+    email:{
+      type: String,
+      unique:true,
+      required: true,
+    },
+    password:{
+        type: String,
+        required: true
+    },
+    
+},{timestamps:true})
+
+
+CredentialSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) return next();
+  
+    try {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(this.password, salt);
+      this.password = hashedPassword;
+      next();
+    } catch (error) {
+      error.statusCode = 400;
+      throw error;
+    }
+  });
+
+ const Credential = mongoose.model('Credentials', CredentialSchema)
+
+ export default Credential
