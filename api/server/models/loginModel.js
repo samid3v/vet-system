@@ -2,7 +2,11 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt"
 
 const CredentialSchema = new mongoose.Schema({
-  
+  user:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Users',
+    required:true,
+},
     username:{
       type: String,
       unique:true,
