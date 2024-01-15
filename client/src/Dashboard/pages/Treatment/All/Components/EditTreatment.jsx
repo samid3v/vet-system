@@ -47,7 +47,6 @@ const EditTreatment = ({handleClose}) => {
 
       
       setFormData({
-        patient: currentTreatment?.module_id?.patient_id || '---',
         name: currentTreatment?.module_id?.name || '---',
         patient: currentTreatment?.module_id?.patient?._id || '---',
         vet: currentTreatment?.module_id?.vet?._id || '---',

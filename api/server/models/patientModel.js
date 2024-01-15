@@ -1,4 +1,8 @@
 import mongoose from "mongoose";
+import Boarding from "./boardingModel.js";
+import Treatment from "./treatmentModel.js";
+import Appointment from "./appointmentsModel.js";
+import Vaccine from "./vaccineModel.js";
 
 const PatientSchema = new mongoose.Schema({
     name:{
@@ -29,6 +33,21 @@ const PatientSchema = new mongoose.Schema({
     },
     
 },{timestamps:true})
+
+PatientSchema.post('deleteOne', async function (next) {
+    const patientId = this._id;
+    
+    await Appointment.deleteMany({ patient: patientId });
+  
+    await Treatment.deleteMany({ patient: patientId });
+  
+    await Boarding.deleteMany({ patient_id: patientId });
+  
+    await Vaccine.deleteMany({ patient: patientId });
+  
+  
+    next();
+  });
 
  const Patient = mongoose.model('Patients', PatientSchema)
 

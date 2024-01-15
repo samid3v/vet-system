@@ -3,6 +3,7 @@ import asyncHandler from 'express-async-handler';
 import bcrypt from "bcrypt"
 
 import User from '../server/models/userModel.js';
+import Credential from '../server/models/loginModel.js';
 
 
 
@@ -48,23 +49,34 @@ export const userLogin = asyncHandler(async (req, res) => {
 })
 
 export const userSignUp = asyncHandler(async (req, res) => {
-    const { username, email, password, role, phone } = req.body;
+    const { username, name, email, password, role, phone } = req.body;
+
+    console.log('register')
     
-    if (username == "" || email == "" || phone == "" || password=="" ) {
+    if (username === "" || email == "" || phone == "" || password==="" || name==='' ) {
       const error = new Error("check your inputs");
       error.statusCode = 400;
       throw error;
       
     }else{
 
-      const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+      const existingMail = await User.findOne({ email });
+      const existingUserName = await Credential.findOne({ username });
   
-      if (existingUser) {
-        return res.status(400).json({ message: 'Username or email already exists' });
+      if (existingUserName) {
+        const error = new Error("Username already taken");
+        error.statusCode = 400;
+        throw error;
+      }
+
+      if (existingMail) {
+        const error = new Error("Email already taken");
+        error.statusCode = 400;
+        throw error;
       }
   
       // Create a new user with the hashed password
-      const newUser = new User({ email,  phone, role });
+      const newUser = new User({ email,  phone, role, name });
       const output= await newUser.save();
   
       if (output){

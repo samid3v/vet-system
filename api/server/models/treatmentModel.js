@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Payment from "./paymentModel.js";
 
 const TreatmentSchema = new mongoose.Schema({
     
@@ -28,6 +29,12 @@ const TreatmentSchema = new mongoose.Schema({
     },
     
 },{timestamps:true})
+
+TreatmentSchema.post('deleteOne', async function (next) {
+    const module_id = this._id;
+    await Payment.deleteMany({ module_id });
+    next();
+  });
 
  const Treatment = mongoose.model('Treatments', TreatmentSchema)
 

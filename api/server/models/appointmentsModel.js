@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Payment from "./paymentModel.js";
 
 const AppointmentSchema = new mongoose.Schema({
     patient:{
@@ -30,6 +31,12 @@ const AppointmentSchema = new mongoose.Schema({
       },
     
 },{timestamps:true})
+
+AppointmentSchema.post('deleteOne', async function (next) {
+    const module_id = this._id;
+    await Payment.deleteMany({ module_id });
+    next();
+  });
 
  const Appointment = mongoose.model('Appointments', AppointmentSchema)
 

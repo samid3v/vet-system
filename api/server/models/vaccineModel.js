@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import Dose from "./dosesModel.js";
+import Payment from "./paymentModel.js";
 
 const vaccinationSchema = new mongoose.Schema({
   patient: {
@@ -27,6 +29,14 @@ const vaccinationSchema = new mongoose.Schema({
     type: String,
   },
 }, { timestamps: true });
+
+vaccinationSchema.post('deleteOne', async function (next) {
+  const vaccine = this._id;
+  await Dose.deleteMany({ vaccine });
+  await Payment.deleteMany({ module_id:vaccine });
+
+  next();
+});
 
 const Vaccine = mongoose.model('Vaccines', vaccinationSchema);
 

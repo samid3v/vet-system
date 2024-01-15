@@ -196,11 +196,19 @@ export const editCustomer = asyncHandler(async (req, res) => {
 export const deleteCustomer = asyncHandler(async (req, res) => {
   const { id } = req.query;
 
+  const customerExist = await User.findById(id)
+
+  if (!customerExist) {
+    const error = new Error("Customer Not Found");
+    error.statusCode = 404;
+    throw error;
+  }
+
   if (id) {
-    const deleteCustomer = await User.findByIdAndRemove(id);
+    const deleteCustomer = await customerExist.deleteOne();
 
     if (!deleteCustomer) {
-      const error = new Error("Customer Not Found");
+      const error = new Error("Delete Failed Unknown error occurred ");
       error.statusCode = 404;
       throw error;
     }
