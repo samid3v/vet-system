@@ -38,10 +38,9 @@ AppointmentSchema.pre('deleteOne', { document: false, query: true }, async funct
     next();
   });
 
-  AppointmentSchema.pre('deleteMany', { document: false, query: true }, async function(next) {
-    const module_id = this._id;
-    await Payment.deleteMany({ module_id });
-    next();
+  AppointmentSchema.post('deleteMany', async function() {
+    console.log('delete appointment')
+    await Payment.deleteMany({ module_id:this._conditions._id} );
   });
 
  const Appointment = mongoose.model('Appointments', AppointmentSchema)

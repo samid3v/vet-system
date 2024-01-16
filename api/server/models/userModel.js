@@ -35,11 +35,13 @@ const UserSchema = new mongoose.Schema({
 },{timestamps:true})
 
 
-  UserSchema.post('deleteOne', { document: false, query: true }, async function(doc,next) {
-    const owner = doc._id;
-    await Patient.deleteMany({ owner:owner });
-    next();
-  });
+UserSchema.post('deleteOne',  async function() {
+  
+  const dPatient = await Patient.deleteMany({owner:this._conditions._id});
+  const deletedClinics = await Treatment.deleteMany({ patient: { $in: dPatient } });
+  console.log(deletedClinics)
+});
+
 
  const User = mongoose.model('Users', UserSchema)
 

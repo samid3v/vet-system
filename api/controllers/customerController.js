@@ -205,7 +205,7 @@ export const deleteCustomer = asyncHandler(async (req, res) => {
   }
 
   if (id) {
-    const deleteCustomer = await customerExist.deleteOne();
+    const deleteCustomer = await User.deleteOne({_id:id});
 
     if (!deleteCustomer) {
       const error = new Error("Delete Failed Unknown error occurred ");
