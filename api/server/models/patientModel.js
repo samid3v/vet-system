@@ -34,7 +34,7 @@ const PatientSchema = new mongoose.Schema({
     
 },{timestamps:true})
 
-PatientSchema.post('deleteOne', async function (next) {
+PatientSchema.pre('deleteOne', { document: false, query: true }, async function(next) {
     const patientId = this._id;
     
     await Appointment.deleteMany({ patient: patientId });

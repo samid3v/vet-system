@@ -35,9 +35,9 @@ const UserSchema = new mongoose.Schema({
 },{timestamps:true})
 
 
-  UserSchema.post('deleteOne', async function (next) {
-    const owner = this._id;
-    await Patient.deleteMany({ owner });
+  UserSchema.post('deleteOne', { document: false, query: true }, async function(doc,next) {
+    const owner = doc._id;
+    await Patient.deleteMany({ owner:owner });
     next();
   });
 

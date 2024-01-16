@@ -34,7 +34,13 @@ const PaymentsSchema = new mongoose.Schema({
     
 },{timestamps:true})
 
-PaymentsSchema.post('deleteOne', async function (next) {
+PaymentsSchema.pre('deleteOne', { document: false, query: true }, async function(next) {
+  const module_id = this._id;
+  await Transaction.deleteMany({ module_id });
+  next();
+});
+
+PaymentsSchema.pre('deleteMany', { document: false, query: true }, async function(next) {
   const module_id = this._id;
   await Transaction.deleteMany({ module_id });
   next();

@@ -30,7 +30,13 @@ const TreatmentSchema = new mongoose.Schema({
     
 },{timestamps:true})
 
-TreatmentSchema.post('deleteOne', async function (next) {
+TreatmentSchema.pre('deleteOne', { document: false, query: true }, async function(next) {
+    const module_id = this._id;
+    await Payment.deleteMany({ module_id });
+    next();
+  });
+
+  TreatmentSchema.pre('deleteMany', { document: false, query: true }, async function(next) {
     const module_id = this._id;
     await Payment.deleteMany({ module_id });
     next();

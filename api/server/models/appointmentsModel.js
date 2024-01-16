@@ -32,7 +32,13 @@ const AppointmentSchema = new mongoose.Schema({
     
 },{timestamps:true})
 
-AppointmentSchema.post('deleteOne', async function (next) {
+AppointmentSchema.pre('deleteOne', { document: false, query: true }, async function(next) {
+    const module_id = this._id;
+    await Payment.deleteMany({ module_id });
+    next();
+  });
+
+  AppointmentSchema.pre('deleteMany', { document: false, query: true }, async function(next) {
     const module_id = this._id;
     await Payment.deleteMany({ module_id });
     next();
