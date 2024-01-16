@@ -51,16 +51,25 @@ export const addTreatment = asyncHandler(async(req, res) => {
        throw error;
     }
 
+    let newTreatmentData = {
+      name,
+      notes,
+      patient,
+      date,
+    };
+  
     if (vet) {
-      const vetExist = await User.findOne({ _id:vet });
+      const vetExist = await User.findOne({ _id: vet });
       if (!vetExist) {
-          const error = new Error("Vet doesnt exist");
-          error.statusCode = 404;
-          throw error;
-       }
+        const error = new Error("Vet doesn't exist");
+        error.statusCode = 404;
+        throw error;
+      }
+  
+      newTreatmentData.vet = vet;
     }
-        
-      const newTreatment = new Treatment({name, notes, patient, date, vet});
+  
+    const newTreatment = new Treatment(newTreatmentData);
       const output= await newTreatment.save();
       if (output) {
         const data = {

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt"
 import Patient from "./patientModel.js";
+import Treatment from "./treatmentModel.js";
 
 const UserSchema = new mongoose.Schema({
     
@@ -36,9 +37,12 @@ const UserSchema = new mongoose.Schema({
 
 
 UserSchema.post('deleteOne',  async function() {
+
+  const findPatient = await Patient.find({owner:this._conditions._id})
   
-  const dPatient = await Patient.deleteMany({owner:this._conditions._id});
-  const deletedClinics = await Treatment.deleteMany({ patient: { $in: dPatient } });
+  await Patient.deleteMany({owner:this._conditions._id});
+
+  const deletedClinics = await Treatment.deleteMany({ patient: { $in: findPatient } });
   console.log(deletedClinics)
 });
 

@@ -127,9 +127,9 @@ const AddTreatment = ({handleClose}) => {
                 value={formData.vet}
                 onChange={handleInputChange}
               >
-                  <option value="">Select Vet </option>
+                  <option value=" ">Select Vet </option>
                   { users && (users.map((user, index)=>(
-                      <option key={index} value={user._id}>{user?.name || '---'}</option>
+                      <option key={index} value={user._id}>{user?.name }</option>
 
                     )))
                   }
