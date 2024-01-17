@@ -81,7 +81,7 @@ export const userSignUp = asyncHandler(async (req, res) => {
   
       if (output){
 
-        const addCredentials = new Credential({username, password})
+        const addCredentials = new Credential({user:output._id, username, password})
         const saveLogin = await addCredentials.save()
         if (saveLogin) {
           

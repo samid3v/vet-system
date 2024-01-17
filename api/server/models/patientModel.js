@@ -34,8 +34,11 @@ const PatientSchema = new mongoose.Schema({
     
 },{timestamps:true})
 
-PatientSchema.pre('deleteOne', { document: false, query: true }, async function(next) {
-    const patientId = this._id;
+PatientSchema.post('deleteOne',  async function() {
+    console.log('deleting patients references')
+    const patientId = this._conditions._id;
+
+    const vaccines = await Vaccine.find({patient:patientId})
     
     await Appointment.deleteMany({ patient: patientId });
   
@@ -43,10 +46,11 @@ PatientSchema.pre('deleteOne', { document: false, query: true }, async function(
   
     await Boarding.deleteMany({ patient_id: patientId });
   
-    await Vaccine.deleteMany({ patient: patientId });
+    // await Vaccine.deleteMany({ patient: patientId });
+
+    await Promise.all(vaccines.map(vaccine => vaccine.deleteOne()))
   
   
-    next();
   });
 
  const Patient = mongoose.model('Patients', PatientSchema)

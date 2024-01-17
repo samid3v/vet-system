@@ -208,7 +208,7 @@ export const addVaccine = asyncHandler(async(req, res) => {
                     throw new Error('Failed to delete Vaccine record');
                 }
             } else {
-                const deletevaccine = await vaccineExist.deleteOne();
+                const deletevaccine = await Vaccine.deleteOne({_id:id});
                 if (!deletevaccine) {
                     throw new Error('Failed to delete vaccine record');
                 }

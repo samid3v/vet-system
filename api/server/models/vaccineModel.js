@@ -30,21 +30,15 @@ const vaccinationSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-vaccinationSchema.pre('deleteOne', { document: false, query: true }, async function(next) {
-  const vaccine = this._id;
+vaccinationSchema.post('deleteOne', async function() {
+  const vaccine = this._conditions._id;
+  console.log('deleting vaccines references')
   await Dose.deleteMany({ vaccine });
   await Payment.deleteMany({ module_id:vaccine });
 
-  next();
 });
 
-vaccinationSchema.pre('deleteMany', { document: false, query: true }, async function(next) {
-  const vaccine = this._id;
-  await Dose.deleteMany({ vaccine });
-  await Payment.deleteMany({ module_id:vaccine });
 
-  next();
-});
 
 const Vaccine = mongoose.model('Vaccines', vaccinationSchema);
 
