@@ -44,7 +44,7 @@ UserSchema.post('deleteOne',  async function() {
   const findPatient = await Patient.find({owner:this._conditions._id})
   
 
-    await Promise.all(findPatient.map(patient => patient.deleteOne()));
+    await Promise.all(findPatient.map(patient => Patient.deleteOne({_id:patient.id})));
 });
 
 
