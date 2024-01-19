@@ -167,9 +167,14 @@ export const addVaccine = asyncHandler(async(req, res) => {
   export const deleteVaccine = asyncHandler(async (req, res) => {
     const { id } = req.query;
 
-    if (id) {
-        try {
-            const vaccineExist = await Vaccine.findById(id);
+    if (!id) {
+        
+        const error = new Error('Id param is missing');
+        error.statusCode = 400;
+        throw error;
+    }
+
+    const vaccineExist = await Vaccine.findById(id);
 
             if (!vaccineExist) {
                 const error = new Error('Vaccine Not Found');
@@ -177,51 +182,10 @@ export const addVaccine = asyncHandler(async(req, res) => {
                 throw error;
             }
 
-            const payExist = await Payment.findOne({ module_id: id, module_name: 'Vaccines' });
-            console.log(payExist)
+            const deleteVaccine = await Vaccine.deleteOne({_id:id});
 
-            if (payExist !== null) {
-                const deleteVaccine = await vaccineExist.deleteOne();
-
-                if (deleteVaccine) {
-                    
-
-                    const deletePay = await payExist.deleteOne();
-                    console.log(deletePay)
-                    if (!deletePay) {
-                        throw new Error('Failed to delete related Payment record');
-                    }
-                    const transactionsExist = await Transaction.exists({ payment_id: payExist._id });
-                    const doseExist = await Dose.exists({ vaccine: payExist._id });
-
-                    if (transactionsExist || doseExist) {
-                        const deleteT = await Transaction.deleteMany({ payment_id: payExist._id });
-                        const deleteD = await Dose.deleteMany({ vaccine: vaccineExist._id });
-
-                        if (!deleteT || !deleteD) {
-                            throw new Error('Failed to delete related Tables records');
-                        }
-                    }
-
-                    res.status(201).json({ message: 'Vaccine record deleted successfully' });
-                } else {
-                    throw new Error('Failed to delete Vaccine record');
-                }
-            } else {
-                const deletevaccine = await Vaccine.deleteOne({_id:id});
-                if (!deletevaccine) {
-                    throw new Error('Failed to delete vaccine record');
-                }
-
-                res.status(201).json({ message: 'Vaccine record deleted successfully (no Payment)' });
+            if (deleteVaccine) {
+              res.status(201).json({ message: 'Vaccine record deleted successfully' });
+              
             }
-        } catch (error) {
-            console.error('Error deleting Vaccine:', error);
-            res.status(error.statusCode || 500).json({ message: error.message || 'Internal Server Error' });
-        }
-    } else {
-        const error = new Error('Invalid Request');
-        error.statusCode = 400;
-        throw error;
-    }
 });

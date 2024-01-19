@@ -296,46 +296,22 @@ export const getBoarderById = asyncHandler(async (req, res) => {
   export const deleteBoarder = asyncHandler(async (req, res) => {
     const { id } = req.query;
 
-    if (id) {
-        try {
-            const borderExist = await Boarding.findById(id);
+    if (!id) {
+        const error = new Error('Id param is missing');
+        error.statusCode = 400;
+        throw error;
+    }
+    const borderExist = await Boarding.findById(id);
             if (!borderExist) {
                 const error = new Error('Boarder Not Found');
                 error.statusCode = 404;
                 throw error;
             }
 
-            const payExist = await Payment.findOne({ module_id: id, module_name: 'Boarding' });
-            if (!payExist) {
-                const error = new Error('Payment Record Not Found');
-                error.statusCode = 404;
-                throw error;
-            }
+            const payExist = await Boarding.deleteOne({ _id: id });
+            if (payExist) {
+              res.status(201).json({ message: 'Boarder record deleted successfully' });
 
-            const deletedBoarder = await borderExist.deleteOne();
-            if (deletedBoarder) {
-                const deletePay = await Payment.deleteOne({ module_id: id, module_name: 'Boarding' });
-                if (deletePay) {
-                    console.log('pay delete info', deletePay);
-
-                    const deleteT = await Transaction.deleteMany({ payment_id: payExist._id });
-                    if (deleteT) {
-                        res.status(201).json({ message: 'Boarder record deleted successfully' });
-                    } else {
-                        throw new Error('Failed to delete related Transaction records');
-                    }
-                } else {
-                    throw new Error('Failed to delete related Payment record');
-                }
             }
-        } catch (error) {
-            console.error('Error deleting boarder:', error);
-            res.status(error.statusCode || 500).json({ message: error.message || 'Internal Server Error' });
-        }
-    } else {
-        const error = new Error('Invalid Request');
-        error.statusCode = 400;
-        throw error;
-    }
 });
 

@@ -156,20 +156,27 @@ export const getPatientById = asyncHandler(async (req, res) => {
   export const deletePatient = asyncHandler(async (req, res) => {
     const { id } = req.query;
 
-    if (id) {
-        const deletePatient = await Patient.findByIdAndDelete(id);
+    if (!id) {
+     
+        const error = new Error('Id param not found');
+        error.statusCode = 400;
+        throw error;
+    }findOne
 
-        if (!deletePatient) {
+    const patientExist = await Patient.findById(id);
+
+        if (!patientExist) {
             const error = new Error('Patient Not Found');
             error.statusCode = 404;
             throw error;
         }
 
-        res.status(201).json({ message: 'Patient deleted successfully' });
-    }else{
-        const error = new Error('Invalid Request');
-        error.statusCode = 400;
-        throw error;
+    const deletePatient = await Patient.findByIdAndDelete(id);
+
+    if (deletePatient) {
+      res.status(201).json({ message: 'Patient deleted successfully' });
+      
     }
+
     
   });

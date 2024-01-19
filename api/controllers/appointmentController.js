@@ -280,44 +280,23 @@ export const getAppointmentById = asyncHandler(async (req, res) => {
   export const deleteAppointment = asyncHandler(async (req, res) => {
     const { id } = req.query;
 
-    if (id) {
-        try {
-            const clinicExist = await Appointment.findById(id);
-            if (!clinicExist) {
-                const error = new Error('Appointment Not Found');
-                error.statusCode = 404;
-                throw error;
-            }
-
-            const payExist = await Payment.findOne({ module_id: id, module_name: 'Appointments' });
-            if (!payExist) {
-                const error = new Error('Payment Record Not Found');
-                error.statusCode = 404;
-                throw error;
-            }
-
-            const deletedBoarder = await clinicExist.deleteOne();
-            if (deletedBoarder) {
-                const deletePay = await Payment.deleteOne({ module_id: id, module_name: 'Appointments' });
-                if (deletePay) {
-
-                    const deleteT = await Transaction.deleteMany({ payment_id: payExist._id });
-                    if (deleteT) {
-                        res.status(201).json({ message: 'Appointment record deleted successfully' });
-                    } else {
-                        throw new Error('Failed to delete related Transaction records');
-                    }
-                } else {
-                    throw new Error('Failed to delete related Payment record');
-                }
-            }
-        } catch (error) {
-            res.status(error.statusCode || 500).json({ message: error.message || 'Internal Server Error' });
-        }
-    } else {
-        const error = new Error('Invalid Request');
+    if (!id) {
+        const error = new Error('Id param is required');
         error.statusCode = 400;
         throw error;
+    }
+
+    const clinicExist = await Appointment.findById(id);
+
+    if (!clinicExist) {
+        const error = new Error('Appointment Not Found');
+        error.statusCode = 404;
+        throw error;
+    }
+
+    const deleteClinic = await Appointment.deleteOne({ _id: id });
+    if (deleteClinic) {
+      res.status(201).json({ message: 'Appointment record deleted successfully' });
     }
     
   });
