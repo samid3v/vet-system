@@ -30,8 +30,11 @@ const TreatmentSchema = new mongoose.Schema({
     
 },{timestamps:true})
 
+TreatmentSchema.pre('deleteOne', async function() {
+    const module_id = this._conditions._id;
+    await Payment.deleteMany({ module_id });
+});
 
+const Treatment = mongoose.model('Treatments', TreatmentSchema)
 
- const Treatment = mongoose.model('Treatments', TreatmentSchema)
-
- export default Treatment
+export default Treatment

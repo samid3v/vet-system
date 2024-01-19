@@ -46,7 +46,6 @@ PatientSchema.post('deleteOne',  async function() {
   
     const boarders = await Boarding.find({ patient_id: patientId });
   
-    // await Vaccine.deleteMany({ patient: patientId });
 
     await Promise.all(vaccines.map(vaccine => Vaccine.deleteOne({_id:vaccine._id})))
     await Promise.all(clinics.map(clinic => Appointment.deleteOne({_id:clinic._id})))
