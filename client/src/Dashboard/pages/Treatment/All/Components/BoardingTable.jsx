@@ -4,6 +4,7 @@ import LargeDevice from './TableComponent/LargeDevice';
 import BasicModal from '../../../../components/Modal';
 import { useTreatment } from '../../Hooks';
 import AddTreatment from './AddTreatment';
+import { RiFilter3Line } from "react-icons/ri";
 
 const TreatmentTable = () => {
 
