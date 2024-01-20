@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
+import api from '../helpers/axiosInstance';
+import loginUrls from '../urls/login';
 
 const Login = () => {
      const [formData, setFormData] = useState({
@@ -15,12 +17,24 @@ const Login = () => {
           }));
         };
 
-        const logInFn = (e) => {
+        const logInFn = async (e) => {
                e.preventDefault()
                if (formData.username === '' || formData.password === '' ) {
                     toast.error('Check required fields')
                     return
                }
+
+               const response = await api.post(loginUrls.login.url, formData,{
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                  });
+
+                  console.log(response)
+                  
+                  if (response===200) {
+                    console.log(response)
+                  }
         }
   return (
      <div className='flex justify-center items-center h-screen'>
