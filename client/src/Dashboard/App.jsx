@@ -19,6 +19,7 @@ import ViewClinic from './pages/Clinic/View'
 import Vaccine from './pages/Vaccine'
 import AllVaccines from './pages/Vaccine/Pages/All'
 import ViewVaccine from './pages/Vaccine/Pages/View'
+import Login from './login'
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
     <AppProvider>
       <BrowserRouter>
         <Routes>
+          <Route path='/' element={<Login/>}/>
           <Route path='dashboard' element={<Dashboard/>}>
             <Route index element={<Dash/>} />
             <Route path='patients' element={<Patients/>}>
