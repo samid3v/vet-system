@@ -6,8 +6,6 @@ import User from '../server/models/userModel.js';
 import Credential from '../server/models/loginModel.js';
 
 
-
-
 export const getUser = (req, res) => {
     res.send("from controller")
 }
@@ -22,7 +20,7 @@ export const userLogin = asyncHandler(async (req, res) => {
           throw error;
         }
 
-        const user = await Credential.findOne({ username });
+        const user = await Credential.findOne({ username }).select('-password').populate('user');
 
         if (!user) {
           const error = new Error("Invalid credentials");
@@ -31,7 +29,7 @@ export const userLogin = asyncHandler(async (req, res) => {
           return
         
         }
-        const passwordMatch =  bcrypt.compare(password, user.password);
+        const passwordMatch = await bcrypt.compare(password, user.password);
 
         if ( passwordMatch) {
           const token = jwt.sign({ username }, 'your-secret-key', { expiresIn: '1h' });

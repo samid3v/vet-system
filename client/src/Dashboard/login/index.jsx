@@ -4,8 +4,11 @@ import api from '../helpers/axiosInstance';
 import loginUrls from '../urls/login';
 import { useApp } from '../hooks/useApp';
 import { encryptData } from '../../utils';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+
+     const navigate = useNavigate()
      
      const [formData, setFormData] = useState({
           username:'',
@@ -46,6 +49,12 @@ const Login = () => {
                          encryptData(response.data.doc.token, 'token')
                          setUser(response.data.doc.user)
                          setToken(response.data.doc.token)
+                         setFormData({
+                              username:'',
+                              password:'',
+                         })
+                         navigate('/dashboard')
+                         
                        }
                     
                } catch (error) {

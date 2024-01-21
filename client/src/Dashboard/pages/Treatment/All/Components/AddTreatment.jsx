@@ -97,7 +97,6 @@ const AddTreatment = ({handleClose}) => {
       setShowLoader(false);
     }
   
-    console.log(formData)
     
   };
 
