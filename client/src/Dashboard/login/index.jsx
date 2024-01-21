@@ -2,12 +2,18 @@ import React, { useState } from 'react'
 import { toast } from 'react-toastify';
 import api from '../helpers/axiosInstance';
 import loginUrls from '../urls/login';
+import { useApp } from '../hooks/useApp';
+import { encryptData } from '../../utils';
 
 const Login = () => {
+     
      const [formData, setFormData] = useState({
           username:'',
           password:'',
      })
+
+     const { setShowLoader,setToken, setUser } = useApp();
+
 
      const handleInputChange = (e) => {
           const { name, value } = e.target;
@@ -23,18 +29,34 @@ const Login = () => {
                     toast.error('Check required fields')
                     return
                }
+               try {
 
-               const response = await api.post(loginUrls.login.url, formData,{
-                    headers: {
-                      'Content-Type': 'application/json',
-                    },
-                  });
+               setShowLoader(true);
 
-                  console.log(response)
-                  
-                  if (response===200) {
-                    console.log(response)
-                  }
+                    const response = await api.post(loginUrls.login.url, formData,{
+                         headers: {
+                           'Content-Type': 'application/json',
+                         },
+                       });
+     
+                       
+                       if (response.status===200) {
+                         console.log(response.data)
+                         encryptData(response.data.doc.user, 'user')
+                         encryptData(response.data.doc.token, 'token')
+                         setUser(response.data.doc.user)
+                         setToken(response.data.doc.token)
+                       }
+                    
+               } catch (error) {
+                    toast.error(error.response.data.error);
+                    
+               }finally{
+                    setShowLoader(false);
+
+               }
+
+               
         }
   return (
      <div className='flex justify-center items-center h-screen'>

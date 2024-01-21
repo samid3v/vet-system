@@ -9,6 +9,8 @@ const AppProvider = ({children}) => {
      const [modalMessage, setModalMessage] = useState(null);
      const [confirmDelete, setConfirmDelete] = useState(false)
      const [showDeleteModal, setShowDeleteModal] = useState(true)
+     const [user, setUser] = useState(null)
+     const [token, setToken] = useState(null)
 
 
   return (
@@ -20,7 +22,11 @@ const AppProvider = ({children}) => {
      setConfirmDelete,
      confirmDelete,
      showDeleteModal,
-     setShowDeleteModal
+     setShowDeleteModal,
+     user, 
+     setUser,
+     token, 
+     setToken
     }}>
       <ToastContainer />
      {children}
