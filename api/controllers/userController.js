@@ -20,20 +20,23 @@ export const userLogin = asyncHandler(async (req, res) => {
           throw error;
         }
 
-        const user = await Credential.findOne({ username }).select('-password').populate('user');
+        const findUser= await Credential.findOne({username})
 
-        if (!user) {
+
+        if (!findUser) {
           const error = new Error("Invalid credentials");
           error.statusCode = 401;
           throw error;
           return
         
         }
-        const passwordMatch = await bcrypt.compare(password, user.password);
+        const passwordMatch = await bcrypt.compare(password, findUser.password);
 
         if ( passwordMatch) {
+          const user = await Credential.findOne({ username }).select('-password').populate('user');
+
           const token = jwt.sign({ username }, 'your-secret-key', { expiresIn: '1h' });
-      
+         
           res.cookie('token', token, { httpOnly: true });
           res.status(200).json({ message: 'Login successful', doc:{
                 user,
@@ -94,8 +97,10 @@ export const userSignUp = asyncHandler(async (req, res) => {
         throw error;
       }
     }
-    
-
-
   
 })
+
+export const userLogout = asyncHandler(async (req, res) => {
+  res.clearCookie('token');
+  res.status(200).json({ message: 'Logout successful' });
+});

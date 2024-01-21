@@ -45,10 +45,11 @@ const Login = () => {
                        
                        if (response.status===200) {
                          console.log(response.data)
-                         encryptData(response.data.doc.user, 'user')
-                         encryptData(response.data.doc.token, 'token')
                          setUser(response.data.doc.user)
                          setToken(response.data.doc.token)
+                         encryptData(response.data.doc.user, 'user')
+                         encryptData(response.data.doc.token, 'token')
+                         
                          setFormData({
                               username:'',
                               password:'',

@@ -2,8 +2,8 @@ const loginUrls = {
      login:{
           url:`/users/login`
      },
-     get_all_users:{
-          url:`/random/all-users`
+     logout:{
+          url:`/users/logout`
      },
      add_transaction:{
           url:`/treatments/add-treatment`

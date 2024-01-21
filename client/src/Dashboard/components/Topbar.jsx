@@ -1,9 +1,70 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useApp } from '../hooks/useApp'
+import { FaAngleUp } from "react-icons/fa6";
+import { FaAngleDown } from "react-icons/fa6";
+import api from '../helpers/axiosInstance';
+import loginUrls from '../urls/login';
+import { toast } from 'react-toastify';
+import { clearLocalStorage } from '../../utils';
+import { useNavigate } from 'react-router-dom';
 
 const Topbar = () => {
+  const navigate = useNavigate()
+
+  const {user,setShowLoader} = useApp()
+  const [toggleUser, setToggleUser] = useState(false)
+
+  const logOutFn = async() =>{
+    try {
+
+      setShowLoader(true);
+
+           const response = await api.post(loginUrls.logout.url, [],{
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              });
+
+              console.log(response);
+              if (response.status===200) {
+
+                clearLocalStorage('user')
+                clearLocalStorage('token')
+                
+                navigate('/')
+                
+              }
+           
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.error) {
+          toast.error(error.response.data.error);
+        } else {
+          // Handle cases where the response or its properties are undefined
+          toast.error('An error occurred while logging out.');
+          console.log(error);
+        }
+           
+      }finally{
+           setShowLoader(false);
+
+      }
+  }
+
   return (
-    <div className='py-2 bg-white px-2  rounded-l-lg rounded-r-lg'>
-      <h3>Topbar</h3>
+    <div className='py-2 relative bg-white px-2  rounded-l-lg rounded-r-lg'>
+      <div className='flex justify-between items-center'>
+        <h3>PetFarm</h3>
+        <div className='flex justify-start gap-4 items-center'>
+          <h3>{user?.user?.name}</h3>
+          <FaAngleDown onClick={()=>setToggleUser(!toggleUser)} />
+        </div>
+      </div>
+      {toggleUser && <div className='bg-white absolute p-1 right-0 rounded-lg shadow-md transition-all ease-in-out delay-200'>
+        <ul className='my-2'>
+          <li className='hover:bg-slate-200 px-2 py-1 rounded-lg'>Profile</li>
+          <li onClick={logOutFn} className='hover:bg-slate-200 cursor-pointer px-2 py-1 rounded-lg'>Log Out</li>
+        </ul>
+      </div>}
     </div>
   )
 }
