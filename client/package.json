@@ -16,6 +16,7 @@
     "@mui/x-data-grid": "^6.18.1",
     "@tanstack/react-table": "^8.10.7",
     "axios": "^1.6.1",
+    "crypto-js": "^4.2.0",
     "fuse.js": "^7.0.0",
     "luxon": "^3.4.4",
     "moment": "^2.29.4",
