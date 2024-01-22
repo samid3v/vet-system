@@ -7,17 +7,17 @@ import { useApp } from '../hooks/useApp'
 
 const Dashboard = () => {
   const decryptUser = decryptData('user')
-  const decryptToken = decryptData('token')
-  const {setUser, setToken} = useApp()
+  // const decryptToken = decryptData('token')
+  const {setUser} = useApp()
 
   const navigate = useNavigate()
 
 
 
   useEffect(()=>{
-    if (decryptUser && decryptToken) {
+    if (decryptUser) {
       setUser(decryptUser)
-      setToken(decryptToken)
+      // setToken(decryptToken)
     }else{
       navigate('/')
     }
