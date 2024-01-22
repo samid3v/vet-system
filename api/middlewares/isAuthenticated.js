@@ -1,11 +1,14 @@
-const isAuthenticated = (req, res, next) => {
+export const isAuthenticated = (req, res, next) => {
     const token = req.cookies.token;
   
     if (!token) {
-      return res.status(401).json({ message: 'Unauthorized' });
+          const error = new Error("Login has expired");
+          error.statusCode = 401;
+          throw error;
+          return
     }
   
-    jwt.verify(token, 'your-secret-key', (err, decoded) => {
+    jwt.verify(token, process.env.API_SECRET, (err, decoded) => {
       if (err) {
         return res.status(401).json({ message: 'Unauthorized' });
       }

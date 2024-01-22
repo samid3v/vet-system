@@ -37,11 +37,11 @@ export const userLogin = asyncHandler(async (req, res) => {
 
           const token = jwt.sign({ username }, 'your-secret-key', { expiresIn: '1h' });
          
-          res.cookie('token', token, { httpOnly: true });
-          res.status(200).json({ message: 'Login successful', doc:{
-                user,
-                token:token
-          } });
+          res.cookie('token', token, { httpOnly: true , domain: 'localhost'})
+          .status(200)
+          .json({ message: 'Login successful',
+            user,
+      });
         } else {
           const error = new Error("Invalid Credentials");
           error.statusCode = 401;
