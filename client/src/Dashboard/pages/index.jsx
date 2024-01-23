@@ -1,58 +1,59 @@
-import React, { useEffect, useState } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
-import Layout from '../Layout'
-import Loader from '../components/Loader'
-import { clearLocalStorage, decryptData } from '../../utils'
-import { useApp } from '../hooks/useApp'
+import React, { useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import Layout from '../Layout';
+import Loader from '../components/Loader';
+import { clearLocalStorage, decryptData } from '../../utils';
+import { useApp } from '../hooks/useApp';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
-import { toast } from 'react-toastify'
-import api from '../helpers/axiosInstance'
+import { toast } from 'react-toastify';
+import api from '../helpers/axiosInstance';
 
 const Dashboard = () => {
-  const decryptUser = decryptData('user')
-  // const decryptToken = decryptData('token')
-  const [tokenStatus, setTokenStatus] = useState(null)
-  const {setUser} = useApp()
-
-  const navigate = useNavigate()
+  const decryptUser = decryptData('user');
+  const { setUser,user } = useApp();
+  const navigate = useNavigate();
 
   api.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-    
-    async (error) => {
-
-      if (error.response && error.response.status === 401) {
-        setTokenStatus(error.response.status)
+    (response) => response,
+    (error) => {
+      if (error?.response?.status === 401) {
         clearLocalStorage('user');
-      // navigate('/')
-    }
+        setUser(null)
+      }
       return Promise.reject(error);
     }
   );
 
-  
+  useEffect(() => {
+    userUpdateFn()
+  }, []);
+
   useEffect(()=>{
-    if (decryptUser) {
-      setUser(decryptUser)
-      navigate('/dashboard')
-    }else{
-      toast.info('Token expired, login again');
+    if(user===null && !decryptData('user')){
       
-      navigate('/')
+        toast.info('Token expired, login again ddd');
+        navigate('/');
+    }else{
+      navigate('/dashboard');
     }
-   
-  },[])
+  },[user])
+
+  const userUpdateFn = () => {
+    if (decryptUser) {
+      setUser(decryptUser);
+      navigate('/dashboard');
+    } 
+  }
 
   return (
     <Layout>
-      <Loader/>
-      <Outlet/>
+      <Loader />
+      <Outlet />
     </Layout>
-    
-  )
-}
+  );
+};
 
-export default Dashboard
+// Move interceptor setup outside the component
+
+
+export default Dashboard;

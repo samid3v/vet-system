@@ -54,6 +54,7 @@ const Login = () => {
                               username:'',
                               password:'',
                          })
+                         toast.success(response.data.message)
                          navigate('/dashboard')
                          
                        }
