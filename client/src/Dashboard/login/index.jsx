@@ -45,9 +45,9 @@ const Login = () => {
                        
                        if (response.status===200) {
                          console.log(response.data)
-                         setUser(response.data.doc.user)
+                         setUser(response.data.user)
                          // setToken(response.data.doc.token)
-                         encryptData(response.data.doc.user, 'user')
+                         encryptData(response.data.user, 'user')
                          // encryptData(response.data.doc.token, 'token')
                          
                          setFormData({

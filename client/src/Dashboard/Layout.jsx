@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar';
 import Topbar from './components/Topbar';
 
 const Layout = ({ children }) => {
+   
   return (
     <div className='flex h-screen w-screen overflow-hidden'>
         <Sidebar />

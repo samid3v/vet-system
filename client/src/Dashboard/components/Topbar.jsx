@@ -30,8 +30,11 @@ const Topbar = () => {
 
                 clearLocalStorage('user')
                 // clearLocalStorage('token')
+                toast.success('Logged out successfully');
                 
                 navigate('/')
+              console.log(response);
+
                 
               }
            

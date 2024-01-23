@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom'
 import './App.css'
 import Dash from './pages/Dashboard'
 import Patients from './pages/Patients'
@@ -21,8 +21,9 @@ import AllVaccines from './pages/Vaccine/Pages/All'
 import ViewVaccine from './pages/Vaccine/Pages/View'
 import Login from './login'
 
-function App() {
 
+function App() {
+  
   return (
     <AppProvider>
       <BrowserRouter>

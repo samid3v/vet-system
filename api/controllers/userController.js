@@ -35,7 +35,7 @@ export const userLogin = asyncHandler(async (req, res) => {
         if ( passwordMatch) {
           const user = await Credential.findOne({ username }).select('-password').populate('user');
 
-          const token = jwt.sign({ username }, 'your-secret-key', { expiresIn: '1h' });
+          const token = jwt.sign({ username }, process.env.API_SECRET, { expiresIn: '1m' });
          
           res.cookie('token', token, { httpOnly: true , domain: 'localhost'})
           .status(200)
@@ -101,6 +101,5 @@ export const userSignUp = asyncHandler(async (req, res) => {
 })
 
 export const userLogout = asyncHandler(async (req, res) => {
-  res.clearCookie('token');
-  res.status(200).json({ message: 'Logout successful' });
+  res.clearCookie('token').status(200).json({ message: 'Logout successful' });
 });
