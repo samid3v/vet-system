@@ -9,6 +9,6 @@ userRouter.get("/",  getUser)
 userRouter.post('/login', userLogin);
 userRouter.post('/logout', isAuthenticated, userLogout);
 
-userRouter.post('/register', userSignUp);
+userRouter.post('/register', isAuthenticated, userSignUp);
 
 export default userRouter
