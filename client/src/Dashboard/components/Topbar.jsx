@@ -58,7 +58,7 @@ const Topbar = () => {
       <div className='flex justify-between items-center'>
         <h3>PetFarm</h3>
         <div className='flex justify-start gap-4 items-center'>
-          <h3>{user?.user?.name}</h3>
+          <h3>Welcome {user?.user?.name}</h3>
           <FaAngleDown onClick={()=>setToggleUser(!toggleUser)} />
         </div>
       </div>
