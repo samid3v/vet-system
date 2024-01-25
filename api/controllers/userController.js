@@ -35,9 +35,14 @@ export const userLogin = asyncHandler(async (req, res) => {
         if ( passwordMatch) {
           const user = await Credential.findOne({ username }).select('-password').populate('user');
 
+<<<<<<< HEAD
 
           const token = jwt.sign({ username }, process.env.API_SECRET, { expiresIn: '24h' });
        
+=======
+          const token = jwt.sign({ username }, process.env.API_SECRET, { expiresIn: '12h' });
+         
+>>>>>>> f5c8f5f (login  token expire timeupdate)
           res.cookie('token', token, { httpOnly: true , domain: 'localhost'})
           .status(200)
           .json({ message: 'Login successful',
