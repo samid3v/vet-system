@@ -35,7 +35,11 @@ export const userLogin = asyncHandler(async (req, res) => {
         if ( passwordMatch) {
           const user = await Credential.findOne({ username }).select('-password').populate('user');
 
+<<<<<<< HEAD
           const token = jwt.sign({ username }, process.env.API_SECRET, { expiresIn: '24h' });
+=======
+          const token = jwt.sign({ username }, process.env.API_SECRET, { expiresIn: '24h' });
+>>>>>>> 06074bc (dashboard stats design)
          
           res.cookie('token', token, { httpOnly: true , domain: 'localhost'})
           .status(200)
