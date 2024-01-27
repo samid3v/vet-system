@@ -1,11 +1,11 @@
 import React from 'react'
 import Modal from '../../components/Modal'
+import DashStats from './Components'
 
 const Dash = () => {
   return (
-    <div>
-      das
-      {/* <Modal/> */}
+    <div className=''>
+      <DashStats />
     </div>
   )
 }
