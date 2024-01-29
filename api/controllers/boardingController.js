@@ -331,6 +331,7 @@ export const searchFilter = asyncHandler(async(req, res)=>{
 
   if (end_date) {
       query.end_date = { $lte: end_date };
+
   }
 
   if (status) {
@@ -344,5 +345,6 @@ export const searchFilter = asyncHandler(async(req, res)=>{
   },});
 
   res.status(200).json(boardingsFiltered)
+
 })
 
