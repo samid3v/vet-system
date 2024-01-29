@@ -315,3 +315,27 @@ export const getBoarderById = asyncHandler(async (req, res) => {
             }
 });
 
+//filter
+
+export const searchFilter = asyncHandler(async(req, res)=>{
+  const {startDate,endDate,status} = req.body
+  
+  const query = {};
+
+  if (startDate) {
+      query.start_date = { $gte: startDate };
+  }
+
+  if (endDate) {
+      query.end_date = { $lte: endDate };
+  }
+
+  if (status) {
+      query.status = status;
+  }
+
+  const boardingsFiltered = await Boarding.find(query);
+
+  res.status(200).json({boardingsFiltered})
+})
+
