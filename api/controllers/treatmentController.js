@@ -220,3 +220,29 @@ export const getTreatmentById = asyncHandler(async (req, res) => {
       
     }
 });
+
+export const searchFilter = asyncHandler(async(req, res)=>{
+  const {date, patient, vet, name} = req.body
+  
+  const query = {};
+
+  if (name) {
+    query.name = name;
+  }
+
+  if (date) {
+      query.date = date;
+  }
+
+  if (patient) {
+      query.patient = patient;
+  }
+
+  if (vet) {
+      query.vet = vet;
+  }
+
+  const appointmentsFiltered = await Treatment.find(query);
+
+  res.status(200).json({appointmentsFiltered})
+})
