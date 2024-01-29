@@ -330,6 +330,7 @@ export const getAppointmentById = asyncHandler(async (req, res) => {
 
     if (vet) {
         query.vet = vet;
+
     }
 
     if (status) {
@@ -342,4 +343,5 @@ export const getAppointmentById = asyncHandler(async (req, res) => {
     },});
   
     res.status(200).json(appointmentsFiltered)
+
   })
