@@ -300,3 +300,29 @@ export const getAppointmentById = asyncHandler(async (req, res) => {
     }
     
   });
+
+  export const searchFilter = asyncHandler(async(req, res)=>{
+    const {date, patientId, vetId, status} = req.body
+    
+    const query = {};
+  
+    if (date) {
+        query.date = date;
+    }
+
+    if (patientId) {
+        query.patient = patientId;
+    }
+
+    if (vetId) {
+        query.vet = vetId;
+    }
+
+    if (status) {
+      query.status = status;
+    }
+  
+    const appointmentsFiltered = await Appointment.find(query);
+  
+    res.status(200).json({appointmentsFiltered})
+  })
