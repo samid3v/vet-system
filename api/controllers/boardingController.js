@@ -334,7 +334,9 @@ export const searchFilter = asyncHandler(async(req, res)=>{
       query.status = status;
   }
 
-  const boardingsFiltered = await Boarding.find(query);
+  const boardingsFiltered = await Boarding.find(query).populate({path:"patient_id", populate: {
+    path: 'owner',
+  },});
 
   res.status(200).json({boardingsFiltered})
 })
