@@ -338,6 +338,7 @@ export const searchFilter = asyncHandler(async(req, res)=>{
       query.status = status;
   }
 
+<<<<<<< HEAD
   console.log(query);
 
   const boardingsFiltered = await Boarding.find(query).populate({path:"patient_id", populate: {
@@ -345,6 +346,11 @@ export const searchFilter = asyncHandler(async(req, res)=>{
   },});
 
   res.status(200).json(boardingsFiltered)
+=======
+  const boardingsFiltered = await Boarding.find(query).populate({path:"patient_id", populate: {
+    path: 'owner',
+  },});
+>>>>>>> 11e90d3 (bording api filter update)
 
 })
 
