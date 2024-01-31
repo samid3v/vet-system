@@ -23,6 +23,9 @@ const boardingUrl = {
      get_patient:{
           url:`/boarding/get-patients`
      },
+     search_boarding:{
+          url:`/boarding/search-filter`
+     },
      search_customer:{
           url:`/customers/search-customer`
      },
