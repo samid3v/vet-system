@@ -1,5 +1,5 @@
 import React from 'react'
-import TreatmentTable from './Components/BoardingTable'
+import TreatmentTable from './Components/TreatmentTable'
 
 const AllTreatment = () => {
 

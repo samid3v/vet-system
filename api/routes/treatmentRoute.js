@@ -9,7 +9,7 @@ treatmentRouter.post("/add-treatment", isAuthenticated, addTreatment)
 treatmentRouter.get("/get-treatment-by-id", isAuthenticated, getTreatmentById)
 treatmentRouter.put("/edit-treatment", isAuthenticated, editTreatment)
 treatmentRouter.delete("/delete-treatment", isAuthenticated, deleteTreatment)
-treatmentRouter.get("/search-filter", isAuthenticated, searchFilter)
+treatmentRouter.post("/search-filter", isAuthenticated, searchFilter)
 
 
 export default treatmentRouter

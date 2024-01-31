@@ -222,16 +222,27 @@ export const getTreatmentById = asyncHandler(async (req, res) => {
 });
 
 export const searchFilter = asyncHandler(async(req, res)=>{
-  const {date, patient, vet, name} = req.body
+  const {start_date,end_date, patient, vet, name} = req.body
   
   const query = {};
 
   if (name) {
-    query.name = name;
+    query.name = { $regex: new RegExp(name, 'i') };
   }
 
-  if (date) {
-      query.date = date;
+  if (start_date && end_date) {
+    query.date = {
+      $gte: startOfDay(new Date(start_date)),
+      $lte: endOfDay(new Date(end_date)),
+    };
+  } else if (start_date) {
+    query.date = {
+      $gte: startOfDay(new Date(start_date)),
+    };
+  } else if (end_date) {
+    query.date = {
+      $lte: endOfDay(new Date(end_date)),
+    };
   }
 
   if (patient) {
@@ -242,7 +253,7 @@ export const searchFilter = asyncHandler(async(req, res)=>{
       query.vet = vet;
   }
 
-  const appointmentsFiltered = await Treatment.find(query);
+  const appointmentsFiltered = await Treatment.find(query).populate("patient").populate("vet");
 
-  res.status(200).json({appointmentsFiltered})
+  res.status(200).json(appointmentsFiltered)
 })
