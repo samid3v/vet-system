@@ -7,6 +7,7 @@ import { useApp } from '../hooks/useApp';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import api from '../helpers/axiosInstance';
+import FilterModal from '../components/FilterModal';
 
 const Dashboard = () => {
   const decryptUser = decryptData('user');
@@ -52,8 +53,6 @@ const Dashboard = () => {
     </Layout>
   );
 };
-
-// Move interceptor setup outside the component
 
 
 export default Dashboard;
