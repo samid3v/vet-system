@@ -14,6 +14,9 @@ const clinicUrl = {
      add_clinic:{
           url:`/appointments/add-appointment`
      },
+     search_boarding:{
+          url:`/appointments/search-filter`
+     },
      edit_clinic_status:{
           url:`/appointments/edit-clinic-status`
      },

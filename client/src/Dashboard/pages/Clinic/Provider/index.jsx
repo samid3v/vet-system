@@ -31,15 +31,9 @@ useEffect(()=>{
       getAllAppointments(currentPage,10)
       getClinicStats()
       getPatients()
+  getUsers()
+
    },[])
-
-   useEffect(()=>{
-    if (searchTerm.length<3) {
-      
-      getAllAppointments(currentPage,10)
-    }
-
-},[searchTerm])
 
    useEffect(()=>{
     getAllAppointments(currentPage,10)
@@ -275,6 +269,7 @@ const refreshInfo = () => {
      currentId, 
      setCurrentId,
      clinics, 
+     setClinics,
      searchTerm, 
      setSearchTerm,
      updateSearchResults,

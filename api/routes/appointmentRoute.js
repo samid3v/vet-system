@@ -11,7 +11,7 @@ appointmentRouter.get("/get-appointment-by-id/:id", isAuthenticated, getAppointm
 appointmentRouter.put("/edit-appointment", isAuthenticated, editAppointment)
 appointmentRouter.put("/edit-clinic-status", isAuthenticated, editAppointmentStatus)
 appointmentRouter.delete("/delete-appointment", isAuthenticated, deleteAppointment)
-appointmentRouter.get("/search-filter", isAuthenticated, searchFilter)
+appointmentRouter.post("/search-filter", isAuthenticated, searchFilter)
 
 
 
