@@ -8,6 +8,9 @@ const treatmentUrl = {
      add_treatment:{
           url:`/treatments/add-treatment`
      },
+     search_treatment:{
+          url:`/treatments/search-filter`
+     },
      edit_treatment:{
           url:`/treatments/edit-treatment`
      },
