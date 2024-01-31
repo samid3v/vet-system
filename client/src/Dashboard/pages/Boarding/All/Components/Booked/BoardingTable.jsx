@@ -20,9 +20,12 @@ const BookingTable = () => {
     setModalMessage(<Search/>)
     setShowFilterModal(true)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     console.log('modal open');
 >>>>>>> f6f811d (modal ui search filter update)
+=======
+>>>>>>> 1949799 (boading filter update)
   }
 
   

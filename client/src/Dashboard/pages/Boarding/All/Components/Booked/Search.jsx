@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 =======
 import React, { useState } from 'react';
 >>>>>>> f6f811d (modal ui search filter update)
+=======
+import React, { useEffect, useState } from 'react';
+>>>>>>> 1949799 (boading filter update)
 import { useApp } from '../../../../../hooks/useApp';
 import { toast } from 'react-toastify';
 import api from '../../../../../helpers/axiosInstance';
@@ -12,10 +16,14 @@ import { useBoarding } from '../../../Hooks';
 const Search = () => {
   const { setShowLoader, setShowFilterModal } = useApp();
 <<<<<<< HEAD
+<<<<<<< HEAD
   const { setBoarders, bookingStatus } = useBoarding();
 =======
   const { refreshBoarders, refreshStats } = useBoarding();
 >>>>>>> f6f811d (modal ui search filter update)
+=======
+  const { setBoarders, bookingStatus } = useBoarding();
+>>>>>>> 1949799 (boading filter update)
   const [formData, setFormData] = useState({
     start_date: '',
     end_date: '',
@@ -23,6 +31,9 @@ const Search = () => {
   });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1949799 (boading filter update)
   const [maxDate, setMaxDate] = useState('')
 
   useEffect(()=>{
@@ -37,8 +48,11 @@ const Search = () => {
     setMaxDate(`${year}-${month}-${day}`);
   };
 
+<<<<<<< HEAD
 =======
 >>>>>>> f6f811d (modal ui search filter update)
+=======
+>>>>>>> 1949799 (boading filter update)
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -51,6 +65,9 @@ const Search = () => {
     e.preventDefault();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1949799 (boading filter update)
      if (formData.start_date!=='' && formData.end_date!=='') {
           if (formData.start_date>formData.end_date) {
       toast.error('incorrect search dates');
@@ -58,6 +75,7 @@ const Search = () => {
           }
      }
     formData.status = bookingStatus
+<<<<<<< HEAD
 
     console.log(formData)
 =======
@@ -71,20 +89,29 @@ const Search = () => {
       return;
     }
 >>>>>>> f6f811d (modal ui search filter update)
+=======
+
+    console.log(formData)
+>>>>>>> 1949799 (boading filter update)
 
     try {
       setShowLoader(true);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       const response = await api.post(boardingUrl.search_boarding.url, formData, {
 =======
       const response = await api.post(boardingUrl.add_boarding.url, formData, {
 >>>>>>> f6f811d (modal ui search filter update)
+=======
+      const response = await api.post(boardingUrl.search_boarding.url, formData, {
+>>>>>>> 1949799 (boading filter update)
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
+<<<<<<< HEAD
 <<<<<<< HEAD
       if (response.status === 200) {
         setFormData({
@@ -102,22 +129,27 @@ const Search = () => {
       toast.error(error.message);
 =======
       if (response.status === 201) {
+=======
+      if (response.status === 200) {
+>>>>>>> 1949799 (boading filter update)
         setFormData({
-          patient_id: '',
           start_date: '',
           end_date: '',
-          notes: '',
           status: '',
-          amount: '',
-          description: '',
         });
-        toast.success('Boarding Record added successfully!');
+        console.log(response.data);
+     setBoarders(response.data)
+     setShowFilterModal(false)
       } else {
-        console.error('Failed to add Boarding Record');
+        console.error('Failed to searchind Boarding Record');
       }
     } catch (error) {
+<<<<<<< HEAD
       toast.error(error.response.data.error);
 >>>>>>> f6f811d (modal ui search filter update)
+=======
+      toast.error(error.message);
+>>>>>>> 1949799 (boading filter update)
     } finally {
       setShowLoader(false);
     }
@@ -126,10 +158,14 @@ const Search = () => {
   return (
     <div className="bg-white p-3 overflow-x-hidden rounded-md shadow-xl">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <h3 className="text-xl font-semibold">Search Boarding</h3>
 =======
       <h3 className="text-xl font-semibold">Add Boarding</h3>
 >>>>>>> f6f811d (modal ui search filter update)
+=======
+      <h3 className="text-xl font-semibold">Search Boarding</h3>
+>>>>>>> 1949799 (boading filter update)
       <form onSubmit={handleSearch}>
         <div className="flex flex-col gap-2 my-2 md:flex-row md:items-center">
           <div className="w-full md:w-1/2">
