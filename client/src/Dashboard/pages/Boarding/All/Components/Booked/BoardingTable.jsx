@@ -19,7 +19,6 @@ const BookingTable = () => {
   const showFilterModalFn = () =>{
     setModalMessage(<Search/>)
     setShowFilterModal(true)
-    console.log('modal open');
   }
 
   

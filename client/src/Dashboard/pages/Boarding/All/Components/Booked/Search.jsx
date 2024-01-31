@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useApp } from '../../../../../hooks/useApp';
 import { toast } from 'react-toastify';
 import api from '../../../../../helpers/axiosInstance';
@@ -7,12 +7,26 @@ import { useBoarding } from '../../../Hooks';
 
 const Search = () => {
   const { setShowLoader, setShowFilterModal } = useApp();
-  const { refreshBoarders, refreshStats } = useBoarding();
+  const { setBoarders, bookingStatus } = useBoarding();
   const [formData, setFormData] = useState({
     start_date: '',
     end_date: '',
     status: '',
   });
+
+  const [maxDate, setMaxDate] = useState('')
+
+  useEffect(()=>{
+    getFormattedToday()
+  },[])
+
+  const getFormattedToday = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    setMaxDate(`${year}-${month}-${day}`);
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -25,41 +39,39 @@ const Search = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
 
-    if (!formData.start_date || !formData.end_date || !formData.amount) {
-      toast.error('Check required fields.');
-      return;
-    }
+     if (formData.start_date!=='' && formData.end_date!=='') {
+          if (formData.start_date>formData.end_date) {
+      toast.error('incorrect search dates');
+               return
+          }
+     }
+    formData.status = bookingStatus
 
-    if (formData.patient_id === 'select') {
-      toast.error('Select Patient Name fields.');
-      return;
-    }
+    console.log(formData)
 
     try {
       setShowLoader(true);
 
-      const response = await api.post(boardingUrl.add_boarding.url, formData, {
+      const response = await api.post(boardingUrl.search_boarding.url, formData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         setFormData({
-          patient_id: '',
           start_date: '',
           end_date: '',
-          notes: '',
           status: '',
-          amount: '',
-          description: '',
         });
-        toast.success('Boarding Record added successfully!');
+        console.log(response.data);
+     setBoarders(response.data)
+     setShowFilterModal(false)
       } else {
-        console.error('Failed to add Boarding Record');
+        console.error('Failed to searchind Boarding Record');
       }
     } catch (error) {
-      toast.error(error.response.data.error);
+      toast.error(error.message);
     } finally {
       setShowLoader(false);
     }
@@ -67,7 +79,7 @@ const Search = () => {
 
   return (
     <div className="bg-white p-3 overflow-x-hidden rounded-md shadow-xl">
-      <h3 className="text-xl font-semibold">Add Boarding</h3>
+      <h3 className="text-xl font-semibold">Search Boarding</h3>
       <form onSubmit={handleSearch}>
         <div className="flex flex-col gap-2 my-2 md:flex-row md:items-center">
           <div className="w-full md:w-1/2">
