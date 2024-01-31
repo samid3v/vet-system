@@ -223,7 +223,10 @@ export const getTreatmentById = asyncHandler(async (req, res) => {
 
 export const searchFilter = asyncHandler(async(req, res)=>{
   const {start_date,end_date, patient, vet, name} = req.body
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0133d57 (treatments search filter update)
   
   const query = {};
 
@@ -244,7 +247,10 @@ export const searchFilter = asyncHandler(async(req, res)=>{
     query.date = {
       $lte: endOfDay(new Date(end_date)),
     };
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0133d57 (treatments search filter update)
   }
 
   if (patient) {
@@ -256,7 +262,12 @@ export const searchFilter = asyncHandler(async(req, res)=>{
   }
 
   const appointmentsFiltered = await Treatment.find(query).populate("patient").populate("vet");
+<<<<<<< HEAD
 
   res.status(200).json(appointmentsFiltered)
 
+=======
+
+  res.status(200).json(appointmentsFiltered)
+>>>>>>> 0133d57 (treatments search filter update)
 })
