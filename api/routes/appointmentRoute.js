@@ -12,7 +12,10 @@ appointmentRouter.put("/edit-appointment", isAuthenticated, editAppointment)
 appointmentRouter.put("/edit-clinic-status", isAuthenticated, editAppointmentStatus)
 appointmentRouter.delete("/delete-appointment", isAuthenticated, deleteAppointment)
 appointmentRouter.post("/search-filter", isAuthenticated, searchFilter)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0515cd1 (clinic search filter update)
 
 
 
