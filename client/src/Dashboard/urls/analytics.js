@@ -5,8 +5,8 @@ const analytics = {
      upcoming_appointments:{
           url:`/analytics/upcoming-appointments`
      },
-     add_vaccine:{
-          url:`/vaccines/add-vaccine`
+     upcoming_vaccines:{
+          url:`/analytics/upcoming-vaccines`
      },
      edit_vaccine:{
           url:`/vaccines/edit-vaccine`

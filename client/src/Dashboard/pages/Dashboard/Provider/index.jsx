@@ -8,10 +8,12 @@ const DashProvider = ({children}) => {
 
      const [stats, setStats] = useState([])
      const [upcomingAppointments, setUpcomingAppointments] = useState([])
+     const [upcomingVaccines, setUpcomingVaccines] = useState([])
 
      useEffect(()=>{
           getStats()
           getUpcomingClinics()
+          getUpcomingVaccines()
      },[])
 
      const getStats = async () => {
@@ -31,7 +33,7 @@ const DashProvider = ({children}) => {
             toast.error(error.message);
           }
         };
-        const getUpcomingClinics = async () => {
+     const getUpcomingClinics = async () => {
           try {
       
             
@@ -48,10 +50,28 @@ const DashProvider = ({children}) => {
             toast.error(error.message);
           }
         };
+        const getUpcomingVaccines = async () => {
+          try {
+      
+            
+              const response = await api.get(analytics.upcoming_vaccines.url);
+        
+              if (response.status === 200) {
+                console.log('upVacc',response.data)
+                setUpcomingVaccines(response.data);
+              } else {
+                toast.error('Failed to fetch patient');
+              }
+            
+          } catch (error) {
+            toast.error(error.message);
+          }
+        };
   return (
     <DashContext.Provider value={{
           stats,
-          upcomingAppointments
+          upcomingAppointments,
+          upcomingVaccines
     }}>
      {children}
     </DashContext.Provider>
