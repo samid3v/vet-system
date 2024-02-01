@@ -9,6 +9,6 @@ vaccineRouter.post("/add-vaccine", isAuthenticated, addVaccine)
 // vaccineRouter.get("/get-treatment-by-id", getTreatmentById)
 vaccineRouter.put("/edit-vaccine", isAuthenticated, editVaccine)
 vaccineRouter.delete("/delete-vaccine", isAuthenticated, deleteVaccine)
-vaccineRouter.get("/search-filter", isAuthenticated, searchFilter)
+vaccineRouter.post("/search-filter", isAuthenticated, searchFilter)
 
 export default vaccineRouter

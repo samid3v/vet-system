@@ -196,7 +196,7 @@ export const searchFilter = asyncHandler(async(req, res)=>{
   const query = {};
 
   if (name) {
-      query.name = name;
+      query.name = { $regex: new RegExp(name, 'i') };;
   }
 
   if (patient) {
@@ -207,7 +207,7 @@ export const searchFilter = asyncHandler(async(req, res)=>{
     query.status = status;
   }
 
-  const vaccinesFiltered = await Vaccine.find(query);
+  const vaccinesFiltered = await Vaccine.find(query).populate("patient");
 
-  res.status(200).json({vaccinesFiltered})
+  res.status(200).json(vaccinesFiltered)
 })
