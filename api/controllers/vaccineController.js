@@ -197,10 +197,14 @@ export const searchFilter = asyncHandler(async(req, res)=>{
 
   if (name) {
 <<<<<<< HEAD
+<<<<<<< HEAD
       query.name = { $regex: new RegExp(name, 'i') };;
 =======
       query.name = name;
 >>>>>>> 902ea53 (vaccine filter api update)
+=======
+      query.name = { $regex: new RegExp(name, 'i') };;
+>>>>>>> 6fc6f32 (vaccine search filter update)
   }
 
   if (patient) {
@@ -212,6 +216,7 @@ export const searchFilter = asyncHandler(async(req, res)=>{
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   const vaccinesFiltered = await Vaccine.find(query).populate("patient");
 
   res.status(200).json(vaccinesFiltered)
@@ -220,4 +225,9 @@ export const searchFilter = asyncHandler(async(req, res)=>{
 
   res.status(200).json({vaccinesFiltered})
 >>>>>>> 902ea53 (vaccine filter api update)
+=======
+  const vaccinesFiltered = await Vaccine.find(query).populate("patient");
+
+  res.status(200).json(vaccinesFiltered)
+>>>>>>> 6fc6f32 (vaccine search filter update)
 })
