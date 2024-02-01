@@ -2,8 +2,8 @@ const analytics = {
      module_stats:{
           url:`/analytics/module-stats`
      },
-     delete_vaccine:{
-          url:`/vaccines/delete-vaccine`
+     upcoming_appointments:{
+          url:`/analytics/upcoming-appointments`
      },
      add_vaccine:{
           url:`/vaccines/add-vaccine`

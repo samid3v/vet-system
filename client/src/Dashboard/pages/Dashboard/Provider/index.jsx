@@ -7,9 +7,11 @@ import analytics from '../../../urls/analytics';
 const DashProvider = ({children}) => {
 
      const [stats, setStats] = useState([])
+     const [upcomingAppointments, setUpcomingAppointments] = useState([])
 
      useEffect(()=>{
           getStats()
+          getUpcomingClinics()
      },[])
 
      const getStats = async () => {
@@ -29,9 +31,27 @@ const DashProvider = ({children}) => {
             toast.error(error.message);
           }
         };
+        const getUpcomingClinics = async () => {
+          try {
+      
+            
+              const response = await api.get(analytics.upcoming_appointments.url);
+        
+              if (response.status === 200) {
+                console.log('upAppo',response.data)
+                setUpcomingAppointments(response.data);
+              } else {
+                toast.error('Failed to fetch patient');
+              }
+            
+          } catch (error) {
+            toast.error(error.message);
+          }
+        };
   return (
     <DashContext.Provider value={{
-          stats
+          stats,
+          upcomingAppointments
     }}>
      {children}
     </DashContext.Provider>

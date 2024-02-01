@@ -28,3 +28,17 @@ export const moduleStats = asyncHandler(async(req, res)=>{
           appointments
         })
 })
+
+export const upcomingAppointmentsFn = asyncHandler(async(req,res)=>{
+  const today = new Date();
+    const sevenDaysLater = new Date();
+    sevenDaysLater.setDate(today.getDate() + 7);
+
+    // Find appointments with the status 'Booked' and dates within the range
+    const upcomingAppointments = await Appointment.find({
+      status: 'Booked',
+      date: { $gte: today, $lte: sevenDaysLater },
+    }).populate('patient').populate('vet').sort({ date: 1 });
+
+    res.status(200).json(upcomingAppointments);
+})
