@@ -45,18 +45,6 @@ useEffect(()=>{
      }
    },[currentId])
 
-   useEffect(()=>{
-    const delayDebounceFn = setTimeout(() => {
-      if (searchTerm.length>2) {
-        updateSearchResults()
-      }
-    }, 1500)
-
-    return () => clearTimeout(delayDebounceFn)
-    
-   },[searchTerm])
-  
-
  
   const getSingleVaccine = async () => {
     try {
@@ -88,36 +76,8 @@ useEffect(()=>{
   const refreshVaccines = () => {
     getAllVaccines(currentPage,10)
   }
+
   
-  const updateSearchResults = async () => {
-    
-    // try {
-    //   setShowLoader(true);
-
-    //   const response = await api.get(customersUrl.search_customer.url, {
-    //     params: { value:searchTerm },
-    //   });
-    //   // console.log(searchTerm)
-    //   if (response.status === 200) {
-    //     setCustomers(response.data);
-    //   } else {
-    //     toast.error('Failed to fetch customer');
-    //   }
-      
-    // }  catch (error) {
-    //   toast.error(error.message);
-    // } finally {
-    //   setShowLoader(false);
-    //   setTotalPages(0)
-
-    // }
-    
-
-    
-  };
-
-   
-
   const getAllVaccines = async (page, pageSize) =>{
      try{
       setShowLoader(true);
@@ -204,10 +164,10 @@ const refreshInfo = () => {
      setCurrentPage,
      currentId, 
      setCurrentId,
-     vaccines, 
+     vaccines,
+     setVaccines, 
      searchTerm, 
      setSearchTerm,
-     updateSearchResults,
      refreshVaccines,
      currentVaccine, 
      setCurrentVaccine,

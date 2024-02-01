@@ -248,6 +248,7 @@ const getBoardingStats = async (page, pageSize) =>{
      currentId, 
      setCurrentId,
      boarders, 
+     setBoarders,
      searchTerm, 
      setSearchTerm,
      updateSearchResults,

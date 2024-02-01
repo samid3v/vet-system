@@ -1,5 +1,5 @@
 import express from "express"
-import { addAppointment, deleteAppointment, editAppointment, editAppointmentStatus, getAllAppointments, getAppointmentById, getStatusStats } from "../controllers/appointmentController.js"
+import { addAppointment, deleteAppointment, editAppointment, editAppointmentStatus, getAllAppointments, getAppointmentById, getStatusStats, searchFilter } from "../controllers/appointmentController.js"
 import { isAuthenticated } from "../middlewares/isAuthenticated.js"
 
 const appointmentRouter = express.Router()
@@ -11,7 +11,7 @@ appointmentRouter.get("/get-appointment-by-id/:id", isAuthenticated, getAppointm
 appointmentRouter.put("/edit-appointment", isAuthenticated, editAppointment)
 appointmentRouter.put("/edit-clinic-status", isAuthenticated, editAppointmentStatus)
 appointmentRouter.delete("/delete-appointment", isAuthenticated, deleteAppointment)
-
+appointmentRouter.post("/search-filter", isAuthenticated, searchFilter)
 
 
 

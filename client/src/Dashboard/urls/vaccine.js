@@ -11,6 +11,9 @@ const vaccineUrl = {
      edit_vaccine:{
           url:`/vaccines/edit-vaccine`
      },
+     search_vaccine:{
+          url:`/vaccines/search-filter`
+     },
      all_doses:{
           url:`/doses/all`
      },

@@ -4,7 +4,7 @@ import Appointment from '../server/models/appointmentsModel.js';
 import User from '../server/models/userModel.js';
 import Payment from '../server/models/paymentModel.js';
 import Transaction from '../server/models/transactionModel.js';
-import mongoose from 'mongoose';
+import { startOfDay, endOfDay } from 'date-fns';
 
 
 export const getStatusStats = asyncHandler(async(req, res) => {
@@ -300,3 +300,46 @@ export const getAppointmentById = asyncHandler(async (req, res) => {
     }
     
   });
+
+  export const searchFilter = asyncHandler(async(req, res)=>{
+    const {start_date,end_date, patient, vet, status} = req.body
+    
+    const query = {};
+  
+    if (start_date && end_date) {
+      // If both start_date and end_date are provided, filter by date range
+      query.date = {
+        $gte: startOfDay(new Date(start_date)),
+        $lte: endOfDay(new Date(end_date)),
+      };
+    } else if (start_date) {
+      // If only start_date is provided, filter by start_date onwards
+      query.date = {
+        $gte: startOfDay(new Date(start_date)),
+      };
+    } else if (end_date) {
+      // If only end_date is provided, filter by end_date and before
+      query.date = {
+        $lte: endOfDay(new Date(end_date)),
+      };
+    }
+
+    if (patient) {
+        query.patient = patient;
+    }
+
+    if (vet) {
+        query.vet = vet;
+    }
+
+    if (status) {
+      query.status = status;
+    }
+  
+    const appointmentsFiltered = await Appointment.find(query).populate(
+      {path:"patient", populate: {
+      path: 'owner',
+    },});
+  
+    res.status(200).json(appointmentsFiltered)
+  })

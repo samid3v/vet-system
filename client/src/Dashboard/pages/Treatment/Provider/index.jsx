@@ -207,6 +207,7 @@ const refreshInfo = () => {
      currentId, 
      setCurrentId,
      treaments, 
+     setTreatments,
      searchTerm, 
      setSearchTerm,
      updateSearchResults,

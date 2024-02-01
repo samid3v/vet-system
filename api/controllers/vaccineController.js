@@ -137,22 +137,22 @@ export const addVaccine = asyncHandler(async(req, res) => {
       payment_bal = payExist.payment_bal+(amount - payExist.amount)
    }
 
-    const updatedAppointment = await Vaccine.findByIdAndUpdate(id, {
+    const upnamedAppointment = await Vaccine.findByIdAndUpname(id, {
       name,
       total_doses,
       notes,
       patient,
     }, { new: true });
 
-    if (updatedAppointment) {
-          const updatePay = await Payment.findByIdAndUpdate(pay_id, {
+    if (upnamedAppointment) {
+          const upnamePay = await Payment.findByIdAndUpname(pay_id, {
           amount,
           payment_bal,
           status,
           description,
         },{ new: true } );
-          if (updatePay) {
-            return res.status(201).json({ message: 'Vaccine updated successfully' });
+          if (upnamePay) {
+            return res.status(201).json({ message: 'Vaccine upnamed successfully' });
 
           }
     }else{
@@ -189,3 +189,25 @@ export const addVaccine = asyncHandler(async(req, res) => {
               
             }
 });
+
+export const searchFilter = asyncHandler(async(req, res)=>{
+  const {name, patient,  status} = req.body
+  
+  const query = {};
+
+  if (name) {
+      query.name = { $regex: new RegExp(name, 'i') };;
+  }
+
+  if (patient) {
+      query.patient = patient;
+  }
+
+  if (status) {
+    query.status = status;
+  }
+
+  const vaccinesFiltered = await Vaccine.find(query).populate("patient");
+
+  res.status(200).json(vaccinesFiltered)
+})

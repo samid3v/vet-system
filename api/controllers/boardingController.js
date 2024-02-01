@@ -315,3 +315,34 @@ export const getBoarderById = asyncHandler(async (req, res) => {
             }
 });
 
+//filter
+
+export const searchFilter = asyncHandler(async(req, res)=>{
+  const {start_date,end_date,status} = req.body
+
+  console.log(start_date);
+  
+  const query = {
+  };
+
+  if (start_date) {
+      query.start_date = { $gte: start_date };
+  }
+
+  if (end_date) {
+      query.end_date = { $lte: end_date };
+  }
+
+  if (status) {
+      query.status = status;
+  }
+
+  console.log(query);
+
+  const boardingsFiltered = await Boarding.find(query).populate({path:"patient_id", populate: {
+    path: 'owner',
+  },});
+
+  res.status(200).json(boardingsFiltered)
+})
+
