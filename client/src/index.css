@@ -18,9 +18,10 @@ body{
 }
 
 .hide-scrollbar::-webkit-scrollbar {
-  width: 0.5em;
+  display: none;
 }
 
 .hide-scrollbar::-webkit-scrollbar-thumb {
-  background-color: transparent;
+  display: none;
+
 }

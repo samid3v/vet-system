@@ -74,7 +74,9 @@ export const addDosesFn = asyncHandler(async (req, res)=>{
           if (vaccineExist.total_doses===findDoses.length) {
                status = 'Completed'
           }
-          if (findDoses.length>0) {
+          const InProgress = await Dose.find({vaccine})
+
+          if (findDoses.length>0 && vaccineExist.total_doses>InProgress.length) {
                status = 'In Progress'
           }
           if (findDoses) {

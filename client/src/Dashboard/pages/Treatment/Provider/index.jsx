@@ -81,7 +81,7 @@ useEffect(()=>{
       }
     } catch (error) {
       setShowLoader(false);
-      toast.error(error.response.data.error);
+      toast.error(error.message);
     } finally {
       setShowLoader(false);
     }
