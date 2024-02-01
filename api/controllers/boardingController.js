@@ -331,20 +331,14 @@ export const searchFilter = asyncHandler(async(req, res)=>{
 
   if (end_date) {
       query.end_date = { $lte: end_date };
-<<<<<<< HEAD
 
-=======
->>>>>>> 1949799 (boading filter update)
   }
 
   if (status) {
       query.status = status;
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 1949799 (boading filter update)
+
   console.log(query);
 
   const boardingsFiltered = await Boarding.find(query).populate({path:"patient_id", populate: {
@@ -352,14 +346,6 @@ export const searchFilter = asyncHandler(async(req, res)=>{
   },});
 
   res.status(200).json(boardingsFiltered)
-<<<<<<< HEAD
-=======
-  const boardingsFiltered = await Boarding.find(query).populate({path:"patient_id", populate: {
-    path: 'owner',
-  },});
->>>>>>> 11e90d3 (bording api filter update)
-
-=======
->>>>>>> 1949799 (boading filter update)
+  
 })
 
