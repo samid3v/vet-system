@@ -16,6 +16,7 @@ import transactionRoutes from "./routes/transactionRoute.js"
 import randomRoutes from "./routes/randomRoutes.js"
 import vaccineRouter from "./routes/vaccineRoutes.js"
 import doseRouter from "./routes/doseRoute.js"
+import analyticsRouter from "./routes/analytictsRoute.js"
 
 dotenv.config()
 
@@ -42,6 +43,7 @@ app.use("/api/transactions", transactionRoutes)
 app.use("/api/random", randomRoutes)
 app.use("/api/vaccines", vaccineRouter)
 app.use("/api/doses", doseRouter)
+app.use("/api/analytics", analyticsRouter)
 
 app.use(errorHandler);
 

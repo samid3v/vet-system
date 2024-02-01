@@ -1,6 +1,6 @@
 const analytics = {
-     get_all:{
-          url:`/vaccines/all`
+     module_stats:{
+          url:`/analytics/module-stats`
      },
      delete_vaccine:{
           url:`/vaccines/delete-vaccine`
