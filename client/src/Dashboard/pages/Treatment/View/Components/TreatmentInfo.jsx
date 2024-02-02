@@ -10,6 +10,7 @@ import AddPayment from './AddPayment'
 import LargeDevice from './TableComponent/LargeDevice'
 import trasactionUrl from '../../../../urls/transaction'
 import random from '../../../../urls/random'
+import SmallDevice from './TableComponent/SmallDevice'
 
 const TreatmentInfo = ({id}) => {
      const [loading, setLoading] = useState()
@@ -151,6 +152,7 @@ const TreatmentInfo = ({id}) => {
           </div>
       <BasicModal open={open} element={<AddPayment refreshData={refreshData} id={treatment?._id} handleClose={handleClose}/>}/>
      <LargeDevice transactions={transactions} refreshData={refreshData} />
+     <SmallDevice transactions={transactions} refreshData={refreshData}/>
      </div>
     </>
   )

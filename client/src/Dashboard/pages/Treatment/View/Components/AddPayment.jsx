@@ -114,7 +114,7 @@ const AddPayment = ({handleClose, id, refreshData}) => {
     <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
       <h3 className='text-xl font-semibold'>Add Payment</h3>
       <form onSubmit={ handleAddPayment }>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="amount_paid">Payment Amount</label>
               <input
@@ -128,7 +128,7 @@ const AddPayment = ({handleClose, id, refreshData}) => {
               />
           </div>
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           
         <div className="w-full">
             <label htmlFor="payment_date">Payment Date</label>
