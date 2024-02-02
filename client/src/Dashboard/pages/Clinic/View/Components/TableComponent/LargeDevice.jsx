@@ -15,14 +15,14 @@ const LargeDevice = ({transactions, refreshData}) => {
     return formattedDate
   }
   
-  if(!transactions){
-    return <div className=''>Loading...</div>
+  if(transactions.length===0){
+    return <h3 className='text-center text-xl font-semibold my-8'>No data...</h3>
   }
 
   return (
 
         
-    <div className='w-full p-4 '>
+    <div className='w-full p-4 hidden lg:block'>
       <table className=" w-full border border-gray-300 mb-3">
       <thead>
         <tr>

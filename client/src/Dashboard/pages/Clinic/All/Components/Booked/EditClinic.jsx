@@ -121,7 +121,7 @@ const EditClinic = ({handleClose}) => {
       <h3 className='text-xl font-semibold'>Edit Appointment</h3>
      
       <form onSubmit={ editClinicFn }>
-      <div className='flex justify-between items-center gap-2 my-2 '>
+      <div className='flex justify-between flex-col md:flex-row items-center gap-2 my-2 '>
         <div className="w-full">
             <label htmlFor="reason">Appointment Reason</label>
               <input
@@ -170,7 +170,7 @@ const EditClinic = ({handleClose}) => {
               </select>
           </div>
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex justify-between flex-col md:flex-row items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="amount">Amount</label>
               <input
@@ -198,7 +198,7 @@ const EditClinic = ({handleClose}) => {
           
           
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           
           <div className="w-full">
             <label htmlFor="species">Appointment Notes</label>

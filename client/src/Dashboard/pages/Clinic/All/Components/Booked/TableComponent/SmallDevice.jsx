@@ -7,7 +7,7 @@ const SmallDevice = () => {
      const {clinics,totalPages, currentPage, setCurrentPage } = useClinic()
 
   if (clinics.length==0) {
-    return <td colSpan={7} className='text-center text-xl'>No Data</td>
+    return <h3 className='text-center p-5 text-xl'>No Data</h3>
   }
 
   const handlePageChange = (event, newPage) => {
