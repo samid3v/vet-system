@@ -21,7 +21,7 @@ const SmallDevice = ({transactions, refreshData}) => {
   return (
     <div className='lg:hidden'>
           {transactions?.map((doc, index)=>(
-            <div key={index} className='my-6'>
+            <div key={index} className={` my-6 p-3 ${ index % 2 === 0 ? 'bg-gray-100' : ''  }`}>
               <div className='flex justify-between items-center p-2'>
                 <h1 className='text-lg font-semibold'>Amount</h1>
                 <h3>{doc?.amount_paid}</h3>
