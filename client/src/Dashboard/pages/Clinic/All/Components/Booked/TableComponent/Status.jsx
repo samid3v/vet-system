@@ -5,7 +5,7 @@ const Status = ({status, setMenuDisabled,id}) => {
 
      const {clinicState, setClinicState, setStatusId} = useClinic()
 
-     const containerClasses = `bg-white absolute px-1 py-2 shadow-lg right-20 -top-6
+     const containerClasses = `bg-white absolute px-1 py-2 shadow-lg right-10
         transition-all duration-300 ease-in-out`;
 
      const statusBtnFn = (currentState)=>{

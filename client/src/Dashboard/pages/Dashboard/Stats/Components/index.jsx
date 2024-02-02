@@ -8,7 +8,7 @@ const DashStats = () => {
   const {stats} = useDash()
   console.log(stats);
   return (
-    <div className='flex w-screen justify-start gap-2 overscroll-contain scroll-hidden'>
+    <div className='flex no-scrollbar w-full justify-start gap-2 overflow-x-auto'>
      <Card variant={'success'} value={stats?.customers || 0} icon={<LuUsers/>} title={'Customers'} />
      <Card variant={'info'} value={stats?.patients || 0} icon={<LuUsers/>} title={'Patients'} />
      <Card variant={'warning'} value={stats?.doses || 0} icon={<LuUsers/>} title={'Vaccines'} />

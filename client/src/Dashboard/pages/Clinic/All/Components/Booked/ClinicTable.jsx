@@ -6,6 +6,7 @@ import BasicModal from '../../../../../components/Modal';
 import AddClinic from '../AddClinic';
 import { useClinic } from '../../../Hooks';
 import Search from './Search';
+import SmallDevice from './TableComponent/SmallDevice';
 
 const ClinicTable = () => {
 
@@ -29,6 +30,7 @@ const ClinicTable = () => {
         <button onClick={handleOpen} type="button" className='rounded-lg text-neutral w-56 bg-primary px-3 py-2'>Add Appointment</button>
       </div>
       <LargeDevice />
+      <SmallDevice />
       <BasicModal open={open} element={<AddClinic handleClose={handleClose}/>}/>
     </div>
   )
