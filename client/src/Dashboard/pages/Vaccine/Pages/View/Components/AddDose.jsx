@@ -110,7 +110,7 @@ const AddDose = ({handleClose, id, refreshData}) => {
     <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
       <h3 className='text-xl font-semibold'>Add Dose</h3>
       <form onSubmit={ addDoseFn }>
-        <div className='flex justify-start gap-5 items-center my-4 '>
+        <div className='flex flex-col md:flex-row justify-start gap-5 items-center my-4 '>
           
           <div className="w-full">
             <label htmlFor="date">Vaccine Date</label>

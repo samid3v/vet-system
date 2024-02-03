@@ -11,6 +11,7 @@ import LargeDevice from './TableComponent/LargeDevice'
 import trasactionUrl from '../../../../../urls/transaction'
 import random from '../../../../../urls/random'
 import DosesTable from './DosesTable'
+import SmallDevice from './TableComponent/SmallDevice'
 
 const VaccineInfo = ({id}) => {
      const [loading, setLoading] = useState()
@@ -184,6 +185,8 @@ const VaccineInfo = ({id}) => {
           </div>
           <BasicModal open={open} element={<AddPayment refreshData={refreshData} id={vaccine?._id} handleClose={handleClose}/>}/>
      <LargeDevice transactions={transactions} refreshData={refreshData} />
+     <SmallDevice transactions={transactions} refreshData={refreshData}/>
+
      </div>
     </>
   )

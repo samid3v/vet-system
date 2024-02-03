@@ -97,7 +97,7 @@ const AddVaccine = ({handleClose}) => {
     <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
       <h3 className='text-xl font-semibold'>Add Vaccine</h3>
       <form onSubmit={ addVaccineFn }>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="start_date">Vaccine Name</label>
               <input
@@ -125,7 +125,7 @@ const AddVaccine = ({handleClose}) => {
           
           
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="amount">Amount</label>
               <input
@@ -158,7 +158,7 @@ const AddVaccine = ({handleClose}) => {
           </div>
           
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           
           <div className="w-full">
             <label htmlFor="species">Vaccine Notes</label>
