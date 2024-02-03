@@ -19,8 +19,7 @@ const ViewCustomer = ({handleClose}) => {
 
 
   return (
-    <div className='flex justify-center items-center'>
-     <div className='bg-white w-[100%] p-3 overflow-x-hidden relative rounded-md shadow-xl'>
+     <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
       <GiCancel onClick={handleClose} className='absolute right-4 text-xl  hover:text-red-600' />
       <h3 className='text-xl font-semibold my-3'>View Customer</h3>
       <div className='flex justify-start items-center gap-6'>
@@ -62,7 +61,6 @@ const ViewCustomer = ({handleClose}) => {
   </div>
     </div>
     
-    </div>
   );
 };
 

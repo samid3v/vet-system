@@ -6,17 +6,7 @@ import Modal from '@mui/material/Modal';
 
 
 const BasicModal = ({element, open}) => {
-     
-  const style = {
-    position: 'absolute',
-    top: '500px',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 700,
-    border: 'none',
-    
-  };
-
+  
   return (
     <>
       {open && <div className="fixed inset-0 flex items-center justify-center">
