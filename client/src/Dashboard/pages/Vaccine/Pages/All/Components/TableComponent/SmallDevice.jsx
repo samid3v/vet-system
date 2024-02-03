@@ -33,7 +33,7 @@ const SmallDevice = () => {
     <div className='lg:hidden'>
      {
           vaccines.map((vaccine, index)=>(
-               <div key={index} className='my-3 p-3' >
+               <div key={index} className={` my-6 p-3 relative ${ index % 2 === 0 ? 'bg-gray-100' : ''  }`} >
                     <div className='flex justify-between items-center p-2'>
                          <h1 className='text-lg font-semibold'>vaccine Name</h1>
                          <h3>{vaccine?.name}</h3>

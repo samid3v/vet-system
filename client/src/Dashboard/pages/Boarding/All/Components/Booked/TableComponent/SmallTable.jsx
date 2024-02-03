@@ -18,7 +18,7 @@ const SmallTable = ({doc,i}) => {
         }
 
   return (
-     <div className='my-3 p-3' key={i}>
+     <div className={` my-6 p-3 relative ${ i % 2 === 0 ? 'bg-gray-100' : ''  }`} key={i}>
      <div className='flex justify-between items-center p-2'>
           <h1 className='text-lg font-semibold'>Patient Name</h1>
           <h3>{doc?.patient_id?.name}</h3>
@@ -47,7 +47,7 @@ const SmallTable = ({doc,i}) => {
           (
             <>
               <CiMenuKebab onClick={()=> setShowMenu(!showMenu)} className='text-xl font-semibold'/>
-              {menuDisabled && <Status id={doc._id} status={doc?.status} setMenuDisabled={setShowMenu}/>}
+              {showMenu && <Status id={doc._id} status={doc?.status} setMenuDisabled={setShowMenu}/>}
             </>
           )
           }
