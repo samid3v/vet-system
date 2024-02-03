@@ -83,7 +83,7 @@ const AddBoarder = ({handleClose}) => {
     <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
       <h3 className='text-xl font-semibold'>Add Boarding</h3>
       <form onSubmit={ handleAddBoarder }>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="start_date">Start Date</label>
               <input
@@ -127,7 +127,7 @@ const AddBoarder = ({handleClose}) => {
               </select>
           </div>
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="amount">Amount</label>
               <input
@@ -184,7 +184,7 @@ const AddBoarder = ({handleClose}) => {
     </div>
           
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           
           <div className="w-full">
             <label htmlFor="species">Boarding Notes</label>

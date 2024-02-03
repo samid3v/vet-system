@@ -6,7 +6,7 @@ const Status = ({status, setMenuDisabled,id}) => {
      const {boardingState, setBoardingState, setStatusId} = useBoarding()
 
      const containerClasses = `bg-white absolute px-1 py-2 shadow-lg ${
-          status === 'In Progress' ? 'right-24 top-14' : 'right-30 top-12'
+          status === 'In Progress' ? 'lg:right-24 lg:top-14 right-16' : 'lg:right-30 lg:top-12 right-12'
         } transition-all duration-300 ease-in-out`;
 
      const statusBtnFn = (currentState)=>{

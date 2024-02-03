@@ -129,7 +129,7 @@ const AddPayment = ({handleClose, id, refreshData}) => {
               />
           </div>
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           
         <div className="w-full">
             <label htmlFor="payment_date">Payment Date</label>

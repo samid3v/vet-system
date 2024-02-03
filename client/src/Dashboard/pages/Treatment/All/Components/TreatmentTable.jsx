@@ -6,6 +6,7 @@ import { useTreatment } from '../../Hooks';
 import AddTreatment from './AddTreatment';
 import { IoFilter } from "react-icons/io5";
 import Search from './Search';
+import SmallDevice from './TableComponent/SmallDevice';
 
 
 const TreatmentTable = () => {
@@ -29,6 +30,7 @@ const TreatmentTable = () => {
         <button onClick={handleOpen} type="button" className='rounded-lg text-neutral w-40 bg-primary px-3 py-2'>Add Treatment</button>
       </div>
       <LargeDevice />
+      <SmallDevice />
       <BasicModal open={open} element={<AddTreatment handleClose={handleClose}/>}/>
     </div>
   )

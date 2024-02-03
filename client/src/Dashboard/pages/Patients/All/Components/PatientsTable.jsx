@@ -4,6 +4,7 @@ import AddPatient from './AddPatient';
 import LargeDevice from './TableComponent/LargeDevice';
 import BasicModal from '../../../../components/Modal';
 import { usePatients } from '../../Hooks/usePatients';
+import SmallDevice from './TableComponent/SmallDevice';
 
 const OwnersTable = () => {
 
@@ -17,11 +18,12 @@ const OwnersTable = () => {
   
   return (
     <div className=''>
-     <div className='flex justify-between items-center gap-2 p-6  '>
+     <div className='flex flex-col sm:flex-row justify-between gap-2 p-6  '>
         <input className='w-full py-1 px-2 rounded-lg outline-none border-[1px] border-black' type="text" name="search" value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} placeholder='Search...' />
-        <button onClick={handleOpen} type="button" className='rounded-lg text-neutral w-32 bg-primary px-3 py-2'>Add Patient</button>
+        <button onClick={handleOpen} type="button" className='rounded-lg  text-neutral w-32 sm:w-56 bg-primary px-3 py-2'>Add Patient</button>
       </div>
       <LargeDevice />
+      <SmallDevice />
       <BasicModal open={open} element={<AddPatient handleClose={handleClose}/>}/>
     </div>
   )

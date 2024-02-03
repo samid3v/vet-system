@@ -126,7 +126,7 @@ useEffect(()=>{
     <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
       <h3 className='text-xl font-semibold'>Add Owner</h3>
       <form onSubmit={ handleAddPatient }>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col sm:flex-row justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="name">Name</label>
               <input
@@ -167,7 +167,7 @@ useEffect(()=>{
           </div>
           
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col sm:flex-row justify-between items-center gap-2 my-2 '>
           
           <div className="w-full">
             <label htmlFor="species">County</label>

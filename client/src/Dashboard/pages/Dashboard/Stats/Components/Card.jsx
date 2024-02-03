@@ -16,15 +16,15 @@ const Card = ({variant, icon, title, value, active=false}) => {
           }
         };
   return (
-     <div className={`p-2  rounded-xl shadow-md ${getColorClasses()}`}>
-      <div className="flex w-[250px] justify-center h-28 items-center">
-        <div className="flex-shrink-0 mr-4 text-3xl">{icon}</div>
-        <div>
-          <p className="text-lg font-medium">{title}</p>
-          <p className="text-3xl font-bold">{value}</p>
-        </div>
+    <div className={`p-6 cursor-pointer rounded-xl shadow-md ${getColorClasses()}`}>
+    <div className="flex items-center w-[160px] h-16">
+      <div className=" mr-4 text-3xl">{icon}</div>
+      <div>
+        <p className="text-lg font-medium">{title}</p>
+        <p className="text-3xl font-bold">{value}</p>
       </div>
     </div>
+  </div>
   )
 }
 

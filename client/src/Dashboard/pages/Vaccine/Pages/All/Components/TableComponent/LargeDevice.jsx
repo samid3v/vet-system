@@ -7,7 +7,7 @@ import { useVaccine } from '../../../../Hooks';
 
 const LargeDevice = () => {
 
-  const {patients, totalPages, currentPage, setCurrentPage} = useVaccine()
+  const {totalPages, currentPage, setCurrentPage} = useVaccine()
 
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
@@ -16,7 +16,7 @@ const LargeDevice = () => {
   return (
 
         
-    <div className='w-full p-4 '>
+    <div className='w-full p-4 hidden lg:block '>
       <table className=" w-full border border-gray-300 mb-3">
         <THeader/>
         <TBody/>

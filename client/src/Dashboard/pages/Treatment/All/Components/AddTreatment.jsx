@@ -104,7 +104,7 @@ const AddTreatment = ({handleClose}) => {
     <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
       <h3 className='text-xl font-semibold'>Add Treatment</h3>
       <form onSubmit={ handleAddTreatment }>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="start_date">Treatment Name</label>
               <input
@@ -154,7 +154,7 @@ const AddTreatment = ({handleClose}) => {
               </select>
           </div>
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="amount">Amount</label>
               <input
@@ -181,7 +181,7 @@ const AddTreatment = ({handleClose}) => {
           </div>
           
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           
           <div className="w-full">
             <label htmlFor="species">Boarding Notes</label>

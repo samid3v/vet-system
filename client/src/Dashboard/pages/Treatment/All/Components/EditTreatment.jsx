@@ -47,14 +47,14 @@ const EditTreatment = ({handleClose}) => {
 
       
       setFormData({
-        name: currentTreatment?.module_id?.name || '---',
-        patient: currentTreatment?.module_id?.patient?._id || '---',
-        vet: currentTreatment?.module_id?.vet?._id || '---',
+        name: currentTreatment?.module_id?.name ,
+        patient: currentTreatment?.module_id?.patient?._id ,
+        vet: currentTreatment?.module_id?.vet?._id ,
         date: moment(currentTreatment?.module_id?.date).format('YYYY-MM-DD'),
-        notes: currentTreatment?.module_id?.notes || '---',
-        pay_id: currentTreatment?._id || '---',
-        amount: currentTreatment?.amount || '---',
-        description: currentTreatment?.description || '---',
+        notes: currentTreatment?.module_id?.notes ,
+        pay_id: currentTreatment?._id ,
+        amount: currentTreatment?.amount ,
+        description: currentTreatment?.description,
       });
     }
   }, [currentTreatment]);
@@ -136,7 +136,7 @@ const EditTreatment = ({handleClose}) => {
       <h3 className='text-xl font-semibold'>Edit Treatment</h3>
      
       <form onSubmit={ handleEditTreatment }>
-      <div className='flex justify-between items-center gap-2 my-2 '>
+      <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="start_date">Treatment Name</label>
               <input
@@ -160,7 +160,7 @@ const EditTreatment = ({handleClose}) => {
               >
                   <option value="">Select Vet </option>
                   { users && (users.map((user, index)=>(
-                      <option key={index} value={user._id}>{user?.name || '---'}</option>
+                      <option key={index} value={user._id}>{user?.name }</option>
 
                     )))
                   }
@@ -186,7 +186,7 @@ const EditTreatment = ({handleClose}) => {
               </select>
           </div>
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="amount">Amount</label>
               <input
@@ -213,7 +213,7 @@ const EditTreatment = ({handleClose}) => {
           </div>
           
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           
           <div className="w-full">
             <label htmlFor="species">Boarding Notes</label>

@@ -17,8 +17,8 @@ const ViewPatient = ({handleClose}) => {
 
 
   return (
-    <div className='flex justify-center items-center'>
-     <div className='bg-white w-[50%] p-3 overflow-x-hidden relative rounded-md shadow-xl'>
+    <div className='flex justify-center w-full  items-center'>
+     <div className='bg-white w-full p-3 overflow-x-hidden relative rounded-md shadow-xl'>
       <GiCancel onClick={handleClose} className='absolute right-4 text-xl  hover:text-red-600' />
       <h3 className='text-xl font-semibold my-3'>View Patient</h3>
       <div>

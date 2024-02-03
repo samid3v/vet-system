@@ -6,28 +6,17 @@ import Modal from '@mui/material/Modal';
 
 
 const BasicModal = ({element, open}) => {
-     
-  const style = {
-    position: 'absolute',
-    top: '30%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 700,
-    border: 'none',
-    
-  };
-
+  
   return (
-      <Modal
-  open={open}
-  // onClose={handleClose}
-  aria-labelledby="modal-modal-title"
-  aria-describedby="modal-modal-description"
->
-<Box sx={style}>
-          {element}
-        </Box>
-</Modal>
+    <>
+      {open && <div className="fixed inset-0 flex items-center justify-center">
+          <div className="absolute inset-0 bg-gray-800 bg-opacity-50"></div>
+          <div className="relative no-scrollbar h-[80%] p-8 overflow-y-auto  rounded-lg">
+            {/* Your modal content goes here */}
+            {element}
+          </div>
+    </div>}
+</>
   );
 };
 

@@ -80,7 +80,7 @@ const AddPatient = ({handleClose}) => {
     <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
       <h3 className='text-xl font-semibold'>Add Patient</h3>
       <form onSubmit={ handleAddPatient }>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="name">Name</label>
               <input
@@ -106,7 +106,7 @@ const AddPatient = ({handleClose}) => {
               />
           </div>
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="name">Age</label>
               <input
@@ -132,7 +132,7 @@ const AddPatient = ({handleClose}) => {
               />
           </div>
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="name">Weight</label>
               <input

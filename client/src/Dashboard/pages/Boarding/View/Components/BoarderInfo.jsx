@@ -9,6 +9,7 @@ import BasicModal from '../../../../components/Modal'
 import AddPayment from './AddPayment'
 import LargeDevice from './TableComponent/LargeDevice'
 import trasactionUrl from '../../../../urls/transaction'
+import SmallDevice from './TableComponent/SmallDevice'
 
 const BoarderInfo = ({id}) => {
      const [loading, setLoading] = useState()
@@ -38,9 +39,12 @@ const BoarderInfo = ({id}) => {
       
             if (id !== 0) {
               const response = await api.get(boardingUrl.get_single_boarder.url, {
-                params: { id: id },
+                params: { 
+                  id: id,
+                  model: 'Boarding'
+                 },
               });
-        
+              console.log(response);
               if (response.status === 200) {
                 console.log(response.data)
                 setBoarding(response.data);
@@ -136,6 +140,7 @@ const BoarderInfo = ({id}) => {
           </div>
       <BasicModal open={open} element={<AddPayment refreshData={refreshData} id={boarding?._id} handleClose={handleClose}/>}/>
      <LargeDevice transactions={transactions} refreshData={refreshData} />
+     <SmallDevice transactions={transactions} refreshData={refreshData} />
      </div>
     </>
   )

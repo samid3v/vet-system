@@ -12,9 +12,9 @@ const TBody = () => {
 
   return (
     <tbody>
-    {vaccines.map((treatment, index) => (
+    {vaccines.map((vaccine, index) => (
       
-      <TRow  key={treatment._id} treatment={treatment} index={index} />
+      <TRow  key={vaccine._id} vaccine={vaccine} index={index} />
     ))}
   </tbody>
   )
