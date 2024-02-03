@@ -19,10 +19,11 @@ const ViewCustomer = ({handleClose}) => {
 
 
   return (
-     <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
+    <div className='flex justify-center items-center'>
+     <div className='bg-white w-[100%] p-3 overflow-x-hidden relative rounded-md shadow-xl'>
       <GiCancel onClick={handleClose} className='absolute right-4 text-xl  hover:text-red-600' />
       <h3 className='text-xl font-semibold my-3'>View Customer</h3>
-      <div className='flex justify-start items-center gap-6'>
+      <div className='flex flex-col sm:flex-row justify-start sm:items-center gap-3 sm:gap-6'>
           <div className='my-4'>
                <h3><span className='mr-2 font-semibold'>Name:</span><span>{currentCustomer.name}</span></h3>
                <h3><span className='mr-2 font-semibold'>Email:</span><span>{currentCustomer.email}</span></h3>
@@ -34,7 +35,7 @@ const ViewCustomer = ({handleClose}) => {
                <h3><span className='mr-2 font-semibold'>Ward:</span><span>{currentCustomer?.ward}</span></h3>
           </div>
       </div>
-      <div class="">
+      <div class="hidden sm:block">
         <h3>No Of Pets: {currentCustomer.patients.length}</h3>
     <table class="min-w-full border border-gray-300">
       <thead>
@@ -61,6 +62,7 @@ const ViewCustomer = ({handleClose}) => {
   </div>
     </div>
     
+    </div>
   );
 };
 
