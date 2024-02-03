@@ -39,9 +39,12 @@ const BoarderInfo = ({id}) => {
       
             if (id !== 0) {
               const response = await api.get(boardingUrl.get_single_boarder.url, {
-                params: { id: id },
+                params: { 
+                  id: id,
+                  model: 'Boarding'
+                 },
               });
-        
+              console.log(response);
               if (response.status === 200) {
                 console.log(response.data)
                 setBoarding(response.data);
