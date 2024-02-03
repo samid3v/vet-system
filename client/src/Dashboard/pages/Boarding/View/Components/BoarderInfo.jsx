@@ -9,6 +9,7 @@ import BasicModal from '../../../../components/Modal'
 import AddPayment from './AddPayment'
 import LargeDevice from './TableComponent/LargeDevice'
 import trasactionUrl from '../../../../urls/transaction'
+import SmallDevice from './TableComponent/SmallDevice'
 
 const BoarderInfo = ({id}) => {
      const [loading, setLoading] = useState()
@@ -136,6 +137,7 @@ const BoarderInfo = ({id}) => {
           </div>
       <BasicModal open={open} element={<AddPayment refreshData={refreshData} id={boarding?._id} handleClose={handleClose}/>}/>
      <LargeDevice transactions={transactions} refreshData={refreshData} />
+     <SmallDevice transactions={transactions} refreshData={refreshData} />
      </div>
     </>
   )

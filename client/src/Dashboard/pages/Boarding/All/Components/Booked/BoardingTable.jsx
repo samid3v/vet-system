@@ -6,6 +6,7 @@ import { IoFilter } from "react-icons/io5";
 import { useBoarding } from '../../../Hooks';
 import AddBoarder from '../AddBoarder';
 import Search from './Search';
+import SmallDevice from './TableComponent/SmallDevice';
 
 const BookingTable = () => {
 
@@ -29,6 +30,7 @@ const BookingTable = () => {
         <button onClick={handleOpen} type="button" className='rounded-lg text-neutral w-40 block bg-primary px-3 py-2'>Add Boarding</button>
       </div>
       <LargeDevice />
+      <SmallDevice />
       <BasicModal open={open} element={<AddBoarder handleClose={handleClose}/>}/>
     </div>
   )

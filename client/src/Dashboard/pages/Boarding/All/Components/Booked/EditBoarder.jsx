@@ -115,7 +115,7 @@ const EditBoarder = ({handleClose}) => {
       <h3 className='text-xl font-semibold'>Edit Boarding</h3>
      
       <form onSubmit={ handleEditBoarder }>
-      <div className='flex justify-between items-center gap-2 my-2 '>
+      <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           <div className="w-full">
             <label htmlFor="start_date">Start Date</label>
               <input
@@ -142,7 +142,7 @@ const EditBoarder = ({handleClose}) => {
           </div>
           
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
         <div className="w-full">
             <label htmlFor="species">Patient Name</label>
               <select
@@ -176,7 +176,7 @@ const EditBoarder = ({handleClose}) => {
           </div>
          
         </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-2 my-2 '>
           
           <div className="w-full">
             <label htmlFor="species">Boarding Notes</label>
