@@ -13,6 +13,7 @@ const AppProvider = ({children}) => {
      const [user, setUser] = useState(null)
      const [token, setToken] = useState(null)
      const [tokenStatus, setTokenStatus] = useState(null)
+     const [showMobileSidebar, setShowMobileSidebar] = useState(false)
 
 
   return (
@@ -32,6 +33,8 @@ const AppProvider = ({children}) => {
      token, 
      setToken,
      tokenStatus, 
+     showMobileSidebar, 
+     setShowMobileSidebar,
      setTokenStatus
     }}>
       <ToastContainer position='bottom-right' />
