@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useApp } from '../hooks/useApp'
 import { FaAngleUp } from "react-icons/fa6";
 import { FaAngleDown } from "react-icons/fa6";
+import { FiMenu } from "react-icons/fi";
 import api from '../helpers/axiosInstance';
 import loginUrls from '../urls/login';
 import { toast } from 'react-toastify';
@@ -11,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 const Topbar = () => {
   const navigate = useNavigate()
 
-  const {user,setShowLoader} = useApp()
+  const {user,setShowLoader, showMobileSidebar, setShowMobileSidebar} = useApp()
   const [toggleUser, setToggleUser] = useState(false)
 
   const logOutFn = async() =>{
@@ -56,7 +57,10 @@ const Topbar = () => {
   return (
     <div className='py-2 relative bg-white px-2  rounded-l-lg rounded-r-lg'>
       <div className='flex justify-between items-center'>
-        <h3>PetFarm</h3>
+        <div className='flex justify-start gap-3 items-center'>
+          <FiMenu className='text-xl cursor-pointer' onClick={()=>setShowMobileSidebar(true)} />
+          <h3>PetFarm</h3>
+        </div>
         <div className='flex justify-start gap-4 items-center'>
           <h3>Welcome {user?.user?.name}</h3>
           <FaAngleDown onClick={()=>setToggleUser(!toggleUser)} />

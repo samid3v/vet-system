@@ -8,6 +8,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import api from '../helpers/axiosInstance';
 import FilterModal from '../components/FilterModal';
+import Login from '../login';
 
 const Dashboard = () => {
   const decryptUser = decryptData('user');
@@ -26,30 +27,36 @@ const Dashboard = () => {
   );
 
   useEffect(() => {
-    userUpdateFn()
   }, []);
 
   useEffect(()=>{
     if(user===null && !decryptData('user')){
       
-        toast.info('Token expired, login again ddd');
         navigate('/');
+        toast.success('Token expired, login again');
+
+       
     }else{
-      navigate('/dashboard');
+      userUpdateFn()
+
     }
-  },[user])
+  },[])
 
   const userUpdateFn = () => {
     if (decryptUser) {
       setUser(decryptUser);
-      navigate('/dashboard');
     } 
+  }
+
+  if (user===null && !decryptData('user')) {
+    return <Login />
   }
 
   return (
     <Layout>
+
       <Loader />
-      <Outlet />
+      {user && <Outlet />}
     </Layout>
   );
 };
