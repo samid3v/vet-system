@@ -39,7 +39,7 @@ function validateEmail(email) {
 export const AddCustomer = asyncHandler(async (req, res) => {
   const { name, email, phone, county, sub_county, ward, street } = req.body;
 
-  if (phone.length !== 10) {
+  if (phone.length !== 12) {
     const error = new Error("invalid phone number");
     error.statusCode = 400;
     throw error;
@@ -61,9 +61,12 @@ export const AddCustomer = asyncHandler(async (req, res) => {
 
   const regex = /^254/;
 
-  const isPhoneOk = regex.test(cleanedPhoneNumber);
+
+  const isPhoneOk = await regex.test(cleanedPhoneNumber);
 
   if (!isPhoneOk) {
+  console.log(cleanedPhoneNumber);
+
     const error = new Error("Incorrect Phone Number");
     error.statusCode = 400;
     throw error;

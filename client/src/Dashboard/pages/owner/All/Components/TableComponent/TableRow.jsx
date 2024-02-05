@@ -15,6 +15,7 @@ const TRow = ({owner, index}) => {
         <td className="p-3 border-b">{owner?.county || '---'}</td>
         <td className="p-3 border-b">{owner?.sub_county || '---'}</td>
         <td className="p-3 border-b">{owner?.ward || '---'}</td>
+        <td className="p-3 border-b">{owner?.street || '---'}</td>
         <td className="p-3 border-b"><Actions doc={owner}/></td>
       </tr>
   )
