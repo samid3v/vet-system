@@ -58,7 +58,7 @@ const Topbar = () => {
     <div className='py-2 relative bg-white px-2  rounded-l-lg rounded-r-lg'>
       <div className='flex justify-between items-center'>
         <div className='flex justify-start gap-3 items-center'>
-          <FiMenu className='text-xl cursor-pointer' onClick={()=>setShowMobileSidebar(true)} />
+          <FiMenu className='text-xl md:hidden cursor-pointer' onClick={()=>setShowMobileSidebar(true)} />
           <h3>PetFarm</h3>
         </div>
         <div className='flex justify-start gap-4 items-center'>

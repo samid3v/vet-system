@@ -37,7 +37,7 @@ function validateEmail(email) {
 }
 
 export const AddCustomer = asyncHandler(async (req, res) => {
-  const { name, email, phone, county, sub_county, ward } = req.body;
+  const { name, email, phone, county, sub_county, ward, street } = req.body;
 
   if (phone.length !== 10) {
     const error = new Error("invalid phone number");
@@ -53,6 +53,18 @@ export const AddCustomer = asyncHandler(async (req, res) => {
 
   if (name == "" || phone == "" ||  email == "") {
     const error = new Error("check your inputs");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const cleanedPhoneNumber = phone.replace(/\D/g, '');
+
+  const regex = /^254/;
+
+  const isPhoneOk = regex.test(cleanedPhoneNumber);
+
+  if (!isPhoneOk) {
+    const error = new Error("Incorrect Phone Number");
     error.statusCode = 400;
     throw error;
   }
@@ -74,18 +86,14 @@ export const AddCustomer = asyncHandler(async (req, res) => {
     }
     
   
-   const newphone = phone.replace(/^0/, '254');
-
-    
-
-    // Create a new user with the hashed password
     const newUser = new User({
       name,
       email,
-      phone:newphone                            ,
+      phone:cleanedPhoneNumber                            ,
       county, 
       sub_county, 
       ward,
+      street,
       role: "customer",
     });
     const output = await newUser.save();
@@ -94,13 +102,7 @@ export const AddCustomer = asyncHandler(async (req, res) => {
       res
         .status(201)
         .json({
-          message: "Customer registered successfully",
-          customer: {
-            _id: output._id,
-            name: output.name,
-            email: output.email,
-            phone: output.phone,
-          },
+          message: "Customer registered successfully"
         });
     } else {
       const error = new Error("something wrong happenned, try again");
@@ -140,7 +142,7 @@ export const getCustomerById = asyncHandler(async (req, res) => {
 export const editCustomer = asyncHandler(async (req, res) => {
   const { id } = req.query;
 
-  const {name, email, phone, county, sub_county, ward} = req.body;
+  const {name, email, phone, county, sub_county, ward,street} = req.body;
 
   if (name == "" || phone == "" ||  email == "") {
     const error = new Error("check your inputs");
@@ -156,6 +158,18 @@ export const editCustomer = asyncHandler(async (req, res) => {
 
     if (!validateEmail(email)) {
       const error = new Error("invalid email");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const cleanedPhoneNumber = phone.replace(/\D/g, '');
+
+    const regex = /^254/;
+
+    const isPhoneOk = regex.test(cleanedPhoneNumber);
+
+    if (!isPhoneOk) {
+      const error = new Error("Incorrect Phone Number");
       error.statusCode = 400;
       throw error;
     }
@@ -179,7 +193,7 @@ export const editCustomer = asyncHandler(async (req, res) => {
     
  
   const updatedPatient = await User.findByIdAndUpdate(id, {
-    name, email, phone, county, sub_county, ward
+    name, email, phone:cleanedPhoneNumber, county, sub_county, ward, street
   }, {
     new: true,
   });

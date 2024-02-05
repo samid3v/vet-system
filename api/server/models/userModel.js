@@ -30,6 +30,7 @@ const UserSchema = new mongoose.Schema({
     county:String,
     sub_county:String,
     ward:String,
+    street:String,
     isSuperAdmin: {
       type: Boolean,
       default: false,
