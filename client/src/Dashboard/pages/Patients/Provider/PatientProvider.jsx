@@ -5,28 +5,28 @@ import api from '../../../helpers/axiosInstance';
 import customersUrl from '../../../urls/customers';
 import { toast } from 'react-toastify';
 import { useApp } from '../../../hooks/useApp';
-import Fuse from 'fuse.js'
 import random from '../../../urls/random';
 
 
 const PatientProvider = ({children}) => {
-     const [patients, setPatients] = useState([]);
-     const [currentPage, setCurrentPage] = useState(1)
-     const [currentId, setCurrentId] = useState(0)
-     const [totalPages, setTotalPages] = useState(0)
-     const [currentPatient, setCurrentPatient] = useState([])
-  const [customers, setCustomers] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const { setShowLoader } = useApp();
+    const [patients, setPatients] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1)
+    const [currentId, setCurrentId] = useState(0)
+    const [totalPages, setTotalPages] = useState(0)
+    const [currentPatient, setCurrentPatient] = useState([])
+    const [customers, setCustomers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const { setShowLoader } = useApp();
 
+    useEffect(()=>{
+      getAllPatients(currentPage,10)
+      console.log('Patients state:', patients);
 
-     
-  
+    },[])
 
-     useEffect(()=>{
-        getAllPatients(currentPage,10)
-
-   },[])
+   useEffect(() => {
+    console.log('pages state:', totalPages);
+  }, [patients]);
 
    useEffect(()=>{
     if (searchTerm.length<3) {
@@ -65,16 +65,15 @@ const PatientProvider = ({children}) => {
         params: { page, pageSize },
       });
   
+      console.log('API Response:', response.data);
+
       if (response.status === 200) {
-        const { data, hasNextPage, hasPreviousPage, totalPages } = response.data;
-  
-        const dataWithIds = data.map((item, index) => ({
-          ...item,
-          id: index + 1, // Incremental numerical ID starting from 1
-        }));
-  
-        setPatients(dataWithIds);
-        console.log(dataWithIds)
+        const { data, totalPages } = response.data;
+    
+        console.log('datasss',data)
+        const patientsData = data || [];
+        setPatients(patientsData);
+
         setTotalPages(totalPages)
       } else {
         console.error('Failed to fetch patients');
