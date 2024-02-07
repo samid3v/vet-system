@@ -20,9 +20,12 @@ const AddPatient = ({handleClose}) => {
   const [formData, setFormData] = useState({
     name: '',
     breed: '',
+    gender: '',
     age: '',
+    a_unit: '',
     species: '',
     weight: '',
+    w_unit: '',
     owner: '',
   });
 
@@ -39,9 +42,34 @@ const AddPatient = ({handleClose}) => {
     e.preventDefault()
     console.log(formData)
     
-    if (!formData.name || !formData.owner) {
-      toast.error('Name and owner are required fields.');
+    if (!formData.name || !formData.owner || !formData.gender || !formData.age || !formData.weight) {
+      toast.error('Check required fields.');
       return;
+    }
+
+    if (formData.age) {
+      if (!formData.a_unit) {
+        toast.error('Select age units');
+        return;
+      }
+    }
+    if (formData.a_unit) {
+      if (!formData.age) {
+        toast.error('Age is required');
+        return;
+      }
+    }
+    if (formData.weight) {
+      if (!formData.w_unit) {
+        toast.error('Select weight units');
+        return;
+      }
+    }
+    if (formData.w_unit) {
+      if (!formData.weight) {
+        toast.error('Weight is required');
+        return;
+      }
     }
 
     try {
@@ -58,10 +86,13 @@ const AddPatient = ({handleClose}) => {
         handleClose();
         setFormData({
           name: '',
+          gender: '',
           breed: '',
           age: '',
+          a_unit: '',
           species: '',
           weight: '',
+          w_unit: '',
           owner: '',
         })
       toast.success('Patient added successfully!');
@@ -94,6 +125,22 @@ const AddPatient = ({handleClose}) => {
               />
           </div>
           <div className="w-full">
+            <label htmlFor="gender">Patient Gender</label>
+              <select
+                className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
+                type="text"
+                name="gender"
+                id="gender"
+                value={formData.gender}
+                onChange={handleInputChange}
+              >
+                  <option value=" ">Select Gender</option>
+                  <option value="M">Male</option>
+                  <option value=" F">Female</option>
+                  
+              </select>
+          </div>
+          <div className="w-full">
             <label htmlFor="species">Breed</label>
               <input
                 className='w-full rounded-lg border py-2 px-2 border-black outline-none focus:border-[1px] p-0'
@@ -120,6 +167,22 @@ const AddPatient = ({handleClose}) => {
               />
           </div>
           <div className="w-full">
+            <label htmlFor="species">Age Units</label>
+              <select
+                className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
+                type="text"
+                name="a_unit"
+                id="a_unit"
+                value={formData.a_unit}
+                onChange={handleInputChange}
+              >
+                  <option value=" ">Select Age Unit</option>
+                  <option value="year">Years</option>
+                  <option value="month">Months</option>
+                  
+              </select>
+          </div>
+          <div className="w-full">
             <label htmlFor="species">Species</label>
               <input
                 className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
@@ -144,6 +207,22 @@ const AddPatient = ({handleClose}) => {
                 value={formData.weight}
                 onChange={handleInputChange}
               />
+          </div>
+          <div className="w-full">
+            <label htmlFor="species">Weight Units</label>
+              <select
+                className='w-full rounded-lg border-[1px] py-2 px-2 border-black outline-none focus:border-[1px] p-0'
+                type="text"
+                name="w_unit"
+                id="w_unit"
+                value={formData.w_unit}
+                onChange={handleInputChange}
+              >
+                  <option value=" ">Select Weight Unit</option>
+                  <option value="kg">Kgs</option>
+                  <option value="gram">Grams</option>
+                  
+              </select>
           </div>
           <div className="w-full">
             <label htmlFor="species">Owner</label>

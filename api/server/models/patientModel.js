@@ -16,16 +16,33 @@ const PatientSchema = new mongoose.Schema({
     breed:{
         type: String,
     },
-    age:{
+    gender: {
+        type: String,
+        enum: ['M', 'F'],
+        default: 'M',
+    },
+    age: {
         type: Number,
         min: 0,
-        max: 60
+        max: 60, 
+    },
+    a_unit: {
+        type: String,
+        enum: ['year', 'month'],
+        default: 'year',
     },
     weight:{
         type: Number,
         min: 0,
-        max: 1000
+        max: 1000,
     },
+    w_unit: {
+        type: String,
+        enum: ['kg', 'gram'],
+        default: 'kg',
+    },
+        
+    
     owner:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users',

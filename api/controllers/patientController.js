@@ -33,9 +33,9 @@ export const getAllPatients = asyncHandler(async (req, res) => {
 
 
 export const addPatients = asyncHandler(async(req, res) => {
-    const {name, species,breed,age, weight,owner} = req.body
+    const {name, species,breed,age, a_unit, weight,gender, w_unit, owner} = req.body
    
-    if (!name || !owner) {
+    if (!name || !owner || !gender || !age || !weight) {
       const error = new Error("Validation failed. Check required fields.");
       error.statusCode = 400;
       throw error;
@@ -59,7 +59,17 @@ export const addPatients = asyncHandler(async(req, res) => {
     }
   
     // Create and save new patient
-    const newPatient = new Patient({ name, species, breed, age, weight, owner });
+    const newPatient = new Patient({ 
+      name, 
+      species, 
+      breed, 
+      age,
+      gender,
+      a_unit,
+      weight,
+      w_unit,
+      owner 
+    });
     const output = await newPatient.save();
   
     if (output) {
@@ -95,17 +105,26 @@ export const getPatientById = asyncHandler(async (req, res) => {
   export const editPatient = asyncHandler(async (req, res) => {
     const { id } = req.query;
   
-    const updateData = req.body; // Request body should contain the updated patient data
+    const {name, species,breed,age, a_unit, weight,gender, w_unit, owner} = req.body
 
     // Ensure that "name" and "owner" fields are required
-    if (!updateData.name || !updateData.owner) {
-        const error = new Error('Check Required Fields');
-        error.statusCode = 400;
-        throw error;
-        process.exit(1)
+    if (!name || !owner || !gender || !age || !weight) {
+      const error = new Error("Validation failed. Check required fields.");
+      error.statusCode = 400;
+      throw error;
     }
 
-    const updatedPatient = await Patient.findByIdAndUpdate(id, updateData, { new: true });
+    const updatedPatient = await Patient.findByIdAndUpdate(id, {
+      name, 
+      species, 
+      breed, 
+      age,
+      gender,
+      a_unit,
+      weight,
+      w_unit,
+      owner 
+    }, { new: true });
 
     if (updatedPatient) {
       return res.status(201).json({ message: 'Patient updated successfully' });

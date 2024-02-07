@@ -24,6 +24,7 @@ const EditOwner = ({handleClose}) => {
         county: currentCustomer?.county || '---',
         sub_county: currentCustomer?.sub_county || '---',
         ward: currentCustomer?.ward || '',
+        street: currentCustomer?.street || '',
       });
     }
   }, [currentCustomer]);
@@ -35,6 +36,7 @@ const EditOwner = ({handleClose}) => {
     county: '',
     sub_county: '',
     ward: '',
+    street: '',
   });
   const [subCounty, setSubCounty] = useState([])
   const [wards, setWards] = useState([])
@@ -98,9 +100,20 @@ useEffect(()=>{
       }
   
       if (formData.phone.length!==12) {
-        toast.error('Invalid Phone Number');
+        toast.error('Invalid Phone Number length');
         return;
       }
+  
+      const cleanedPhoneNumber = formData.phone.replace(/\D/g, '');
+  
+    const regex = /^254/;
+  
+    const isPhoneOk = regex.test(cleanedPhoneNumber);
+  
+    if (!isPhoneOk) {
+      toast.error('Invalid Phone Number format');
+      return;
+    }
   
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   
@@ -131,6 +144,7 @@ useEffect(()=>{
             county: '',
             sub_county: '',
             ward: '',
+            street: '',
           })
         toast.success('Customers added successfully!');
   
@@ -174,21 +188,6 @@ useEffect(()=>{
                 onChange={handleInputChange}
               />
           </div>
-        </div>
-        <div className='flex justify-between items-center gap-2 my-2 '>
-          <div className="w-full">
-            <label htmlFor="name">Phone</label>
-              <input
-                className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
-                placeholder='phone...'
-                type="number"
-                name="phone"
-                id="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-              />
-          </div>
-          
         </div>
         <div className='flex flex-col sm:flex-row justify-between items-center gap-2 my-2 '>
           
@@ -251,6 +250,33 @@ useEffect(()=>{
                   }
               </select>
           </div>
+        </div>
+        <div className='flex justify-between items-center gap-2 my-2 '>
+          <div className="w-full">
+            <label htmlFor="street">Street Address</label>
+              <input
+                className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
+                placeholder='street...'
+                type="text"
+                name="street"
+                id="street"
+                value={formData.street}
+                onChange={handleInputChange}
+              />
+          </div>
+          <div className="w-full">
+            <label htmlFor="name">Phone</label>
+              <input
+                className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
+                placeholder='phone...'
+                type="number"
+                name="phone"
+                id="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+              />
+          </div>
+          
         </div>
         <div className='flex justify-between items-center my-3'>
           <button onClick={handleClose} className='bg-gray-300 w-[80px] py-2 px-3 rounded-lg'>Close</button>

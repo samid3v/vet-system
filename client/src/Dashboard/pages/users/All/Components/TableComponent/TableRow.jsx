@@ -1,6 +1,5 @@
 import React from 'react'
 import Actions from '../Actions'
-import { useOwners } from '../../../Hooks'
 
 const TRow = ({owner, index}) => {
 
@@ -12,10 +11,6 @@ const TRow = ({owner, index}) => {
         <td className="p-3 border-b">{owner?.name}</td>
         <td className="p-3 border-b">{owner?.email}</td>
         <td className="p-3 border-b">{owner?.phone}</td>
-        <td className="p-3 border-b">{owner?.county || '---'}</td>
-        <td className="p-3 border-b">{owner?.sub_county || '---'}</td>
-        <td className="p-3 border-b">{owner?.ward || '---'}</td>
-        <td className="p-3 border-b">{owner?.street || '---'}</td>
         <td className="p-3 border-b"><Actions doc={owner}/></td>
       </tr>
   )

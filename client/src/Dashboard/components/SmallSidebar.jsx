@@ -6,7 +6,8 @@ import { GiCage } from "react-icons/gi";
 import { MdOutlineLocalHospital } from "react-icons/md";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
-import { FaUsers } from "react-icons/fa";
+import { FaUsersGear } from "react-icons/fa6";
+import { RiUser3Line } from "react-icons/ri";
 import { IoHomeOutline } from "react-icons/io5";
 import { FaUserDoctor } from "react-icons/fa6";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -117,8 +118,19 @@ const SmallSidebar = () => {
               : "hover:bg-secondary hover:border-b-2 hover:border-b-primary"
           } p-2 w-full flex justify-start items-center  gap-3 cursor-pointer rounded-lg`}
           >
-            <FaUsers className="text-xl" />
+            <FaUsersGear className="text-xl" />
             <h3>Owners</h3>
+          </div>
+          <div
+            onClick={()=>menuBtnFn("./users")}
+            className={`${
+              location.pathname === "/dashboard/users"
+              ? "bg-secondary"
+              : "hover:bg-secondary hover:border-b-2 hover:border-b-primary"
+          } p-2 w-full flex justify-start items-center  gap-3 cursor-pointer rounded-lg`}
+          >
+            <RiUser3Line className="text-xl" />
+            <h3>Users</h3>
           </div>
         </div>
       </div>

@@ -24,16 +24,13 @@ const UserSchema = new mongoose.Schema({
     },
     role: {
       type: String,
-      enum: ['customer', 'employee', 'admin'],
+      enum: ['customer', 'employee', 'admin', 'superadmin'],
       required: true,
     },
     county:String,
     sub_county:String,
     ward:String,
-    isSuperAdmin: {
-      type: Boolean,
-      default: false,
-    },
+    street:String,
     profile:String
     
 },{timestamps:true})

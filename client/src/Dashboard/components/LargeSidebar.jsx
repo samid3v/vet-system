@@ -5,8 +5,9 @@ import { PiSyringeDuotone } from "react-icons/pi";
 import { GiCage } from "react-icons/gi";
 import { MdOutlineLocalHospital } from "react-icons/md";
 import { HiOutlineDocumentReport } from "react-icons/hi";
+import { FaUsersGear } from "react-icons/fa6";
+import { RiUser3Line } from "react-icons/ri";
 import Tooltip from '@mui/material/Tooltip';
-import { FaUsers } from "react-icons/fa";
 import { IoHomeOutline } from "react-icons/io5";
 import { FaUserDoctor } from "react-icons/fa6";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -114,7 +115,19 @@ const LargeSidebar = () => {
                 : "hover:bg-secondary hover:border-l-2 hover:border-l-primary"
             } p-3`}
           >
-            <FaUsers className="text-xl" />
+            <RiUser3Line className="text-xl" />
+          </div>
+          </Tooltip>
+          <Tooltip title="Users" placement="right" arrow>
+          <div
+            onClick={() => navigate("./users")}
+            className={`${
+              location.pathname === "/dashboard/users"
+                ? "bg-secondary border-l-2 border-l-primary"
+                : "hover:bg-secondary hover:border-l-2 hover:border-l-primary"
+            } p-3`}
+          >
+            <FaUsersGear className="text-xl" />
           </div>
           </Tooltip>
         </div>

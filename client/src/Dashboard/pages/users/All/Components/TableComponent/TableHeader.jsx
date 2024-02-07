@@ -9,10 +9,6 @@ const THeader = () => {
       <th className="p-3 border-b text-left">Name</th>
       <th className="p-3 border-b text-left">Email</th>
       <th className="p-3 border-b text-left">Phone</th>
-      <th className="p-3 border-b text-left">County</th>
-      <th className="p-3 border-b text-left">Sub-County</th>
-      <th className="p-3 border-b text-left">Ward</th>
-      <th className="p-3 border-b text-left">Street</th>
       <th className="p-3 border-b text-center">Actions</th>
       {/* Add more headers as needed */}
     </tr>
