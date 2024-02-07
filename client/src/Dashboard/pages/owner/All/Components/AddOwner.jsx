@@ -242,7 +242,7 @@ useEffect(()=>{
               />
           </div>
           <div className="w-full">
-            <label htmlFor="name">Phone</label>
+            <label htmlFor="name">Phone (254...)</label>
               <input
                 className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
                 placeholder='phone...'

@@ -213,7 +213,7 @@ export const getTreatmentById = asyncHandler(async (req, res) => {
         throw error;
     }
 
-    const deleteTreatment = await Treatment.deleteOne({_id:payExist._id});
+    const deleteTreatment = await Treatment.deleteOne({_id:treatmentExist._id});
 
     if (deleteTreatment) {
       res.status(201).json({ message: 'Treatment record deleted successfully' });

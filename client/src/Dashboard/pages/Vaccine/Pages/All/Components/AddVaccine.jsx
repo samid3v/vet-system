@@ -111,7 +111,7 @@ const AddVaccine = ({handleClose}) => {
               />
           </div>
           <div className="w-full">
-          <label htmlFor="start_date">Vaccine Number</label>
+          <label htmlFor="start_date">No of Vaccines</label>
               <input
                 className='w-full rounded-lg border py-2 px-2 overflow-x-hidden border-black outline-none focus:border-[1px] '
                 placeholder='Number of Vaccines...'

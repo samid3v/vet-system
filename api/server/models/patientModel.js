@@ -69,7 +69,7 @@ PatientSchema.post('deleteOne',  async function() {
     await Promise.all(treatments.map(treatment => Treatment.deleteOne({_id:treatment._id})))
     await Promise.all(boarders.map(boarder => Boarding.deleteOne({_id:boarder._id})))
   
-  
+    console.log('v,c,t,b delete activate');
   });
 
  const Patient = mongoose.model('Patients', PatientSchema)

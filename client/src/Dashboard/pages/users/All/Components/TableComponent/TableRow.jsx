@@ -1,8 +1,10 @@
 import React from 'react'
 import Actions from '../Actions'
+import { useApp } from '../../../../../hooks/useApp'
 
 const TRow = ({owner, index}) => {
 
+  const {user} = useApp()
 
   return (
     
@@ -11,7 +13,9 @@ const TRow = ({owner, index}) => {
         <td className="p-3 border-b">{owner?.name}</td>
         <td className="p-3 border-b">{owner?.email}</td>
         <td className="p-3 border-b">{owner?.phone}</td>
-        <td className="p-3 border-b"><Actions doc={owner}/></td>
+        <td className="p-3 border-b">
+          {owner.role!==user?.user?.role && <Actions doc={owner}/>}
+          </td>
       </tr>
   )
 }
