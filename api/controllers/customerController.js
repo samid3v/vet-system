@@ -11,7 +11,7 @@ export const getCustomers = asyncHandler(async (req, res) => {
 
   const totalPatients = await Patient.countDocuments();
   const totalPages = Math.ceil(totalPatients / pageSize); 
-  const customers = await User.find({ role: "customer" }).select("-password").sort({ createdAt: -1 }) // Sort by createdAt in descending order for latest first
+  const customers = await User.find({ role: "customer" }).sort({ createdAt: -1 }) // Sort by createdAt in descending order for latest first
   .skip(skip)
   .limit(pageSize);
 

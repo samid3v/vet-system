@@ -20,6 +20,9 @@ import Vaccine from './pages/Vaccine'
 import AllVaccines from './pages/Vaccine/Pages/All'
 import ViewVaccine from './pages/Vaccine/Pages/View'
 import Login from './login'
+import Profile from './pages/Profile'
+import Users from './pages/users'
+import AllUsers from './pages/users/All'
 
 
 function App() {
@@ -31,11 +34,15 @@ function App() {
           <Route path='/' element={<Login/>}/>
           <Route  path='dashboard' element={<Dashboard/>}>
             <Route index element={<Dash/>} />
+            <Route path='profile' element={<Profile/>} />
             <Route path='patients' element={<Patients/>}>
               <Route index element={<AllPatients/>} />
             </Route>
             <Route path='owners' element={<Owners/>}>
               <Route index element={<AllOwners/>} />
+            </Route>
+            <Route path='users' element={<Users/>}>
+              <Route index element={<AllUsers/>} />
             </Route>
             <Route path='boarding' element={<Boarding/>} >
               <Route index element={<AllBoarders/>} />

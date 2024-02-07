@@ -1,8 +1,8 @@
 
 export function isAdmin(req, res, next) {
-    if (req.user && req.user.role === 'admin' && req.user.isAdmin) {
+    if (req.user && req.user.role === 'superadmin') {
       next();
     } else {
-      res.status(403).json({ error: 'Access denied' });
+      res.status(403).json({ message: 'Access denied' });
     }
 }

@@ -68,7 +68,7 @@ const Topbar = () => {
       </div>
       {toggleUser && <div className='bg-white absolute p-1 right-0 rounded-lg shadow-md transition-all ease-in-out delay-200'>
         <ul className='my-2'>
-          <li className='hover:bg-slate-200 px-2 py-1 rounded-lg'>Profile</li>
+          <li onClick={()=>navigate('./profile')} className='hover:bg-slate-200 cursor-pointer px-2 py-1 rounded-lg'>Profile</li>
           <li onClick={logOutFn} className='hover:bg-slate-200 cursor-pointer px-2 py-1 rounded-lg'>Log Out</li>
         </ul>
       </div>}
