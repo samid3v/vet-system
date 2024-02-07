@@ -155,7 +155,7 @@ const EditPatient = ({handleClose}) => {
               >
                   <option value=" ">Select Gender</option>
                   <option value="M">Male</option>
-                  <option value=" F">Female</option>
+                  <option value="F">Female</option>
                   
               </select>
           </div>

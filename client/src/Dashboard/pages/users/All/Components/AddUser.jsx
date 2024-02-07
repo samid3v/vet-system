@@ -125,7 +125,7 @@ const AddUser = ({handleClose}) => {
   };
 
   return (
-    <div className='bg-white w-full p-3 overflow-x-hidden rounded-md shadow-xl'>
+    <div className='bg-white w-[70%] mx-auto p-3 overflow-x-hidden rounded-md shadow-xl'>
       <h3 className='text-xl font-semibold'>Add User</h3>
       <form onSubmit={ handleAddPatient }>
         <div className='flex flex-col sm:flex-row justify-between items-center gap-2 my-2 '>

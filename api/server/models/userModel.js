@@ -39,9 +39,9 @@ const UserSchema = new mongoose.Schema({
 UserSchema.post('deleteOne',  async function() {
 
   const findPatient = await Patient.find({owner:this._conditions._id})
-  
 
-    await Promise.all(findPatient.map(patient => Patient.deleteOne({_id:patient.id})));
+  await Promise.all(findPatient.map(patient => Patient.deleteOne({_id:patient.id})));
+  console.log('patient delete activate');
 });
 
 

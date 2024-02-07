@@ -32,7 +32,7 @@ const TreatmentSchema = new mongoose.Schema({
 
 TreatmentSchema.pre('deleteOne', async function() {
     const module_id = this._conditions._id;
-    await Payment.deleteMany({ module_id });
+    await Payment.deleteOne({ module_id });
 });
 
 const Treatment = mongoose.model('Treatments', TreatmentSchema)

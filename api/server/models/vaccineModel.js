@@ -34,7 +34,9 @@ vaccinationSchema.post('deleteOne', async function() {
   const vaccine = this._conditions._id;
   console.log('deleting vaccines references')
   await Dose.deleteMany({ vaccine });
-  await Payment.deleteMany({ module_id:vaccine });
+  await Payment.deleteOne({ module_id:vaccine });
+
+  console.log('pay,dose delete activate');
 
 });
 
