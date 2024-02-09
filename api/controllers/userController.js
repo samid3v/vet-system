@@ -59,7 +59,12 @@ export const userLogin = asyncHandler(async (req, res) => {
 
           const token = jwt.sign({ username }, process.env.API_SECRET, { expiresIn: '24h' });
 
-          res.cookie('token', token, { httpOnly: true , domain: 'localhost'})
+          res.cookie('token', token, { 
+            httpOnly: true , 
+            sameSite: 'none',
+            secure:true,
+            domain: '.petfarm.onrender.com'
+          })
           .status(200)
           .json({ message: 'Login successful',
             user,
